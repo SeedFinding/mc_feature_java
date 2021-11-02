@@ -1,15 +1,16 @@
 plugins {
+	id 'signing'
 	id 'java-library'
 	id 'maven-publish'
 	id "idea"
 	id "jacoco"
-	id 'org.jetbrains.kotlin.jvm' version '1.5.0-RC'
+	id 'org.jetbrains.kotlin.jvm' version '1.5.31'
 }
 
 group = 'com.seedfinding'
 archivesBaseName = project.name
 
-defaultTasks 'clean', 'test', 'install'
+defaultTasks 'clean', 'test'
 
 java {
 	sourceCompatibility = JavaVersion.VERSION_1_8
@@ -21,20 +22,20 @@ java {
 repositories {
 	mavenCentral()
 	maven { url "https://jitpack.io" }
+	// Use maven { url "https://maven.seedfinding.com" } for releases !
+	maven { url "https://maven-snapshots.seedfinding.com" }
 }
 
 dependencies {
-	implementation('com.github.KaptainWutax:MathUtils:5531c4a87b0f1bb85d1dab2bdd18ce375400626a') { transitive = false }
-	implementation('com.github.KaptainWutax:SeedUtils:b6a383113ce5d8d09a59e91b28ff064fb97c0709') { transitive = false }
-	implementation('com.github.KaptainWutax:MCUtils:1e5785a648a04454461ef02ee27cbc63e3599bff') { transitive = false }
-	implementation('com.github.KaptainWutax:NoiseUtils:2cf64e1d2e7e674fbf5b7247f16e8dc56ae2a31c') { transitive = false }
-	
-	implementation('com.github.KaptainWutax:BiomeUtils:b2065a0281342f269af31da9ef7349ffdc337534') {transitive = false}
-	implementation('com.github.KaptainWutax:TerrainUtils:605c46b94a5126df55bd347b82f277af443909c9') { transitive = false }
+	implementation('com.seedfinding:mc_math:0eb505174da8a92550f8ec6efe254e0fa936cc0d') { transitive = false }
+	implementation('com.seedfinding:mc_seed:5518e3ba3ee567fb0b51c15958967f70a6a19e02') { transitive = false }
+	implementation('com.seedfinding:mc_core:acad44dfe78f25c2466d8f160dd9bf1777733371') { transitive = false }
+	implementation('com.seedfinding:mc_noise:a6ab8e6c688491829f8d2adf845392da22ef8e9c') { transitive = false }
+
+	implementation('com.seedfinding:mc_biome:b2271807a047bb43ac60c8c20ad47e315f19b9a6') { transitive = false }
+	implementation('com.seedfinding:mc_terrain:9e937ddb838e28e79423c287fa18b1ce66f061d7') { transitive = false }
 
 	testImplementation('com.github.KaptainWutax:ChunkRandomReversal:6b76fb5cf2cd438de56e6a46cea2a83985831834') { transitive = false }
-
-	implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
 	testImplementation("org.junit.jupiter:junit-jupiter-api:${jupiterVersion}")
 	testImplementation("org.junit.jupiter:junit-jupiter-params:${jupiterVersion}")
@@ -51,7 +52,6 @@ compileJava {
 compileTestJava {
 	options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
 }
-
 
 compileKotlin {
 	kotlinOptions {
@@ -97,8 +97,8 @@ publishing {
 			}
 			pom {
 				name = "$project.name"
-				description = 'An efficient library to simulate Minecraft Terrain Generation for all dimension'
-				url = 'http://www.kaptainwutax.seedfinding.com'
+				description = 'A dead simple library to simulate Minecraft features in pure Java'
+				url = 'https://java.seedfinding.com/mcfeature'
 				licenses {
 					license {
 						name = 'MIT License'
@@ -111,21 +111,22 @@ publishing {
 						name = 'Neil'
 					}
 					developer {
-						id = 'Kap'
+						id = 'kaptainwutax'
 						name = 'KaptainWutax'
 					}
 				}
 				scm {
-					connection = 'scm:git:https://github.com/kaptainwutax/TerrainUtils.git'
-					url = 'https://github.com/kaptainwutax/TerrainUtils.git'
+					connection = 'scm:git:https://github.com/SeedFinding/mc_feature_java.git'
+					developerConnection = 'scm:git:ssh://github.com/SeedFinding/mc_feature_java.git'
+					url = 'https://github.com/SeedFinding/mc_feature_java'
 				}
 			}
 		}
 	}
 	repositories {
 		maven {
-			def releasesRepoUrl = "https://jitpack.io/com/github/kaptainwutax/terrainutils/latest"
-			def snapshotsRepoUrl = "https://jitpack.io/com/github/kaptainwutax/terrainutils/snapshots"
+			def releasesRepoUrl = "https://nexus.seedfinding.com/service/rest/repository/browse/maven-seedfinding/com/seedfinding/mc_feature/"
+			def snapshotsRepoUrl = "https://nexus.seedfinding.com/service/rest/repository/browse/maven-seedfinding-snapshots/com/seedfinding/mc_feature/"
 			url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 		}
 	}
@@ -135,4 +136,43 @@ javadoc {
 	if (JavaVersion.current().isJava9Compatible()) {
 		options.addBooleanOption('html5', true)
 	}
+}
+
+signing {
+	if (signing.getSignatory() == null) {
+		System.err.println("Missing configuration driven signing key, defaulting to in memory.")
+		def signingKeyId = findProperty("signingKeyId")
+		def signingKey = findProperty("signingKey")
+		def signingPassword = findProperty("signingPassword")
+		if (signingKey == null || signingKey == null || signingPassword == null) {
+			System.err.println("Missing in memory signing key, defaulting to agent.")
+			useGpgCmd()
+			def s= signing.getSignatory()
+//			if (signing.getSignatory() == null || signing.getSignatory().getKeyId() == null) {
+//				System.err.println("Missing GPG agent.")
+//				gradle.taskGraph.whenReady { taskGraph ->
+//					tasks.findAll { t ->
+//						if (t.name == "signArchives") {
+//							t.enabled(false)
+//							System.err.println("No GPG signing agent, in memory or configuration driven GPG key were found, you can not use the sign method !")
+//						}
+//					}
+//				}
+//			}
+		} else {
+			useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+		}
+	}
+	gradle.taskGraph.whenReady { taskGraph ->
+		tasks.findAll { t ->
+			if (t.name == "signArchives") {
+				if (t.enabled) {
+					t.doLast {
+						println "Signing was a success, congrats !"
+					}
+				}
+			}
+		}
+	}
+	sign publishing.publications.mavenJava
 }

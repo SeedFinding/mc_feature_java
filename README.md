@@ -1,4 +1,4 @@
-# Feature Utils
+# Minecraft Feature
 
 A library to provide Structure, Feature placement as well as their generation and respective loot.
 
