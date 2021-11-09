@@ -38,25 +38,25 @@ public class LootPool extends LootGenerator {
 			}
 			return true;
 		}).toArray(LootEntry[]::new);
-		for (LootEntry lootEntry:this.lootEntries){
+		for(LootEntry lootEntry : this.lootEntries) {
 			lootEntry.apply(version);
 		}
 		return this;
 	}
 
-	public LootPool processWeights(int luck){
+	public LootPool processWeights(int luck) {
 		this.totalWeight = 0;
 
-		for (LootEntry entry : this.lootEntries) {
+		for(LootEntry entry : this.lootEntries) {
 			this.totalWeight += entry.getEffectiveWeight(luck);
 		}
 
 		this.precomputedWeights = new LootEntry[totalWeight];
 
 		int k = 0;
-		for (LootEntry entry : this.lootEntries) {
-			int weight =  entry.getEffectiveWeight(luck);
-			for (int i = 0; i < weight; i++) {
+		for(LootEntry entry : this.lootEntries) {
+			int weight = entry.getEffectiveWeight(luck);
+			for(int i = 0; i < weight; i++) {
 				this.precomputedWeights[k + i] = entry;
 			}
 			k += weight;
@@ -89,7 +89,7 @@ public class LootPool extends LootGenerator {
 	}
 
 	private void generatePool14(LootContext context, Consumer<ItemStack> stackConsumer) {
-		if (this.lootEntries.length == 1) {
+		if(this.lootEntries.length == 1) {
 			this.lootEntries[0].generate(context, stackConsumer);
 		} else {
 			this.precomputedWeights[context.nextInt(this.totalWeight)].generate(context, stackConsumer);

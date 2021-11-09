@@ -1,7 +1,12 @@
 package com.seedfinding.mcfeature.examples.loot.simple;
 
-import com.seedfinding.mcfeature.loot.ChestContent;
 import com.seedfinding.mcbiome.source.BiomeSource;
+import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.util.pos.RPos;
+import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.loot.ChestContent;
 import com.seedfinding.mcfeature.structure.BuriedTreasure;
 import com.seedfinding.mcfeature.structure.DesertPyramid;
 import com.seedfinding.mcfeature.structure.RegionStructure;
@@ -11,11 +16,6 @@ import com.seedfinding.mcfeature.structure.generator.Generators;
 import com.seedfinding.mcfeature.structure.generator.structure.BuriedTreasureGenerator;
 import com.seedfinding.mcfeature.structure.generator.structure.DesertPyramidGenerator;
 import com.seedfinding.mcfeature.structure.generator.structure.ShipwreckGenerator;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.util.pos.CPos;
-import com.seedfinding.mccore.util.pos.RPos;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.List;

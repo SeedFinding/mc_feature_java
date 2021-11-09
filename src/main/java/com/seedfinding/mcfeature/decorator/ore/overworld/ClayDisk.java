@@ -1,11 +1,11 @@
 package com.seedfinding.mcfeature.decorator.ore.overworld;
 
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
-import com.seedfinding.mcfeature.decorator.ore.SphereOreDecorator;
 import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.block.Blocks;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
+import com.seedfinding.mcfeature.decorator.ore.SphereOreDecorator;
 
 public class ClayDisk extends SphereOreDecorator<SphereOreDecorator.Config, SphereOreDecorator.Data<ClayDisk>> {
 	public static final VersionMap<Config> CONFIGS = new VersionMap<Config>()

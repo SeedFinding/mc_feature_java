@@ -1,8 +1,8 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
 
 public class OceanRuin extends UniformStructure<OceanRuin> {

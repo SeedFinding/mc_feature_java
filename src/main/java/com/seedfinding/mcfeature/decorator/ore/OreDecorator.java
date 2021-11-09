@@ -1,12 +1,12 @@
 package com.seedfinding.mcfeature.decorator.ore;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.decorator.Decorator;
 import com.seedfinding.mccore.block.Block;
 import com.seedfinding.mccore.block.Blocks;
+import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.decorator.Decorator;
 import com.seedfinding.mcseed.rand.JRand;
 import com.seedfinding.mcterrain.TerrainGenerator;
 

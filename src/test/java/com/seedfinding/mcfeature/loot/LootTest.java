@@ -1,10 +1,10 @@
 package com.seedfinding.mcfeature.loot;
 
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.structure.generator.structure.DesertPyramidGenerator;
 import com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator;
-import com.seedfinding.mccore.version.MCVersion;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

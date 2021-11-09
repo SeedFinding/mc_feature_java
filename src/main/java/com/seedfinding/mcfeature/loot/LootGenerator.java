@@ -10,19 +10,19 @@ import java.util.function.Function;
 
 public abstract class LootGenerator {
 
-	public Function<MCVersion, LootFunction>[] supplierLootFunctions=null;
+	public Function<MCVersion, LootFunction>[] supplierLootFunctions = null;
 	public LootFunction[] lootFunctions;
 	public LootFunction combinedLootFunction;
 
 	public LootGenerator() {
-		this.apply((Collection<Function<MCVersion,LootFunction>>)null);
+		this.apply((Collection<Function<MCVersion, LootFunction>>)null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public LootGenerator apply(Collection<Function<MCVersion,LootFunction>> lootFunctions) {
+	public LootGenerator apply(Collection<Function<MCVersion, LootFunction>> lootFunctions) {
 		if(lootFunctions != null) {
 			this.supplierLootFunctions = lootFunctions.toArray(new Function[0]);
-		}else{
+		} else {
 			this.lootFunctions = new LootFunction[0];
 			this.combinedLootFunction = (baseStack, context) -> baseStack;
 		}
@@ -30,12 +30,12 @@ public abstract class LootGenerator {
 	}
 
 
-	public LootGenerator apply(MCVersion version){
+	public LootGenerator apply(MCVersion version) {
 		if(supplierLootFunctions != null) {
 			this.lootFunctions = new LootFunction[supplierLootFunctions.length];
-			int i=0;
-			for (Function<MCVersion,LootFunction> function:supplierLootFunctions){
-				this.lootFunctions[i++]=function.apply(version);
+			int i = 0;
+			for(Function<MCVersion, LootFunction> function : supplierLootFunctions) {
+				this.lootFunctions[i++] = function.apply(version);
 			}
 			this.combinedLootFunction = LootFunction.combine(this.lootFunctions);
 		}

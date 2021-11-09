@@ -1,6 +1,10 @@
 package com.seedfinding.mcfeature.structure.generator.structure;
 
 import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.util.block.BlockBox;
+import com.seedfinding.mccore.util.block.BlockDirection;
+import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.structure.Stronghold;
 import com.seedfinding.mcfeature.structure.generator.Generator;
@@ -18,10 +22,6 @@ import com.seedfinding.mcfeature.structure.generator.piece.stronghold.SpiralStai
 import com.seedfinding.mcfeature.structure.generator.piece.stronghold.SquareRoom;
 import com.seedfinding.mcfeature.structure.generator.piece.stronghold.Stairs;
 import com.seedfinding.mcfeature.structure.generator.piece.stronghold.Start;
-import com.seedfinding.mccore.util.block.BlockBox;
-import com.seedfinding.mccore.util.block.BlockDirection;
-import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mcseed.rand.JRand;
 import com.seedfinding.mcterrain.TerrainGenerator;
 

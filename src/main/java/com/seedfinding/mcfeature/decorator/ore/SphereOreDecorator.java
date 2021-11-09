@@ -8,12 +8,6 @@ import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcseed.rand.JRand;
 import com.seedfinding.mcterrain.TerrainGenerator;
-import com.seedfinding.mccore.block.Block;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.util.math.DistanceMetric;
-import com.seedfinding.mccore.util.pos.BPos;
-import com.seedfinding.mcseed.rand.JRand;
-import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.ArrayList;
 import java.util.List;

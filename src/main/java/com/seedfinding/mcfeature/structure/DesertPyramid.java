@@ -1,13 +1,13 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
+import com.seedfinding.mcbiome.biome.Biomes;
+import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mccore.version.VersionMap;
 import com.seedfinding.mcfeature.loot.ILoot;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.structure.DesertPyramidGenerator;
-import com.seedfinding.mcbiome.biome.Biomes;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.version.VersionMap;
 
 public class DesertPyramid extends OldStructure<DesertPyramid> implements ILoot {
 
@@ -38,7 +38,7 @@ public class DesertPyramid extends OldStructure<DesertPyramid> implements ILoot 
 
 	@Override
 	public int getDecorationSalt() {
-		return 40003;
+		return this.getVersion().isNewerOrEqualTo(MCVersion.v1_16) ? 40003 : 30002;
 	}
 
 	@Override

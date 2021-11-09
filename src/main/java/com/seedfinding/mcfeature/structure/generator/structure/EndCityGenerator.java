@@ -1,6 +1,11 @@
 package com.seedfinding.mcfeature.structure.generator.structure;
 
 import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.util.block.BlockBox;
+import com.seedfinding.mccore.util.block.BlockMirror;
+import com.seedfinding.mccore.util.block.BlockRotation;
+import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.ChestContent;
 import com.seedfinding.mcfeature.loot.LootTable;
@@ -9,11 +14,6 @@ import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.structure.EndCity;
 import com.seedfinding.mcfeature.structure.generator.Generator;
-import com.seedfinding.mccore.util.block.BlockBox;
-import com.seedfinding.mccore.util.block.BlockMirror;
-import com.seedfinding.mccore.util.block.BlockRotation;
-import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.ArrayList;

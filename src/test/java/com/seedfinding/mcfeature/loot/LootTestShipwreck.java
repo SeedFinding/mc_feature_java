@@ -1,10 +1,6 @@
 package com.seedfinding.mcfeature.loot;
 
-import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcbiome.source.BiomeSource;
-import com.seedfinding.mcfeature.structure.Shipwreck;
-import com.seedfinding.mcfeature.structure.generator.Generator;
-import com.seedfinding.mcfeature.structure.generator.structure.ShipwreckGenerator;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.data.Pair;
@@ -12,6 +8,10 @@ import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.util.pos.RPos;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.loot.item.ItemStack;
+import com.seedfinding.mcfeature.structure.Shipwreck;
+import com.seedfinding.mcfeature.structure.generator.Generator;
+import com.seedfinding.mcfeature.structure.generator.structure.ShipwreckGenerator;
 import com.seedfinding.mcterrain.TerrainGenerator;
 import org.junit.jupiter.api.Test;
 

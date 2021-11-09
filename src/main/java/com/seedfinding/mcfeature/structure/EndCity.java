@@ -1,17 +1,17 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
+import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.loot.ILoot;
-import com.seedfinding.mcfeature.structure.generator.Generator;
-import com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator;
-import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.block.BlockRotation;
 import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.loot.ILoot;
+import com.seedfinding.mcfeature.structure.generator.Generator;
+import com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 public class EndCity extends TriangularStructure<EndCity> implements ILoot {
@@ -65,14 +65,17 @@ public class EndCity extends TriangularStructure<EndCity> implements ILoot {
 	public boolean canSpawn(int chunkX, int chunkZ, BiomeSource source) {
 		if(this.getVersion().isOlderThan(MCVersion.v1_16)) {
 			if(this.getVersion().isNewerOrEqualTo(MCVersion.v1_13)) {
-				return this.isValidBiome(source.getBiome((chunkX << 4) + 9, 0, (chunkZ << 4) + 9));
+				this.biome = source.getBiome((chunkX << 4) + 9, 0, (chunkZ << 4) + 9);
+				return this.isValidBiome(this.getBiome());
 			} else {
 				// back then it was isIslandChunk(chunkX,chunkZ)
 				// but since we do x>>=2 we need to counter that here
-				return this.isValidBiome(source.getBiomeForNoiseGen((chunkX << 2), 0, (chunkZ << 2)));
+				this.biome = source.getBiomeForNoiseGen((chunkX << 2), 0, (chunkZ << 2));
+				return this.isValidBiome(this.biome);
 			}
 		}
-		return this.isValidBiome(source.getBiomeForNoiseGen((chunkX << 2) + 2, 0, (chunkZ << 2) + 2));
+		this.biome = source.getBiomeForNoiseGen((chunkX << 2) + 2, 0, (chunkZ << 2) + 2);
+		return this.isValidBiome(this.biome);
 	}
 
 	@Override
@@ -106,6 +109,6 @@ public class EndCity extends TriangularStructure<EndCity> implements ILoot {
 
 	@Override
 	public int getDecorationSalt() {
-		return 40010;
+		return this.getVersion().isNewerOrEqualTo(MCVersion.v1_16) ? 40010 : (this.getBiome() == Biomes.THE_END ? 30001 : 30000);
 	}
 }

@@ -135,7 +135,7 @@ public class Enchantments {
 	private final static Integer RARE = 2;
 	private final static Integer VERY_RARE = 1;
 
-	public static final ConcurrentHashMap<MCVersion,List<Enchantment>> CACHE_ENCHANTMENT_REGISTRY=new ConcurrentHashMap<>();
+	public static final ConcurrentHashMap<MCVersion, List<Enchantment>> CACHE_ENCHANTMENT_REGISTRY = new ConcurrentHashMap<>();
 
 	public static boolean canApply(Enchantment enchantment, ItemStack item) {
 		return enchantment.getCategory().contains(item.getItem().getName().toUpperCase());
@@ -147,10 +147,10 @@ public class Enchantments {
 	}
 
 	public static List<Enchantment> getFor(MCVersion version) {
-		return CACHE_ENCHANTMENT_REGISTRY.computeIfAbsent(version,key->apply(new ArrayList<>(),version));
+		return CACHE_ENCHANTMENT_REGISTRY.computeIfAbsent(version, key -> apply(new ArrayList<>(), version));
 	}
 
-	public static List<Enchantment> apply(List<Enchantment> enchantments,MCVersion version){
+	public static List<Enchantment> apply(List<Enchantment> enchantments, MCVersion version) {
 		enchantments.clear();
 
 		enchantments.add(new Enchantment("protection", COMMON, ARMOR, 1, 4, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 11), new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"))));
@@ -162,13 +162,13 @@ public class Enchantments {
 		enchantments.add(new Enchantment("aqua_affinity", RARE, ARMOR_HEAD, 1, 1, (i, n) -> (n < 1), (i, n) -> (n > 41), new HashSet<>(Collections.singletonList("aqua_affinity"))));
 		enchantments.add(new Enchantment("thorns", VERY_RARE, THORNS, 1, 3, (i, n) -> (n < 10 + (20 * (i - 1))), (i, n) -> (n > 10 + (20 * (i - 1)) + 50), new HashSet<>(Collections.singletonList("thorns"))));
 
-		if (version.isNewerOrEqualTo(MCVersion.v1_8))
+		if(version.isNewerOrEqualTo(MCVersion.v1_8))
 			enchantments.add(new Enchantment("depth_strider", RARE, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_9))
+		if(version.isNewerOrEqualTo(MCVersion.v1_9))
 			enchantments.add(new Enchantment("frost_walker", RARE, ARMOR_FEET, 1, 2, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider")), true));
-		if (version.isNewerOrEqualTo(MCVersion.v1_11))
+		if(version.isNewerOrEqualTo(MCVersion.v1_11))
 			enchantments.add(new Enchantment("binding_curse", VERY_RARE, ARMOR, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("binding_curse")), true));
-		if (version.isNewerOrEqualTo(MCVersion.v1_16))
+		if(version.isNewerOrEqualTo(MCVersion.v1_16))
 			enchantments.add(new Enchantment("soul_speed", VERY_RARE, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Collections.singletonList("soul_speed")), true, false));
 
 		enchantments.add(new Enchantment("sharpness", COMMON, DAMAGE, 1, 5, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
@@ -178,7 +178,7 @@ public class Enchantments {
 		enchantments.add(new Enchantment("fire_aspect", RARE, WEAPON, 1, 2, (i, n) -> (n < 10 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("fire_aspect"))));
 		enchantments.add(new Enchantment("looting", RARE, WEAPON, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("looting", "silk_touch"))));
 
-		if (version.isNewerOrEqualTo(MCVersion.v1_11_1))
+		if(version.isNewerOrEqualTo(MCVersion.v1_11_1))
 			enchantments.add(new Enchantment("sweeping", RARE, WEAPON, 1, 3, (i, n) -> (n < 5 + (i - 1) * 9), (i, n) -> (n > 5 + (i - 1) * 9 + 15), new HashSet<>(Collections.singletonList("sweeping"))));
 
 		enchantments.add(new Enchantment("efficiency", COMMON, DIGGER, 1, 5, (i, n) -> (n < (1 + 10 * (i - 1))), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("efficiency"))));
@@ -191,23 +191,23 @@ public class Enchantments {
 		enchantments.add(new Enchantment("infinity", VERY_RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("mending", "infinity"))));
 
 		//The 1.8 is not correct, should be 1.7.2 but we don't have that so good enough
-		if (version.isNewerOrEqualTo(MCVersion.v1_8))
+		if(version.isNewerOrEqualTo(MCVersion.v1_8))
 			enchantments.add(new Enchantment("luck_of_the_sea", RARE, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("luck_of_the_sea", "silk_touch"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_8))
+		if(version.isNewerOrEqualTo(MCVersion.v1_8))
 			enchantments.add(new Enchantment("lure", RARE, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("lure"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_13))
+		if(version.isNewerOrEqualTo(MCVersion.v1_13))
 			enchantments.add(new Enchantment("loyalty", UNCOMMON, TRIDENT, 1, 3, (i, n) -> (n < 5 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("loyalty", "riptide"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_13))
+		if(version.isNewerOrEqualTo(MCVersion.v1_13))
 			enchantments.add(new Enchantment("impaling", RARE, TRIDENT, 1, 5, (i, n) -> (n < 1 + (i - 1) * 8), (i, n) -> (n > 1 + (i - 1) * 8 + 20), new HashSet<>(Collections.singletonList("impaling"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_13))
+		if(version.isNewerOrEqualTo(MCVersion.v1_13))
 			enchantments.add(new Enchantment("riptide", RARE, TRIDENT, 1, 3, (i, n) -> (n < 10 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("riptide", "loyalty", "channeling"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_13))
+		if(version.isNewerOrEqualTo(MCVersion.v1_13))
 			enchantments.add(new Enchantment("channeling", VERY_RARE, TRIDENT, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("channeling", "riptide"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_14))
+		if(version.isNewerOrEqualTo(MCVersion.v1_14))
 			enchantments.add(new Enchantment("multishot", RARE, CROSSBOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_14))
+		if(version.isNewerOrEqualTo(MCVersion.v1_14))
 			enchantments.add(new Enchantment("quick_charge", UNCOMMON, CROSSBOW, 1, 3, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("quick_charge"))));
-		if (version.isNewerOrEqualTo(MCVersion.v1_14))
+		if(version.isNewerOrEqualTo(MCVersion.v1_14))
 			enchantments.add(new Enchantment("piercing", COMMON, CROSSBOW, 1, 4, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
 
 		enchantments.add(new Enchantment("mending", RARE, BREAKABLE, 1, 1, (i, n) -> (n < i * 25), (i, n) -> (n > i * 25 + 50), new HashSet<>(Arrays.asList("mending", "infinity")), true));
@@ -225,18 +225,18 @@ public class Enchantments {
 		return applicableCategories;
 	}
 
-	public static List<Enchantment> getApplicableEnchantments(List<Enchantment> enchantments,HashSet<HashSet<String>> applicableCategories) {
-		return getApplicableEnchantments(enchantments,applicableCategories, false, true);
+	public static List<Enchantment> getApplicableEnchantments(List<Enchantment> enchantments, HashSet<HashSet<String>> applicableCategories) {
+		return getApplicableEnchantments(enchantments, applicableCategories, false, true);
 	}
 
-	public static List<Enchantment> getApplicableEnchantments(List<Enchantment> enchantments,HashSet<HashSet<String>> applicableCategories, boolean isTreasure) {
-		return getApplicableEnchantments(enchantments,applicableCategories, isTreasure, true);
+	public static List<Enchantment> getApplicableEnchantments(List<Enchantment> enchantments, HashSet<HashSet<String>> applicableCategories, boolean isTreasure) {
+		return getApplicableEnchantments(enchantments, applicableCategories, isTreasure, true);
 	}
 
-	public static List<Enchantment> getApplicableEnchantments(List<Enchantment> enchantments,HashSet<HashSet<String>> applicableCategories, boolean isTreasure, boolean isDiscoverable) {
+	public static List<Enchantment> getApplicableEnchantments(List<Enchantment> enchantments, HashSet<HashSet<String>> applicableCategories, boolean isTreasure, boolean isDiscoverable) {
 		List<Enchantment> applicableEnchantments = new ArrayList<>();
 		List<String> applicableEnchantmentNames = new ArrayList<>();
-		for(Enchantment currentEnchantment :enchantments) {
+		for(Enchantment currentEnchantment : enchantments) {
 			if((!currentEnchantment.isTreasure() || isTreasure) && (currentEnchantment.isDiscoverable() == isDiscoverable)) {
 				if(applicableCategories.contains(currentEnchantment.getCategory())) {
 					if(!(applicableEnchantmentNames.contains(currentEnchantment.getName()))) {
@@ -250,10 +250,10 @@ public class Enchantments {
 	}
 
 	public static void filterCompatibleEnchantments(ArrayList<EnchantmentInstance> list, EnchantmentInstance instance) {
-		list.removeIf(e->e.getIncompatible().contains(instance.getName()) || instance.getIncompatible().contains(e.getName()));
+		list.removeIf(e -> e.getIncompatible().contains(instance.getName()) || instance.getIncompatible().contains(e.getName()));
 	}
 
-	public Enchantment getEnchantment(List<Enchantment> enchantments,String name) {
+	public Enchantment getEnchantment(List<Enchantment> enchantments, String name) {
 		for(Enchantment enchantment : enchantments) {
 			if(enchantment.getName().equals(name)) {
 				return enchantment;

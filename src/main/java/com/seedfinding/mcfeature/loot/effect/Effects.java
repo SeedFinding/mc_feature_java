@@ -1,8 +1,8 @@
 package com.seedfinding.mcfeature.loot.effect;
 
+import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mcfeature.loot.effect.attribute.AttributeModifier;
 import com.seedfinding.mcfeature.loot.effect.attribute.Attributes;
-import com.seedfinding.mccore.util.data.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

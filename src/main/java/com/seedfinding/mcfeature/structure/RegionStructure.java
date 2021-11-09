@@ -1,9 +1,9 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.Feature;
-import com.seedfinding.mccore.util.pos.CPos;
 
 public abstract class RegionStructure<C extends RegionStructure.Config, D extends RegionStructure.Data<?>> extends Structure<C, D> {
 

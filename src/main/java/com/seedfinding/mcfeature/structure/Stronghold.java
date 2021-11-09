@@ -1,19 +1,19 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
+import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.structure.generator.piece.StructurePiece;
-import com.seedfinding.mcfeature.structure.generator.piece.stronghold.Start;
-import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
-import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.block.BlockBox;
 import com.seedfinding.mccore.util.block.BlockDirection;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.structure.generator.piece.StructurePiece;
+import com.seedfinding.mcfeature.structure.generator.piece.stronghold.Start;
+import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
 import com.seedfinding.mcseed.rand.JRand;
 
 import java.util.Arrays;
@@ -118,7 +118,7 @@ public class Stronghold extends Structure<Stronghold.Config, Stronghold.Data> {
 				++numberInRing;
 			} else {
 				angle += (Math.PI * 2.0D) * (double)(ringId + 1) / (double)numberPerRing;
-				numberInRing=idx;
+				numberInRing = idx;
 			}
 			if(numberInRing == numberPerRing) {
 				if(getVersion().isNewerOrEqualTo(MCVersion.v1_9)) {

@@ -1,11 +1,11 @@
 package com.seedfinding.mcfeature.loot.function;
 
+import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantment;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantments;
 import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
-import com.seedfinding.mccore.util.data.Pair;
 
 import java.util.ArrayList;
 import java.util.HashSet;

@@ -1,11 +1,11 @@
 package com.seedfinding.mcfeature.decorator.ore.nether;
 
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
-import com.seedfinding.mcfeature.decorator.ore.ScatterOreDecorator;
 import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.block.Blocks;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
+import com.seedfinding.mcfeature.decorator.ore.ScatterOreDecorator;
 
 public class LargeDebrisOre extends ScatterOreDecorator<ScatterOreDecorator.Config, ScatterOreDecorator.Data<LargeDebrisOre>> {
 

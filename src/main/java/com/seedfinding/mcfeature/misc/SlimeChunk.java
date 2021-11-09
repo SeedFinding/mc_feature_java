@@ -2,10 +2,10 @@ package com.seedfinding.mcfeature.misc;
 
 import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.Feature;
 import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.Feature;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 public class SlimeChunk extends Feature<SlimeChunk.Config, SlimeChunk.Data> {

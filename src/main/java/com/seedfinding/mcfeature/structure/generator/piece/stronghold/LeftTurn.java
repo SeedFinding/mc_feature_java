@@ -1,10 +1,10 @@
 package com.seedfinding.mcfeature.structure.generator.piece.stronghold;
 
-import com.seedfinding.mcfeature.structure.Stronghold;
-import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
 import com.seedfinding.mccore.util.block.BlockBox;
 import com.seedfinding.mccore.util.block.BlockDirection;
 import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mcfeature.structure.Stronghold;
+import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
 import com.seedfinding.mcseed.rand.JRand;
 
 import java.util.List;

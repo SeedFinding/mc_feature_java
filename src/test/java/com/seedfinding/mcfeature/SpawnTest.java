@@ -1,9 +1,9 @@
 package com.seedfinding.mcfeature;
 
-import com.seedfinding.mcfeature.misc.SpawnPoint;
 import com.seedfinding.mcbiome.source.OverworldBiomeSource;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.misc.SpawnPoint;
 import com.seedfinding.mcterrain.terrain.OverworldTerrainGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

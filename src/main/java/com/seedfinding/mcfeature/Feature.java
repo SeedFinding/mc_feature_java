@@ -2,8 +2,8 @@ package com.seedfinding.mcfeature;
 
 import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 public abstract class Feature<C extends Feature.Config, D extends Feature.Data<?>> implements GenerationContext {

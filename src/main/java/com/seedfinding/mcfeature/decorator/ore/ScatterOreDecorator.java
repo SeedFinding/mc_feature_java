@@ -1,11 +1,11 @@
 package com.seedfinding.mcfeature.decorator.ore;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.block.Blocks;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.block.BlockDirection;
 import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcseed.rand.JRand;
 import com.seedfinding.mcterrain.TerrainGenerator;
 

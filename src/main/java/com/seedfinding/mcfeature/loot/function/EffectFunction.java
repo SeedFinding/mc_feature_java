@@ -1,13 +1,13 @@
 package com.seedfinding.mcfeature.loot.function;
 
 
+import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.effect.Effect;
 import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.loot.roll.UniformRoll;
-import com.seedfinding.mccore.util.data.Pair;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;

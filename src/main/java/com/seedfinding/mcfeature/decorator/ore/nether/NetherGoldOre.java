@@ -1,12 +1,12 @@
 package com.seedfinding.mcfeature.decorator.ore.nether;
 
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
-import com.seedfinding.mcfeature.decorator.ore.RegularOreDecorator;
 import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.block.Blocks;
 import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
+import com.seedfinding.mcfeature.decorator.ore.RegularOreDecorator;
 
 public class NetherGoldOre extends RegularOreDecorator<RegularOreDecorator.Config, RegularOreDecorator.Data<NetherGoldOre>> {
 

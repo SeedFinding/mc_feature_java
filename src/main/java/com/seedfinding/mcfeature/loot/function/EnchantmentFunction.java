@@ -34,8 +34,8 @@ public abstract class EnchantmentFunction implements LootFunction {
 		return isDiscoverable;
 	}
 
-	public EnchantmentFunction apply(MCVersion version){
-		List<Enchantment> enchantments= Enchantments.getFor(version);
+	public EnchantmentFunction apply(MCVersion version) {
+		List<Enchantment> enchantments = Enchantments.getFor(version);
 		return applyEnchantment(enchantments);
 	}
 

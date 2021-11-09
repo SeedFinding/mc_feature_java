@@ -1,11 +1,11 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcbiome.biome.Biomes;
+import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
 
 public class BastionRemnant extends UniformStructure<BastionRemnant> {

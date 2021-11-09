@@ -1,9 +1,9 @@
 package com.seedfinding.mcfeature.loot;
 
+import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcfeature.structure.generator.Generator;
-import com.seedfinding.mccore.util.pos.BPos;
 
 import java.util.List;
 import java.util.function.Predicate;
@@ -79,8 +79,8 @@ public class ChestContent {
 		return this.items.stream().filter(e -> e != null && e.getItem() != null).filter(e -> predicate.test(e.getItem())).mapToInt(ItemStack::getCount).sum();
 	}
 
-	public boolean ofType(Generator.ILootType lootType){
-		return this.lootType==lootType;
+	public boolean ofType(Generator.ILootType lootType) {
+		return this.lootType == lootType;
 	}
 
 	public Generator.ILootType getLootType() {

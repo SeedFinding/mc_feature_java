@@ -1,5 +1,10 @@
 package com.seedfinding.mcfeature.loot;
 
+import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.GenerationContext;
 import com.seedfinding.mcfeature.structure.BuriedTreasure;
 import com.seedfinding.mcfeature.structure.DesertPyramid;
@@ -7,11 +12,6 @@ import com.seedfinding.mcfeature.structure.RuinedPortal;
 import com.seedfinding.mcfeature.structure.Shipwreck;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.Generators;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.util.pos.BPos;
-import com.seedfinding.mccore.util.pos.CPos;
-import com.seedfinding.mccore.version.MCVersion;
 
 public class BenchLoot {
 	public static final MCVersion VERSION = MCVersion.v1_17;

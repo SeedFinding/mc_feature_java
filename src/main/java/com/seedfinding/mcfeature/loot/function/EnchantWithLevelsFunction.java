@@ -1,5 +1,6 @@
 package com.seedfinding.mcfeature.loot.function;
 
+import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantment;
 import com.seedfinding.mcfeature.loot.enchantment.EnchantmentInstance;
@@ -7,7 +8,6 @@ import com.seedfinding.mcfeature.loot.enchantment.Enchantments;
 import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcmath.util.Mth;
-import com.seedfinding.mccore.util.data.Pair;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +90,7 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 
 	@SuppressWarnings("unchecked")
 	public EnchantWithLevelsFunction(Item item, int minLevel, int maxLevel, boolean treasure, boolean discoverable) {
-		super(item,treasure,discoverable);
+		super(item, treasure, discoverable);
 		this.minLevel = minLevel;
 		this.maxLevel = maxLevel;
 		int preprocessMaxLevel = ((int)(maxLevel * 2F));

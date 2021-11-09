@@ -1,10 +1,10 @@
 package com.seedfinding.mcfeature.decorator;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcbiome.biome.Biomes;
+import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
@@ -40,8 +40,7 @@ public class DesertWell extends BiomelessDecorator<DesertWell.Config, DesertWell
 		super.canStart(data, structureSeed, rand);
 		if(rand.nextFloat() >= this.getChance()) return false;
 		if(rand.nextInt(16) != data.offsetX) return false;
-		if(rand.nextInt(16) != data.offsetZ) return false;
-		return true;
+		return rand.nextInt(16) == data.offsetZ;
 	}
 
 	@Override

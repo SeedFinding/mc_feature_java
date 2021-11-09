@@ -1,7 +1,7 @@
 package com.seedfinding.mcfeature.loot.item;
 
-import com.seedfinding.mcfeature.loot.effect.Effect;
 import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mcfeature.loot.effect.Effect;
 
 import java.util.ArrayList;
 import java.util.Objects;

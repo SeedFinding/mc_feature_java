@@ -1,12 +1,12 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
+import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.UnsupportedVersion;
 import com.seedfinding.mccore.version.VersionMap;
 
@@ -41,8 +41,7 @@ public class Fortress extends UniformStructure<Fortress> {
 			rand.nextInt();
 			if(rand.nextInt(3) != 0) return false;
 			if(data.chunkX != (data.chunkX & ~15) + rand.nextInt(8) + 4) return false;
-			if(data.chunkZ != (data.chunkZ & ~15) + rand.nextInt(8) + 4) return false;
-			return true;
+			return data.chunkZ == (data.chunkZ & ~15) + rand.nextInt(8) + 4;
 		}
 
 		return super.canStart(data, structureSeed, rand) && rand.nextInt(5) < 2;

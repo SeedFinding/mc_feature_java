@@ -1,13 +1,13 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
+import com.seedfinding.mcbiome.biome.Biomes;
+import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mccore.version.VersionMap;
 import com.seedfinding.mcfeature.loot.ILoot;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.structure.RuinedPortalGenerator;
-import com.seedfinding.mcbiome.biome.Biomes;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.version.VersionMap;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 public class RuinedPortal extends UniformStructure<RuinedPortal> implements ILoot {

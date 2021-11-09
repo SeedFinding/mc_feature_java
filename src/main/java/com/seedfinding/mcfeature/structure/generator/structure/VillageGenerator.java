@@ -1,18 +1,9 @@
 package com.seedfinding.mcfeature.structure.generator.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.structure.RegionStructure;
-import com.seedfinding.mcfeature.structure.Village;
-import com.seedfinding.mcfeature.structure.generator.Generator;
-import com.seedfinding.mcfeature.structure.generator.piece.village.DesertVillageJigsawBlocks;
-import com.seedfinding.mcfeature.structure.generator.piece.village.PlainsVillageJigsawBlocks;
-import com.seedfinding.mcfeature.structure.generator.piece.village.SavannaVillageJigsawBlocks;
-import com.seedfinding.mcfeature.structure.generator.piece.village.SnowyVillageJigsawBlocks;
-import com.seedfinding.mcfeature.structure.generator.piece.village.TaigaVillageJigsawBlocks;
 import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.block.Block;
+import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.util.block.BlockBox;
 import com.seedfinding.mccore.util.block.BlockDirection;
 import com.seedfinding.mccore.util.block.BlockMirror;
@@ -22,6 +13,15 @@ import com.seedfinding.mccore.util.data.Quad;
 import com.seedfinding.mccore.util.data.Triplet;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.structure.RegionStructure;
+import com.seedfinding.mcfeature.structure.Village;
+import com.seedfinding.mcfeature.structure.generator.Generator;
+import com.seedfinding.mcfeature.structure.generator.piece.village.DesertVillageJigsawBlocks;
+import com.seedfinding.mcfeature.structure.generator.piece.village.PlainsVillageJigsawBlocks;
+import com.seedfinding.mcfeature.structure.generator.piece.village.SavannaVillageJigsawBlocks;
+import com.seedfinding.mcfeature.structure.generator.piece.village.SnowyVillageJigsawBlocks;
+import com.seedfinding.mcfeature.structure.generator.piece.village.TaigaVillageJigsawBlocks;
 import com.seedfinding.mcseed.rand.JRand;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
@@ -141,7 +141,7 @@ public class VillageGenerator extends Generator {
 			return BlockDirection.fromString(this.nbt.getThird().split("_")[0]);
 		}
 
-		public Triplet<String,List<Pair<String, Integer>>, PlacementBehaviour> getPool() {
+		public Triplet<String, List<Pair<String, Integer>>, PlacementBehaviour> getPool() {
 			return VILLAGE_POOLS.get(this.nbt.getFirst());
 		}
 	}
@@ -170,12 +170,12 @@ public class VillageGenerator extends Generator {
 				BPos relativeBlockPos = blockPos.relative(blockDirection);
 				int y = blockPos.getY() - minY;
 				int state = -1;
-				Triplet<String,List<Pair<String, Integer>>, PlacementBehaviour> pool = blockJigsawInfo.getPool();
-				if (pool!=null && pool.getSecond().size()!=0){
-					String fallbackLocation=pool.getFirst();
-					Triplet<String,List<Pair<String, Integer>>, PlacementBehaviour> fallbackPool=VILLAGE_POOLS.get(fallbackLocation);
-					if (fallbackPool!=null && fallbackPool.getSecond().size()!=0){
-						boolean isInside=box.contains(relativeBlockPos);
+				Triplet<String, List<Pair<String, Integer>>, PlacementBehaviour> pool = blockJigsawInfo.getPool();
+				if(pool != null && pool.getSecond().size() != 0) {
+					String fallbackLocation = pool.getFirst();
+					Triplet<String, List<Pair<String, Integer>>, PlacementBehaviour> fallbackPool = VILLAGE_POOLS.get(fallbackLocation);
+					if(fallbackPool != null && fallbackPool.getSecond().size() != 0) {
+						boolean isInside = box.contains(relativeBlockPos);
 
 					}
 				}
@@ -519,7 +519,7 @@ public class VillageGenerator extends Generator {
 		put("common/well_bottoms", new Triplet<>("empty", Collections.singletonList(
 			new Pair<>("common/well_bottom", 1)
 		), PlacementBehaviour.RIGID));
-		put("empty", new Triplet<>("empty",Collections.singletonList(
+		put("empty", new Triplet<>("empty", Collections.singletonList(
 			new Pair<>("empty", 0)
 		), PlacementBehaviour.RIGID));
 	}};

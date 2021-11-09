@@ -1,15 +1,15 @@
 package com.seedfinding.mcfeature.loot;
 
 import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.Feature;
 import com.seedfinding.mcfeature.GenerationContext;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.Generators;
-import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.pos.BPos;
-import com.seedfinding.mccore.util.pos.CPos;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,8 +19,8 @@ import java.util.List;
 public interface ILoot {
 
 	/**
-	 *  Utility to get the loot from all the chests in a structure
-	 *  This is not optimized as it create the chunkrand locally
+	 * Utility to get the loot from all the chests in a structure
+	 * This is not optimized as it create the chunkrand locally
 	 *
 	 * @param structureSeed
 	 * @param generator
@@ -28,7 +28,7 @@ public interface ILoot {
 	 * @return
 	 */
 	default List<ChestContent> getLoot(long structureSeed, Generator generator, boolean indexed) {
-		return getLoot(structureSeed,generator,new ChunkRand(),indexed);
+		return getLoot(structureSeed, generator, new ChunkRand(), indexed);
 	}
 
 	/**
@@ -75,8 +75,8 @@ public interface ILoot {
 				if(shouldAdvanceInChunks()) rand.advance(chestData.getNumberInChunk() * 2L);
 				rand.advance(chestData.getIndex() * 2L);
 				LootContext context = new LootContext(rand.nextLong(), this.getVersion());
-				LootTable lootTable=lootType.getLootTable(this.getVersion());
-				List<ItemStack> loot = indexed? lootTable.generateIndexed(context):lootTable.generate(context);
+				LootTable lootTable = lootType.getLootTable(this.getVersion());
+				List<ItemStack> loot = indexed ? lootTable.generateIndexed(context) : lootTable.generate(context);
 				result.add(new ChestContent(lootType, loot, chestData.getPos(), indexed));
 			}
 		}

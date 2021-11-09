@@ -1,8 +1,8 @@
 package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.util.pos.CPos;
+import com.seedfinding.mccore.version.MCVersion;
 
 public abstract class TriangularStructure<T extends TriangularStructure<T>> extends RegionStructure<RegionStructure.Config, RegionStructure.Data<T>> {
 

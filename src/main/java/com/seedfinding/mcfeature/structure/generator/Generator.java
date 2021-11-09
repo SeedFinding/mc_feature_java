@@ -2,15 +2,15 @@ package com.seedfinding.mcfeature.structure.generator;
 
 import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.ChestContent;
 import com.seedfinding.mcfeature.loot.LootTable;
 import com.seedfinding.mcfeature.loot.entry.ItemEntry;
 import com.seedfinding.mcfeature.loot.item.Item;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.util.data.Pair;
-import com.seedfinding.mccore.util.pos.BPos;
-import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.Arrays;

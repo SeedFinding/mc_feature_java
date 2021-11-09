@@ -1,15 +1,11 @@
 package com.seedfinding.mcfeature.examples.loot.explanation;
 
+import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.LootChest;
 import com.seedfinding.mcfeature.loot.MCLootTables;
 import com.seedfinding.mcfeature.loot.item.Items;
-import com.seedfinding.mcbiome.source.OverworldBiomeSource;
 import com.seedfinding.mcfeature.structure.BuriedTreasure;
-import com.seedfinding.mcfeature.structure.RegionStructure;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcseed.lcg.LCG;
-import mjtb49.hashreversals.ChunkRandomReverser;
 
 public class LootTest2 {
 

@@ -1,10 +1,10 @@
 package com.seedfinding.mcfeature.decorator.ore.overworld;
 
+import com.seedfinding.mccore.block.Blocks;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mccore.version.VersionMap;
 import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
 import com.seedfinding.mcfeature.decorator.ore.RegularOreDecorator;
-import com.seedfinding.mccore.block.Blocks;
-import com.seedfinding.mccore.version.VersionMap;
 
 public class DeepslateOre extends RegularOreDecorator<RegularOreDecorator.Config, RegularOreDecorator.Data<DeepslateOre>> {
 

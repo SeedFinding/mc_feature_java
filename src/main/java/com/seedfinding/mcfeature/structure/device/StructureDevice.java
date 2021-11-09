@@ -1,9 +1,9 @@
 package com.seedfinding.mcfeature.structure.device;
 
+import com.seedfinding.mccore.util.data.ThreadPool;
 import com.seedfinding.mcfeature.Feature;
 import com.seedfinding.mcfeature.structure.device.node.Node;
 import com.seedfinding.mcmath.util.Mth;
-import com.seedfinding.mccore.util.data.ThreadPool;
 
 import java.util.ArrayList;
 import java.util.List;

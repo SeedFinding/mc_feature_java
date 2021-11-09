@@ -2,14 +2,14 @@ package com.seedfinding.mcfeature.structure;
 
 
 import com.seedfinding.mcbiome.biome.Biome;
+import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mccore.version.VersionMap;
 import com.seedfinding.mcfeature.loot.ILoot;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.structure.ShipwreckGenerator;
-import com.seedfinding.mcbiome.biome.Biomes;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.version.VersionMap;
 
 public class Shipwreck extends UniformStructure<Shipwreck> implements ILoot {
 	public static final VersionMap<RegionStructure.Config> CONFIGS = new VersionMap<RegionStructure.Config>()
@@ -47,7 +47,7 @@ public class Shipwreck extends UniformStructure<Shipwreck> implements ILoot {
 
 	@Override
 	public int getDecorationSalt() {
-		return 40006;
+		return this.getVersion().isNewerOrEqualTo(MCVersion.v1_16) ? 40006 : 30005;
 	}
 
 	@Override

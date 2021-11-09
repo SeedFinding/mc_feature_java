@@ -2,9 +2,9 @@ package com.seedfinding.mcfeature.structure;
 
 import com.seedfinding.mcbiome.biome.Biome;
 import com.seedfinding.mcbiome.source.BiomeSource;
+import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.Feature;
-import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.HashMap;

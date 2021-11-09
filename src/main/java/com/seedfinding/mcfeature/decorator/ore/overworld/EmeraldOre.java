@@ -1,14 +1,14 @@
 package com.seedfinding.mcfeature.decorator.ore.overworld;
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
-import com.seedfinding.mcfeature.decorator.ore.OreDecorator;
 import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.block.Blocks;
 import com.seedfinding.mccore.state.Dimension;
 import com.seedfinding.mccore.util.pos.BPos;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.VersionMap;
+import com.seedfinding.mcfeature.decorator.ore.HeightProvider;
+import com.seedfinding.mcfeature.decorator.ore.OreDecorator;
 import com.seedfinding.mcseed.rand.JRand;
 import com.seedfinding.mcterrain.TerrainGenerator;
 

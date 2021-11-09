@@ -1,8 +1,8 @@
 package com.seedfinding.mcfeature;
 
 import com.seedfinding.mcbiome.source.BiomeSource;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mccore.version.UnsupportedVersion;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
@@ -13,7 +13,7 @@ public interface GenerationContext {
 	default Context getContext(long worldSeed) {
 		if(!(this instanceof Feature<?, ?>)) return null;
 		Feature<?, ?> feature = (Feature<?, ?>)this;
-		return getContext(worldSeed,feature.getValidDimension(),feature.getVersion());
+		return getContext(worldSeed, feature.getValidDimension(), feature.getVersion());
 	}
 
 	static Context getContext(long worldSeed, Dimension dimension, MCVersion version) {

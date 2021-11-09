@@ -1,11 +1,11 @@
 package com.seedfinding.mcfeature.structure.device.node;
 
+import com.seedfinding.mccore.rand.seed.RegionSeed;
 import com.seedfinding.mcfeature.structure.RegionStructure;
 import com.seedfinding.mcfeature.structure.UniformStructure;
 import com.seedfinding.mcfeature.structure.device.CoordChecker;
 import com.seedfinding.mcfeature.structure.device.ParentInfo;
 import com.seedfinding.mcmath.util.Mth;
-import com.seedfinding.mccore.rand.seed.RegionSeed;
 import com.seedfinding.mcseed.lcg.LCG;
 
 import java.util.Set;

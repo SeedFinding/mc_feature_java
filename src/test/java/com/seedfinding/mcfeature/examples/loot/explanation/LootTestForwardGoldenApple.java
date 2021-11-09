@@ -1,19 +1,19 @@
 package com.seedfinding.mcfeature.examples.loot.explanation;
 
+import com.seedfinding.mcbiome.source.BiomeSource;
+import com.seedfinding.mcbiome.source.OverworldBiomeSource;
+import com.seedfinding.mccore.rand.ChunkRand;
+import com.seedfinding.mccore.rand.seed.WorldSeed;
+import com.seedfinding.mccore.state.Dimension;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.ChestContent;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.MCLootTables;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcfeature.loot.item.Items;
-import com.seedfinding.mcbiome.source.BiomeSource;
-import com.seedfinding.mcbiome.source.OverworldBiomeSource;
 import com.seedfinding.mcfeature.structure.DesertPyramid;
 import com.seedfinding.mcfeature.structure.RegionStructure;
 import com.seedfinding.mcfeature.structure.generator.structure.DesertPyramidGenerator;
-import com.seedfinding.mccore.rand.ChunkRand;
-import com.seedfinding.mccore.rand.seed.WorldSeed;
-import com.seedfinding.mccore.state.Dimension;
-import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.List;

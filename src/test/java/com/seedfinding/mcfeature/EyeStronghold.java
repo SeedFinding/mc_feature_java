@@ -1,8 +1,8 @@
 package com.seedfinding.mcfeature;
 
-import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.structure.generator.structure.StrongholdGenerator;
 
 import java.util.Arrays;
 
