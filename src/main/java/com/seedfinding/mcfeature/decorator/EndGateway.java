@@ -12,7 +12,8 @@ public class EndGateway extends BiomelessDecorator<EndGateway.Config, EndGateway
 
 	public static final VersionMap<Config> CONFIGS = new VersionMap<EndGateway.Config>()
 		.add(MCVersion.v1_13, new EndGateway.Config(0, 3, 700))
-		.add(MCVersion.v1_16, new EndGateway.Config(13, 4, 700));
+		.add(MCVersion.v1_16, new EndGateway.Config(0, 4, 700))
+		.add(MCVersion.v1_17, new EndGateway.Config(13, 4, 700));
 
 	public EndGateway(MCVersion version) {
 		super(CONFIGS.getAsOf(version), version);
@@ -67,7 +68,11 @@ public class EndGateway extends BiomelessDecorator<EndGateway.Config, EndGateway
 	@Override
 	public EndGateway.Data getData(long structureSeed, int chunkX, int chunkZ, ChunkRand rand) {
 		this.setDecoratorSeed(structureSeed, chunkX, chunkZ, rand);
-		if(rand.nextInt(this.getRarity()) != 0) return null;
+		if(this.getVersion().isNewerOrEqualTo(MCVersion.v1_17)) {
+			if(rand.nextFloat() >= 1.0f / (float)this.getRarity()) return null;
+		} else {
+			if(rand.nextInt(this.getRarity()) != 0) return null;
+		}
 		int blockX = (chunkX << 4) + rand.nextInt(16);
 		int blockZ = (chunkZ << 4) + rand.nextInt(16);
 		return new EndGateway.Data(this, blockX, blockZ, rand.nextInt(7) + 3);
