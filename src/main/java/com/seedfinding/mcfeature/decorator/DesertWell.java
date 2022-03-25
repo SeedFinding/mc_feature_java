@@ -12,7 +12,7 @@ public class DesertWell extends BiomelessDecorator<DesertWell.Config, DesertWell
 
 	public static final VersionMap<DesertWell.Config> CONFIGS = new VersionMap<DesertWell.Config>()
 		.add(MCVersion.v1_13, new DesertWell.Config(3, 1, 0.001F))
-		.add(MCVersion.v1_16, new DesertWell.Config(4, 13, 0.001F));
+		.add(MCVersion.v1_16, new DesertWell.Config(13, 4, 0.001F));
 
 	public DesertWell(MCVersion version) {
 		super(CONFIGS.getAsOf(version), version);
