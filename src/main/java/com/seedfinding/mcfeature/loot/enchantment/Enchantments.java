@@ -127,7 +127,7 @@ public class Enchantments {
 	public final static HashSet<String> VANISHABLE = new HashSet<String>() {{
 		addAll(BREAKABLE);
 	}};
-	public final static HashSet<String> SingleEnchants = new HashSet<>(Arrays.asList("aqua_affinity", "binding_curse", "channeling", "silk_touch", "flame", "infinity", "multishot", "quick_charge", "mending", "vanishing_curse"));
+	public final static HashSet<String> SingleEnchants = new HashSet<>(Arrays.asList("aqua_affinity", "binding_curse", "channeling", "silk_touch", "flame", "infinity", "multishot", "mending", "vanishing_curse"));
 	public final static List<HashSet<String>> allCategories = new ArrayList<>(Arrays.asList(ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_FEET, BOW, BREAKABLE, CROSSBOW, DIGGER, DAMAGE, FISHING_ROD, TRIDENT, WEAPON, VANISHABLE,THORNS));
 	// @formatter:on
 	private final static Integer COMMON = 10;
