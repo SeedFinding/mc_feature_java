@@ -1,11 +1,15 @@
 package com.seedfinding.mcfeature.examples.loot.explanation;
 
+import com.seedfinding.mcbiome.source.OverworldBiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.LootChest;
 import com.seedfinding.mcfeature.loot.MCLootTables;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.structure.BuriedTreasure;
+import com.seedfinding.mcfeature.structure.RegionStructure;
+import com.seedfinding.mcreversal.ChunkRandomReverser;
+import com.seedfinding.mcseed.lcg.LCG;
 
 public class LootTest2 {
 
@@ -25,19 +29,19 @@ public class LootTest2 {
 			System.out.println("seed " + seed);
 
 			for(int chunkX = 0; chunkX < 200; chunkX++) {
-//				for(long structureSeed : ChunkRandomReverser.reversePopulationSeed((seed ^ LCG.JAVA.multiplier) - 30001L,
-//					chunkX << 4, 0, MCVersion.v1_16)) {
-//					RegionStructure.Data<BuriedTreasure> treasure = BURIED_TREASURE.at(chunkX, 0);
-//					if(!treasure.testStart(structureSeed, rand)) continue;
-//					System.out.println("structure seed " + structureSeed + " at (" + ((chunkX << 4) + 9) + ", 9)");
-//
-//					for(long upperBits = 0; upperBits < 1L << 16; upperBits++) {
-//						long worldSeed = (upperBits << 48) | structureSeed;
-//						OverworldBiomeSource source = new OverworldBiomeSource(MCVersion.v1_16, worldSeed);
-//						if(!treasure.testBiome(source)) continue;
-//						System.out.println("world seed " + worldSeed);
-//					}
-//				}
+				for(long structureSeed : ChunkRandomReverser.reversePopulationSeed((seed ^ LCG.JAVA.multiplier) - 30001L,
+					chunkX << 4, 0, MCVersion.v1_16)) {
+					RegionStructure.Data<BuriedTreasure> treasure = BURIED_TREASURE.at(chunkX, 0);
+					if(!treasure.testStart(structureSeed, rand)) continue;
+					System.out.println("structure seed " + structureSeed + " at (" + ((chunkX << 4) + 9) + ", 9)");
+
+					for(long upperBits = 0; upperBits < 1L << 16; upperBits++) {
+						long worldSeed = (upperBits << 48) | structureSeed;
+						OverworldBiomeSource source = new OverworldBiomeSource(MCVersion.v1_16, worldSeed);
+						if(!treasure.testBiome(source)) continue;
+						System.out.println("world seed " + worldSeed);
+					}
+				}
 			}
 		}
 	}
