@@ -121,7 +121,7 @@ public class Enchantments {
 		addAll(BOOKS);
 	}};
 	public final static HashSet<String> THORNS = new HashSet<String>() {{
-		addAll(ARMOR);
+		addAll(ARMOR_CHEST);
 		remove("ELYTRA");
 	}};
 	public final static HashSet<String> VANISHABLE = new HashSet<String>() {{
@@ -190,10 +190,10 @@ public class Enchantments {
 		enchantments.add(new Enchantment("flame", RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("flame"))));
 		enchantments.add(new Enchantment("infinity", VERY_RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("mending", "infinity"))));
 
-		//The 1.8 is not correct, should be 1.7.2 but we don't have that so good enough
-		if(version.isNewerOrEqualTo(MCVersion.v1_8))
+		//The 1.8 is not correct, should be 1.7.2 but we don't have that so good enough (to test)
+		if(version.isNewerOrEqualTo(MCVersion.v1_7_2))
 			enchantments.add(new Enchantment("luck_of_the_sea", RARE, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("luck_of_the_sea", "silk_touch"))));
-		if(version.isNewerOrEqualTo(MCVersion.v1_8))
+		if(version.isNewerOrEqualTo(MCVersion.v1_7_2))
 			enchantments.add(new Enchantment("lure", RARE, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("lure"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
 			enchantments.add(new Enchantment("loyalty", UNCOMMON, TRIDENT, 1, 3, (i, n) -> (n < 5 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("loyalty", "riptide"))));

@@ -92,7 +92,8 @@ public class LootPool extends LootGenerator {
 		if(this.lootEntries.length == 1) {
 			this.lootEntries[0].generate(context, stackConsumer);
 		} else {
-			this.precomputedWeights[context.nextInt(this.totalWeight)].generate(context, stackConsumer);
+			int weight=context.nextInt(this.totalWeight);
+			this.precomputedWeights[weight].generate(context, stackConsumer);
 		}
 	}
 
