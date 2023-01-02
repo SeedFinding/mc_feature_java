@@ -1,6 +1,7 @@
 package com.seedfinding.mcfeature.loot;
 
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.loot.function.BiomeLocationOrFunction;
 import com.seedfinding.mcfeature.loot.function.LootFunction;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 
@@ -43,5 +44,4 @@ public abstract class LootGenerator {
 	}
 
 	public abstract void generate(LootContext context, Consumer<ItemStack> stackConsumer);
-
 }

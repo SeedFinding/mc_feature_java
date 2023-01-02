@@ -1,14 +1,12 @@
 package com.seedfinding.mcfeature.loot;
 
+import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.effect.Effects;
 import com.seedfinding.mcfeature.loot.entry.EmptyEntry;
 import com.seedfinding.mcfeature.loot.entry.ItemEntry;
-import com.seedfinding.mcfeature.loot.function.ApplyDamageFunction;
-import com.seedfinding.mcfeature.loot.function.EffectFunction;
-import com.seedfinding.mcfeature.loot.function.EnchantRandomlyFunction;
-import com.seedfinding.mcfeature.loot.function.EnchantWithLevelsFunction;
-import com.seedfinding.mcfeature.loot.function.SetCountFunction;
+import com.seedfinding.mcfeature.loot.entry.TableEntry;
+import com.seedfinding.mcfeature.loot.function.*;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.loot.roll.ConstantRoll;
 import com.seedfinding.mcfeature.loot.roll.UniformRoll;
@@ -738,5 +736,59 @@ public class MCLootTables {
 			new ItemEntry(Items.ROTTEN_FLESH, 10).apply(version -> SetCountFunction.uniform(1.0F, 8.0F)),
 			new ItemEntry(Items.STRING, 10).apply(version -> SetCountFunction.uniform(1.0F, 8.0F)))
 	);
+
+	public static final LootTable FISHING_FISH = new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.COD, 60),
+			new ItemEntry(Items.SALMON, 25),
+			new ItemEntry(Items.TROPICAL_FISH, 2),
+			new ItemEntry(Items.PUFFERFISH, 13)
+		)
+	);
+
+	public static final LootTable FISHING_JUNK = new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.LILY_PAD, 17),
+			new ItemEntry(Items.LEATHER_BOOTS, 10).apply(version -> new ApplyDamageFunction()),
+			new ItemEntry(Items.LEATHER, 10),
+			new ItemEntry(Items.BONE, 10),
+			new ItemEntry(Items.POTION, 10), // potion function is not random
+			new ItemEntry(Items.STRING, 5),
+			new ItemEntry(Items.FISHING_ROD, 2).apply(version -> new ApplyDamageFunction()),
+			new ItemEntry(Items.BOWL, 10),
+			new ItemEntry(Items.STICK, 5),
+			new ItemEntry(Items.INK_SAC, 1).apply(version -> SetCountFunction.constant(10)),
+			new ItemEntry(Items.TRIPWIRE_HOOK, 10),
+			new ItemEntry(Items.ROTTEN_FLESH, 10),
+			// TODO add sparse jungle for 1.19
+			new ItemEntry(Items.BAMBOO, 10).apply(version -> new BiomeLocationOrFunction(Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE))
+		)
+	);
+
+	public static final LootTable FISHING_TREASURE = new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.NAME_TAG),
+			new ItemEntry(Items.SADDLE),
+			new ItemEntry(Items.BOW)
+				.apply(version -> new ApplyDamageFunction())
+				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true)),
+			new ItemEntry(Items.FISHING_ROD)
+				.apply(version -> new ApplyDamageFunction())
+				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true)),
+			new ItemEntry(Items.BOOK)
+				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true)),
+			new ItemEntry(Items.NAUTILUS_SHELL)
+		)
+	);
+
+	public static final LootTable FISHING = new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new TableEntry(FISHING_JUNK, 10),
+			// We assume you are in open water ...
+			new TableEntry(FISHING_TREASURE, 5),
+			new TableEntry(FISHING_FISH, 85)
+		)
+	);
+
 
 }

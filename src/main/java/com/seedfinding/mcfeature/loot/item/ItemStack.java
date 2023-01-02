@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class ItemStack {
 	public static final ItemStack EMPTY = new ItemStack(null);
+	public static final ItemStack INVALID = new ItemStack(null,-1);
 	private final Item item;
 	private int count;
 

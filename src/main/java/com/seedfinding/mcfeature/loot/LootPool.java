@@ -26,7 +26,7 @@ public class LootPool extends LootGenerator {
 
 	public LootPool apply(MCVersion version) {
 		this.lootEntries = Arrays.stream(lootEntries).filter(lootEntry -> {
-			// remove the entry if it was not yet introduced yet (so older and not equal to the introduced version)
+			// remove the entry if it was not yet introduced (so older and not equal to the introduced version)
 			if(lootEntry.introducedVersion != null) {
 				if(version.isOlderThan(lootEntry.introducedVersion)) {
 					return false;
@@ -92,7 +92,7 @@ public class LootPool extends LootGenerator {
 		if(this.lootEntries.length == 1) {
 			this.lootEntries[0].generate(context, stackConsumer);
 		} else {
-			int weight=context.nextInt(this.totalWeight);
+			int weight = context.nextInt(this.totalWeight);
 			this.precomputedWeights[weight].generate(context, stackConsumer);
 		}
 	}
