@@ -760,8 +760,18 @@ public class MCLootTables {
 			new ItemEntry(Items.INK_SAC, 1).apply(version -> SetCountFunction.constant(10)),
 			new ItemEntry(Items.TRIPWIRE_HOOK, 10),
 			new ItemEntry(Items.ROTTEN_FLESH, 10),
-			// TODO add sparse jungle for 1.19
-			new ItemEntry(Items.BAMBOO, 10).apply(version -> new BiomeLocationOrFunction(Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE))
+			new ItemEntry(Items.BAMBOO, 10).apply(version -> {
+					if(version.isNewerOrEqualTo(MCVersion.v1_18)) {
+						// TODO add sparse jungle for 1.18+
+						return new BiomeLocationOrFunction(Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE);
+					} else {
+						return new BiomeLocationOrFunction(Biomes.JUNGLE, Biomes.JUNGLE_HILLS,
+							Biomes.JUNGLE_EDGE,	Biomes.BAMBOO_JUNGLE, Biomes.MODIFIED_JUNGLE,
+							Biomes.MODIFIED_JUNGLE_EDGE, Biomes.BAMBOO_JUNGLE_HILLS
+						);
+					}
+				}
+			)
 		)
 	);
 
