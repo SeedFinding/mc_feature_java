@@ -147,18 +147,16 @@ public class LootTable extends LootGenerator {
 
 	public List<ItemStack> generate(LootContext context) {
 		Map<Item, Integer> itemCounts = new HashMap<>();
-		List<ItemStack> itemStacks = new ArrayList<>();
 
 		this.generate(context, stack -> {
 			int oldCount = itemCounts.getOrDefault(stack.getItem(), 0);
 			itemCounts.put(stack.getItem(), oldCount + stack.getCount());
 		});
 
-		for(Map.Entry<Item, Integer> e : itemCounts.entrySet()) {
-			itemStacks.add(new ItemStack(e.getKey(), e.getValue()));
-		}
-
-		return itemStacks;
+		return itemCounts.entrySet().stream()
+			.map(e -> new ItemStack(e.getKey(), e.getValue()))
+			.filter(i -> !i.equals(ItemStack.INVALID))
+			.collect(Collectors.toList());
 	}
 
 }

@@ -784,8 +784,8 @@ public class MCLootTables {
 	public static final LootTable FISHING = new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new TableEntry(FISHING_JUNK, 10),
-			// We assume you are in open water ...
-			new TableEntry(FISHING_TREASURE, 5),
+			new TableEntry(FISHING_TREASURE, 5)
+				.apply(mcVersion -> new OpenWaterFunction(true)),
 			new TableEntry(FISHING_FISH, 85)
 		)
 	);

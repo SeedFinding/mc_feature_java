@@ -2,7 +2,6 @@ package com.seedfinding.mcfeature.loot;
 
 
 import com.seedfinding.mcbiome.biome.Biome;
-import com.seedfinding.mcbiome.source.BiomeSource;
 import com.seedfinding.mccore.rand.ChunkRand;
 import com.seedfinding.mccore.version.MCVersion;
 
@@ -11,6 +10,7 @@ public class LootContext extends ChunkRand {
 	private final MCVersion version;
 	private int luck = DEFAULT_LUCK;
 	private Biome biome = null;
+	private boolean inOpenWater = false;
 
 	public LootContext(long lootTableSeed) {
 		super(lootTableSeed);
@@ -30,6 +30,10 @@ public class LootContext extends ChunkRand {
 		return biome;
 	}
 
+	public boolean isInOpenWater() {
+		return inOpenWater;
+	}
+
 	public LootContext withLuck(int luck) {
 		this.luck = luck;
 		return this;
@@ -37,6 +41,11 @@ public class LootContext extends ChunkRand {
 
 	public LootContext withBiome(Biome biome) {
 		this.biome = biome;
+		return this;
+	}
+
+	public LootContext withOpenWater(boolean openWater) {
+		this.inOpenWater = openWater;
 		return this;
 	}
 
