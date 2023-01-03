@@ -82,22 +82,22 @@ public class LootTestForwardGoldenApple {
 				int sum = 0;
 				long lootTableSeed = rand.nextLong();
 				LootContext context = new LootContext(lootTableSeed);
-				List<ItemStack> loot1 = MCLootTables.DESERT_PYRAMID_CHEST.apply(version).generate(context);
+				List<ItemStack> loot1 = MCLootTables.DESERT_PYRAMID_CHEST.get().apply(version).generate(context);
 				boolean b1 = loot1.contains(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE));
 
 				lootTableSeed = rand.nextLong();
 				context = new LootContext(lootTableSeed);
-				List<ItemStack> loot2 = MCLootTables.DESERT_PYRAMID_CHEST.apply(version).generate(context);
+				List<ItemStack> loot2 = MCLootTables.DESERT_PYRAMID_CHEST.get().apply(version).generate(context);
 				boolean b2 = loot2.contains(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE));
 
 				lootTableSeed = rand.nextLong();
 				context = new LootContext(lootTableSeed);
-				List<ItemStack> loot3 = MCLootTables.DESERT_PYRAMID_CHEST.apply(version).generate(context);
+				List<ItemStack> loot3 = MCLootTables.DESERT_PYRAMID_CHEST.get().apply(version).generate(context);
 				boolean b3 = loot3.contains(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE));
 
 				lootTableSeed = rand.nextLong();
 				context = new LootContext(lootTableSeed);
-				List<ItemStack> loot4 = MCLootTables.DESERT_PYRAMID_CHEST.apply(version).generate(context);
+				List<ItemStack> loot4 = MCLootTables.DESERT_PYRAMID_CHEST.get().apply(version).generate(context);
 				boolean b4 = loot4.contains(new ItemStack(Items.ENCHANTED_GOLDEN_APPLE));
 				sum = (b1 ? 1 : 0) + (b2 ? 1 : 0) + (b3 ? 1 : 0) + (b4 ? 1 : 0);
 				// boolean b= loot.stream().anyMatch(itemStack -> itemStack.getItem() == Item.ENCHANTED_GOLDEN_APPLE);

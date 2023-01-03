@@ -19,7 +19,7 @@ public class LootFishing {
 			.withBiome(Biomes.PLAINS)
 			.withLuck(0)
 			.withOpenWater(true);
-		List<ItemStack> items = MCLootTables.FISHING.generate(lootContext);
+		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
 		assertEquals(items.size(), 1);
 		assertEquals(items.get(0), new ItemStack(Items.NAUTILUS_SHELL, 1));
 	}

@@ -36,11 +36,11 @@ public class LootTest {
 		long lootTableSeed = rand.nextLong();
 
 		LootContext context = new LootContext(lootTableSeed, MCVersion.v1_13_2);
-		List<ItemStack> loot = MCLootTables.BURIED_TREASURE_CHEST.generate(context);
+		List<ItemStack> loot = MCLootTables.BURIED_TREASURE_CHEST.get().generate(context);
 		System.out.println(Arrays.toString(loot.toArray()));
 
 		context = new LootContext(lootTableSeed, MCVersion.v1_16);
-		loot = MCLootTables.BURIED_TREASURE_CHEST.generate(context);
+		loot = MCLootTables.BURIED_TREASURE_CHEST.get().generate(context);
 		System.out.println(Arrays.toString(loot.toArray()));
 
 	}

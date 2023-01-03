@@ -11,12 +11,14 @@ import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.loot.roll.ConstantRoll;
 import com.seedfinding.mcfeature.loot.roll.UniformRoll;
 
+import java.util.function.Supplier;
+
 @SuppressWarnings("unused")
 public class MCLootTables {
 
-	public static final LootTable NULL = new LootTable();
+	public static final Supplier<LootTable> NULL = () -> new LootTable();
 
-	public static final LootTable ABANDONED_MINESHAFT_CHEST = new LootTable(
+	public static final Supplier<LootTable> ABANDONED_MINESHAFT_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.GOLDEN_APPLE, 20),
 			new ItemEntry(Items.ENCHANTED_GOLDEN_APPLE),
@@ -45,7 +47,7 @@ public class MCLootTables {
 			new ItemEntry(Items.TORCH, 15).apply(version -> SetCountFunction.uniform(1.0F, 16.0F)))
 	);
 
-	public static final LootTable BASTION_BRIDGE_CHEST = new LootTable(
+	public static final Supplier<LootTable> BASTION_BRIDGE_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.LODESTONE).apply(version -> SetCountFunction.constant(1))),
 		new LootPool(new UniformRoll(1.0F, 2.0F),
@@ -69,7 +71,7 @@ public class MCLootTables {
 			new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(2.0F, 6.0F)))
 	);
 
-	public static final LootTable BASTION_HOGLIN_STABLE_CHEST = new LootTable(
+	public static final Supplier<LootTable> BASTION_HOGLIN_STABLE_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.DIAMOND_SHOVEL, 5).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.DIAMOND_SHOVEL).apply(version)),
 			new ItemEntry(Items.NETHERITE_SCRAP, 2).apply(version -> SetCountFunction.constant(1)),
@@ -93,7 +95,7 @@ public class MCLootTables {
 			new ItemEntry(Items.CRIMSON_ROOTS).apply(version -> SetCountFunction.uniform(2.0F, 7.0F)))
 	);
 
-	public static final LootTable BASTION_OTHER_CHEST = new LootTable(
+	public static final Supplier<LootTable> BASTION_OTHER_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.CROSSBOW, 12).apply(version -> new ApplyDamageFunction(), version -> new EnchantRandomlyFunction(Items.CROSSBOW).apply(version)),
 			new ItemEntry(Items.ANCIENT_DEBRIS, 2).apply(version -> SetCountFunction.constant(1)),
@@ -128,7 +130,7 @@ public class MCLootTables {
 			new ItemEntry(Items.ARROW, 2).apply(version -> SetCountFunction.uniform(5.0F, 17.0F)))
 	);
 
-	public static final LootTable BASTION_TREASURE_CHEST = new LootTable(
+	public static final Supplier<LootTable> BASTION_TREASURE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 2.0F),
 			new ItemEntry(Items.NETHERITE_INGOT, 10).apply(version -> SetCountFunction.constant(1)),
 			new ItemEntry(Items.ANCIENT_DEBRIS, 14).apply(version -> SetCountFunction.constant(1)),
@@ -157,7 +159,7 @@ public class MCLootTables {
 			new ItemEntry(Items.IRON_NUGGET).apply(version -> SetCountFunction.uniform(8.0F, 16.0F)))
 	);
 
-	public static final LootTable BURIED_TREASURE_CHEST = new LootTable(
+	public static final Supplier<LootTable> BURIED_TREASURE_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.HEART_OF_THE_SEA)),
 		new LootPool(new UniformRoll(5.0F, 8.0F),
@@ -176,7 +178,7 @@ public class MCLootTables {
 			new ItemEntry(Items.COOKED_SALMON).apply(version -> SetCountFunction.uniform(2.0F, 4.0F)))
 	);
 
-	public static final LootTable DESERT_PYRAMID_CHEST = new LootTable(
+	public static final Supplier<LootTable> DESERT_PYRAMID_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 4.0F),
 			new ItemEntry(Items.DIAMOND, 5).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.IRON_INGOT, 15).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -201,7 +203,7 @@ public class MCLootTables {
 			new ItemEntry(Items.SAND, 10).apply(version -> SetCountFunction.uniform(1.0F, 8.0F)))
 	);
 
-	public static final LootTable END_CITY_TREASURE_CHEST = new LootTable(
+	public static final Supplier<LootTable> END_CITY_TREASURE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 6.0F),
 			new ItemEntry(Items.DIAMOND, 5).apply(version -> SetCountFunction.uniform(2.0F, 7.0F)),
 			new ItemEntry(Items.IRON_INGOT, 10).apply(version -> SetCountFunction.uniform(4.0F, 8.0F)),
@@ -229,7 +231,7 @@ public class MCLootTables {
 		)
 	);
 
-	public static final LootTable IGLOO_CHEST_CHEST = new LootTable(
+	public static final Supplier<LootTable> IGLOO_CHEST_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 8.0F),
 			new ItemEntry(Items.APPLE, 15).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.COAL, 15).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
@@ -244,7 +246,7 @@ public class MCLootTables {
 		)
 	);
 
-	public static final LootTable JUNGLE_TEMPLE_CHEST = new LootTable(
+	public static final Supplier<LootTable> JUNGLE_TEMPLE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 6.0F),
 			new ItemEntry(Items.DIAMOND, 3).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.IRON_INGOT, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -260,12 +262,12 @@ public class MCLootTables {
 			new ItemEntry(Items.BOOK).apply(version -> new EnchantWithLevelsFunction(Items.BOOK, 30, 30, true).apply(version)))
 	);
 
-	public static final LootTable JUNGLE_TEMPLE_DISPENSER_CHEST = new LootTable(
+	public static final Supplier<LootTable> JUNGLE_TEMPLE_DISPENSER_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 2.0F),
 			new ItemEntry(Items.ARROW, 30).apply(version -> SetCountFunction.uniform(2.0F, 7.0F)))
 	);
 
-	public static final LootTable NETHER_BRIDGE_CHEST = new LootTable(
+	public static final Supplier<LootTable> NETHER_BRIDGE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 4.0F),
 			new ItemEntry(Items.DIAMOND, 5).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.IRON_INGOT, 5).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -281,7 +283,7 @@ public class MCLootTables {
 			new ItemEntry(Items.OBSIDIAN, 2).apply(version -> SetCountFunction.uniform(2.0F, 4.0F)))
 	);
 
-	public static final LootTable PILLAGER_OUTPOST_CHEST = new LootTable(
+	public static final Supplier<LootTable> PILLAGER_OUTPOST_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(0.0F, 1.0F),
 			new ItemEntry(Items.CROSSBOW)),
 		new LootPool(new UniformRoll(2.0F, 3.0F),
@@ -299,7 +301,7 @@ public class MCLootTables {
 			new ItemEntry(Items.ENCHANTED_BOOK).apply(version -> new EnchantRandomlyFunction(Items.ENCHANTED_BOOK).apply(version)))
 	);
 
-	public static final LootTable RUINED_PORTAL_CHEST = new LootTable(
+	public static final Supplier<LootTable> RUINED_PORTAL_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(4.0F, 8.0F),
 			new ItemEntry(Items.OBSIDIAN, 40).apply(version -> SetCountFunction.uniform(1.0F, 2.0F)),
 			new ItemEntry(Items.FLINT, 40).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
@@ -328,7 +330,7 @@ public class MCLootTables {
 			new ItemEntry(Items.GOLD_BLOCK).apply(version -> SetCountFunction.uniform(1.0F, 2.0F)))
 	);
 
-	public static final LootTable SHIPWRECK_MAP_CHEST = new LootTable(
+	public static final Supplier<LootTable> SHIPWRECK_MAP_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.FILLED_MAP)),
 		new LootPool(new ConstantRoll(3),
@@ -340,7 +342,7 @@ public class MCLootTables {
 			new ItemEntry(Items.BOOK, 5).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)))
 	);
 
-	public static final LootTable SHIPWRECK_SUPPLY_CHEST = new LootTable(
+	public static final Supplier<LootTable> SHIPWRECK_SUPPLY_CHEST = () -> new LootTable(
 		new LootPool(
 			new UniformRoll(3.0F, 10.0F),
 			new ItemEntry(Items.PAPER, 8).apply(version -> SetCountFunction.uniform(1.0F, 12.0F)),
@@ -372,7 +374,7 @@ public class MCLootTables {
 			new ItemEntry(Items.LEATHER_BOOTS, 3).apply(version -> new EnchantRandomlyFunction(Items.LEATHER_BOOTS).apply(version)))
 	);
 
-	public static final LootTable SHIPWRECK_TREASURE_CHEST = new LootTable(
+	public static final Supplier<LootTable> SHIPWRECK_TREASURE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 6.0F),
 			new ItemEntry(Items.IRON_INGOT, 90).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
 			new ItemEntry(Items.GOLD_INGOT, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -385,7 +387,7 @@ public class MCLootTables {
 			new ItemEntry(Items.LAPIS_LAZULI, 20).apply(version -> SetCountFunction.uniform(1.0F, 10.0F)))
 	);
 
-	public static final LootTable SIMPLE_DUNGEON_CHEST = new LootTable(
+	public static final Supplier<LootTable> SIMPLE_DUNGEON_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 3.0F),
 			new ItemEntry(Items.SADDLE, 20),
 			new ItemEntry(Items.GOLDEN_APPLE, 15),
@@ -415,7 +417,7 @@ public class MCLootTables {
 			new ItemEntry(Items.STRING, 10).apply(version -> SetCountFunction.uniform(1.0F, 8.0F)))
 	);
 
-	public static final LootTable SPAWN_BONUS_CHEST_CHEST = new LootTable(
+	public static final Supplier<LootTable> SPAWN_BONUS_CHEST_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.STONE_AXE),
 			new ItemEntry(Items.WOODEN_AXE, 3)),
@@ -437,7 +439,7 @@ public class MCLootTables {
 			new ItemEntry(Items.DARK_OAK_LOG, 3).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)))
 	);
 
-	public static final LootTable STRONGHOLD_CORRIDOR_CHEST = new LootTable(
+	public static final Supplier<LootTable> STRONGHOLD_CORRIDOR_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 3.0F),
 			new ItemEntry(Items.ENDER_PEARL, 10),
 			new ItemEntry(Items.DIAMOND, 3).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -460,7 +462,7 @@ public class MCLootTables {
 			new ItemEntry(Items.BOOK).apply(version -> new EnchantWithLevelsFunction(Items.BOOK, 30, 30, true).apply(version)))
 	);
 
-	public static final LootTable STRONGHOLD_CROSSING_CHEST = new LootTable(
+	public static final Supplier<LootTable> STRONGHOLD_CROSSING_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 4.0F),
 			new ItemEntry(Items.IRON_INGOT, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
 			new ItemEntry(Items.GOLD_INGOT, 5).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -472,7 +474,7 @@ public class MCLootTables {
 			new ItemEntry(Items.BOOK).apply(version -> new EnchantWithLevelsFunction(Items.BOOK, 30, 30, true).apply(version)))
 	);
 
-	public static final LootTable STRONGHOLD_LIBRARY_CHEST = new LootTable(
+	public static final Supplier<LootTable> STRONGHOLD_LIBRARY_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 10.0F),
 			new ItemEntry(Items.BOOK, 20).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.PAPER, 20).apply(version -> SetCountFunction.uniform(2.0F, 7.0F)),
@@ -481,7 +483,7 @@ public class MCLootTables {
 			new ItemEntry(Items.BOOK, 10).apply(version -> new EnchantWithLevelsFunction(Items.BOOK, 30, 30, true).apply(version)))
 	);
 
-	public static final LootTable UNDERWATER_RUIN_BIG_CHEST = new LootTable(
+	public static final Supplier<LootTable> UNDERWATER_RUIN_BIG_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 8.0F),
 			new ItemEntry(Items.COAL, 10).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
 			new ItemEntry(Items.GOLD_NUGGET, 10).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -496,7 +498,7 @@ public class MCLootTables {
 			new ItemEntry(Items.MAP, 10))
 	);
 
-	public static final LootTable UNDERWATER_RUIN_SMALL_CHEST = new LootTable(
+	public static final Supplier<LootTable> UNDERWATER_RUIN_SMALL_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 8.0F),
 			new ItemEntry(Items.COAL, 10).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
 			new ItemEntry(Items.STONE_AXE, 2),
@@ -510,7 +512,7 @@ public class MCLootTables {
 			new ItemEntry(Items.MAP, 5))
 	);
 
-	public static final LootTable VILLAGE_ARMORER_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_ARMORER_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.IRON_INGOT, 2).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.BREAD, 4).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
@@ -518,7 +520,7 @@ public class MCLootTables {
 			new ItemEntry(Items.EMERALD))
 	);
 
-	public static final LootTable VILLAGE_BUTCHER_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_BUTCHER_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.EMERALD),
 			new ItemEntry(Items.PORKCHOP, 6).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -528,7 +530,7 @@ public class MCLootTables {
 			new ItemEntry(Items.COAL, 3).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)))
 	);
 
-	public static final LootTable VILLAGE_CARTOGRAPHER_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_CARTOGRAPHER_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.MAP, 10).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.PAPER, 15).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -537,7 +539,7 @@ public class MCLootTables {
 			new ItemEntry(Items.STICK, 5).apply(version -> SetCountFunction.uniform(1.0F, 2.0F)))
 	);
 
-	public static final LootTable VILLAGE_DESERT_HOUSE_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_DESERT_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.CLAY_BALL),
 			new ItemEntry(Items.GREEN_DYE),
@@ -549,7 +551,7 @@ public class MCLootTables {
 			new ItemEntry(Items.EMERALD).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)))
 	);
 
-	public static final LootTable VILLAGE_FISHER_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_FISHER_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.EMERALD),
 			new ItemEntry(Items.COD, 2).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -560,7 +562,7 @@ public class MCLootTables {
 			new ItemEntry(Items.COAL, 2).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)))
 	);
 
-	public static final LootTable VILLAGE_FLETCHER_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_FLETCHER_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.EMERALD),
 			new ItemEntry(Items.ARROW, 2).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -570,7 +572,7 @@ public class MCLootTables {
 			new ItemEntry(Items.STICK, 6).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)))
 	);
 
-	public static final LootTable VILLAGE_MASON_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_MASON_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.CLAY_BALL).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.FLOWER_POT),
@@ -582,7 +584,7 @@ public class MCLootTables {
 			new ItemEntry(Items.EMERALD))
 	);
 
-	public static final LootTable VILLAGE_PLAINS_HOUSE_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_PLAINS_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.DANDELION, 2),
@@ -596,7 +598,7 @@ public class MCLootTables {
 			new ItemEntry(Items.OAK_SAPLING, 5).apply(version -> SetCountFunction.uniform(1.0F, 2.0F)))
 	);
 
-	public static final LootTable VILLAGE_SAVANNA_HOUSE_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_SAVANNA_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.GRASS, 5),
@@ -610,7 +612,7 @@ public class MCLootTables {
 			new ItemEntry(Items.BUCKET))
 	);
 
-	public static final LootTable VILLAGE_SHEPHERD_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_SHEPHERD_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.WHITE_WOOL, 6).apply(version -> SetCountFunction.uniform(1.0F, 8.0F)),
 			new ItemEntry(Items.BLACK_WOOL, 3).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
@@ -622,7 +624,7 @@ public class MCLootTables {
 			new ItemEntry(Items.WHEAT, 6).apply(version -> SetCountFunction.uniform(1.0F, 6.0F)))
 	);
 
-	public static final LootTable VILLAGE_SNOWY_HOUSE_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_SNOWY_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.BLUE_ICE),
 			new ItemEntry(Items.SNOW_BLOCK, 4),
@@ -636,7 +638,7 @@ public class MCLootTables {
 			new ItemEntry(Items.COAL, 5).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)))
 	);
 
-	public static final LootTable VILLAGE_TAIGA_HOUSE_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_TAIGA_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.IRON_NUGGET).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
 			new ItemEntry(Items.FERN, 2),
@@ -652,7 +654,7 @@ public class MCLootTables {
 			new ItemEntry(Items.SPRUCE_LOG, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)))
 	);
 
-	public static final LootTable VILLAGE_TANNERY_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_TANNERY_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 5.0F),
 			new ItemEntry(Items.LEATHER).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.LEATHER_CHESTPLATE, 2),
@@ -664,7 +666,7 @@ public class MCLootTables {
 			new ItemEntry(Items.EMERALD).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)))
 	);
 
-	public static final LootTable VILLAGE_TEMPLE_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_TEMPLE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.REDSTONE, 2).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
 			new ItemEntry(Items.BREAD, 7).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
@@ -674,7 +676,7 @@ public class MCLootTables {
 			new ItemEntry(Items.EMERALD).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)))
 	);
 
-	public static final LootTable VILLAGE_TOOLSMITH_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_TOOLSMITH_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.DIAMOND).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.IRON_INGOT, 5).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -686,7 +688,7 @@ public class MCLootTables {
 			new ItemEntry(Items.IRON_SHOVEL, 5))
 	);
 
-	public static final LootTable VILLAGE_WEAPONSMITH_CHEST = new LootTable(
+	public static final Supplier<LootTable> VILLAGE_WEAPONSMITH_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.DIAMOND, 3).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.IRON_INGOT, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -707,7 +709,7 @@ public class MCLootTables {
 			new ItemEntry(Items.DIAMOND_HORSE_ARMOR))
 	);
 
-	public static final LootTable WOODLAND_MANSION_CHEST = new LootTable(
+	public static final Supplier<LootTable> WOODLAND_MANSION_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(1.0F, 3.0F),
 			new ItemEntry(Items.LEAD, 20),
 			new ItemEntry(Items.GOLDEN_APPLE, 15),
@@ -737,7 +739,7 @@ public class MCLootTables {
 			new ItemEntry(Items.STRING, 10).apply(version -> SetCountFunction.uniform(1.0F, 8.0F)))
 	);
 
-	public static final LootTable FISHING_FISH = new LootTable(
+	public static final Supplier<LootTable> FISHING_FISH = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.COD, 60),
 			new ItemEntry(Items.SALMON, 25),
@@ -746,7 +748,7 @@ public class MCLootTables {
 		)
 	);
 
-	public static final LootTable FISHING_JUNK = new LootTable(
+	public static final Supplier<LootTable> FISHING_JUNK = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.LILY_PAD, 17),
 			new ItemEntry(Items.LEATHER_BOOTS, 10).apply(version -> new ApplyDamageFunction()),
@@ -775,7 +777,7 @@ public class MCLootTables {
 		)
 	);
 
-	public static final LootTable FISHING_TREASURE = new LootTable(
+	public static final Supplier<LootTable> FISHING_TREASURE = ()-> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.NAME_TAG),
 			new ItemEntry(Items.SADDLE),
@@ -791,7 +793,7 @@ public class MCLootTables {
 		)
 	);
 
-	public static final LootTable FISHING = new LootTable(
+	public static final Supplier<LootTable> FISHING = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new TableEntry(FISHING_JUNK, 10),
 			new TableEntry(FISHING_TREASURE, 5)

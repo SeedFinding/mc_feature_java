@@ -13,6 +13,7 @@ import com.seedfinding.mcterrain.TerrainGenerator;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class BuriedTreasureGenerator extends Generator {
 	private CPos cPos;
@@ -46,17 +47,17 @@ public class BuriedTreasureGenerator extends Generator {
 		BURIED_CHEST(MCLootTables.BURIED_TREASURE_CHEST, ChestContent.ChestType.SINGLE_CHEST),
 		;
 
-		public final LootTable lootTable;
+		public final Supplier<LootTable> lootTable;
 		public final ChestContent.ChestType chestType;
 
-		LootType(LootTable lootTable, ChestContent.ChestType chestType) {
+		LootType(Supplier<LootTable> lootTable, ChestContent.ChestType chestType) {
 			this.lootTable = lootTable;
 			this.chestType = chestType;
 		}
 
 		@Override
 		public LootTable getLootTableUncached(MCVersion version) {
-			return lootTable.apply(version);
+			return lootTable.get().apply(version);
 		}
 
 		@Override

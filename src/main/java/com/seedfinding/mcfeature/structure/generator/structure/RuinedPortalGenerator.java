@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 
@@ -424,17 +425,17 @@ public class RuinedPortalGenerator extends Generator {
 		RUINED_PORTAL(MCLootTables.RUINED_PORTAL_CHEST, ChestContent.ChestType.SINGLE_CHEST),
 		;
 
-		public final LootTable lootTable;
+		public final Supplier<LootTable> lootTable;
 		public final ChestContent.ChestType chestType;
 
-		LootType(LootTable lootTable, ChestContent.ChestType chestType) {
+		LootType(Supplier<LootTable> lootTable, ChestContent.ChestType chestType) {
 			this.lootTable = lootTable;
 			this.chestType = chestType;
 		}
 
 		@Override
 		public LootTable getLootTableUncached(MCVersion version) {
-			return lootTable.apply(version);
+			return lootTable.get().apply(version);
 		}
 
 		@Override

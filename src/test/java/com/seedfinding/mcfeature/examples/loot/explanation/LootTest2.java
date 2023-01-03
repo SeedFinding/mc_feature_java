@@ -25,7 +25,7 @@ public class LootTest2 {
 
 		for(long seed = 0; seed < 1L << 48; seed++) {
 			rand.setSeed(seed, false);
-			if(!TREASURE_CHEST.testLoot(rand.nextLong(), MCLootTables.BURIED_TREASURE_CHEST)) continue;
+			if(!TREASURE_CHEST.testLoot(rand.nextLong(), MCLootTables.BURIED_TREASURE_CHEST.get())) continue;
 			System.out.println("seed " + seed);
 
 			for(int chunkX = 0; chunkX < 200; chunkX++) {

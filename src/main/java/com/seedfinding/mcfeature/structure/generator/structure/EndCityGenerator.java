@@ -23,6 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 @SuppressWarnings({"EmptyClassInitializer", "unused"})
 public class EndCityGenerator extends Generator {
@@ -385,11 +386,11 @@ public class EndCityGenerator extends Generator {
 		SHIP_ELYTRA(null, Items.ELYTRA, ChestContent.ChestType.UNKNOWN),
 		;
 
-		public final LootTable lootTable;
+		public final Supplier<LootTable> lootTable;
 		public final Item item;
 		public final ChestContent.ChestType chestType;
 
-		LootType(LootTable lootTable, Item item, ChestContent.ChestType chestType) {
+		LootType(Supplier<LootTable> lootTable, Item item, ChestContent.ChestType chestType) {
 			this.lootTable = lootTable;
 			this.item = item;
 			this.chestType = chestType;
@@ -397,7 +398,7 @@ public class EndCityGenerator extends Generator {
 
 		@Override
 		public LootTable getLootTableUncached(MCVersion version) {
-			return lootTable == null ? null : lootTable.apply(version);
+			return lootTable == null ? null : lootTable.get().apply(version);
 		}
 
 		@Override

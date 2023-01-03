@@ -49,7 +49,7 @@ public class LootTestForward {
 				rand.setDecoratorSeed(decoratorSeed, 1, 3, version); //specific ordinals and index for burried treasures
 				// we get the loot table seed
 				long lootTableSeed = rand.nextLong();
-				if(TREASURE_CHEST.testLoot(lootTableSeed, MCLootTables.BURIED_TREASURE_CHEST)) {
+				if(TREASURE_CHEST.testLoot(lootTableSeed, MCLootTables.BURIED_TREASURE_CHEST.get())) {
 					System.out.printf("Found loot at chunkX: %d chunkZ: %d, posX: %d posZ: %d %n", chunkX, chunkZ, chunkX * 16 + 9, chunkZ * 16 + 9);
 				}
 			}
