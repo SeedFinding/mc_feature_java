@@ -127,7 +127,6 @@ public class LootTable extends LootGenerator {
 	@Override
 	public void generate(LootContext context, Consumer<ItemStack> stackConsumer) {
 		if(!hasVersionApplied) {
-			System.err.println("Version was not applied, we default to latest " + context.getVersion());
 			this.apply(context.getVersion(), context.getLuck());
 		} else if(luck == null || luck != context.getLuck()) {
 			this.apply(context.getLuck());

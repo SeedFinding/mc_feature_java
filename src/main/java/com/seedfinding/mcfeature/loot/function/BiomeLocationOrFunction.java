@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class BiomeLocationOrFunction implements LootFunction {
-	private final List<Biome> biomes;
+	public final List<Biome> biomes;
 
 	/**
 	 * If any of the biomes match return the item else return invalid item
