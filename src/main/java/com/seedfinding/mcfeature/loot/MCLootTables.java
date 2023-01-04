@@ -783,12 +783,12 @@ public class MCLootTables {
 			new ItemEntry(Items.SADDLE),
 			new ItemEntry(Items.BOW)
 				.apply(version -> new ApplyDamageFunction())
-				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true)),
+				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true).apply(version)),
 			new ItemEntry(Items.FISHING_ROD)
 				.apply(version -> new ApplyDamageFunction())
-				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true)),
+				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true).apply(version)),
 			new ItemEntry(Items.BOOK)
-				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true)),
+				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true).apply(version)),
 			new ItemEntry(Items.NAUTILUS_SHELL)
 		)
 	);
