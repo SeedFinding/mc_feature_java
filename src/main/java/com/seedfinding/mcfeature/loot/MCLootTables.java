@@ -2,6 +2,8 @@ package com.seedfinding.mcfeature.loot;
 
 import com.seedfinding.mcbiome.biome.Biomes;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.loot.condition.BiomeCondition;
+import com.seedfinding.mcfeature.loot.condition.OpenWaterCondition;
 import com.seedfinding.mcfeature.loot.effect.Effects;
 import com.seedfinding.mcfeature.loot.entry.EmptyEntry;
 import com.seedfinding.mcfeature.loot.entry.ItemEntry;
@@ -762,12 +764,12 @@ public class MCLootTables {
 			new ItemEntry(Items.INK_SAC, 1).apply(version -> SetCountFunction.constant(10)),
 			new ItemEntry(Items.TRIPWIRE_HOOK, 10),
 			new ItemEntry(Items.ROTTEN_FLESH, 10),
-			new ItemEntry(Items.BAMBOO, 10).apply(version -> {
+			new ItemEntry(Items.BAMBOO, 10).when(version -> {
 					if(version.isNewerOrEqualTo(MCVersion.v1_18)) {
 						// TODO add sparse jungle for 1.18+
-						return new BiomeLocationOrFunction(Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE);
+						return new BiomeCondition(Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE);
 					} else {
-						return new BiomeLocationOrFunction(Biomes.JUNGLE, Biomes.JUNGLE_HILLS,
+						return new BiomeCondition(Biomes.JUNGLE, Biomes.JUNGLE_HILLS,
 							Biomes.JUNGLE_EDGE,	Biomes.BAMBOO_JUNGLE, Biomes.MODIFIED_JUNGLE,
 							Biomes.MODIFIED_JUNGLE_EDGE, Biomes.BAMBOO_JUNGLE_HILLS
 						);
@@ -795,10 +797,10 @@ public class MCLootTables {
 
 	public static final Supplier<LootTable> FISHING = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
-			new TableEntry(FISHING_JUNK, 10),
-			new TableEntry(FISHING_TREASURE, 5)
-				.apply(mcVersion -> new OpenWaterFunction(true)),
-			new TableEntry(FISHING_FISH, 85)
+			new TableEntry(FISHING_JUNK, 10,-2),
+			new TableEntry(FISHING_TREASURE, 5,2)
+				.when(version->new OpenWaterCondition(true)),
+			new TableEntry(FISHING_FISH, 85,-1)
 		)
 	);
 

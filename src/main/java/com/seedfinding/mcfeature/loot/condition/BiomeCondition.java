@@ -1,4 +1,4 @@
-package com.seedfinding.mcfeature.loot.function;
+package com.seedfinding.mcfeature.loot.condition;
 
 import com.seedfinding.mcbiome.biome.Biome;
 import com.seedfinding.mcfeature.loot.LootContext;
@@ -8,27 +8,20 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BiomeLocationOrFunction implements LootFunction {
+public class BiomeCondition implements LootCondition{
 	public final List<Biome> biomes;
 
 	/**
 	 * If any of the biomes match return the item else return invalid item
-	 *
-	 * @param biomes
 	 */
-	public BiomeLocationOrFunction(Biome... biomes) {
+	public BiomeCondition(Biome... biomes) {
 		this.biomes = new ArrayList<>();
 		Collections.addAll(this.biomes, biomes);
 	}
 
 	@Override
-	public ItemStack process(ItemStack baseStack, LootContext context) {
+	public boolean is_valid(LootContext context) {
 		Biome biome = context.getBiome();
-		if(biome != null && this.biomes.contains(context.getBiome())) {
-			return baseStack;
-
-		}
-		return ItemStack.INVALID;
+		return biome != null && this.biomes.contains(biome);
 	}
-
 }

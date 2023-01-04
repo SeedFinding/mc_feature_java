@@ -1,7 +1,7 @@
 package com.seedfinding.mcfeature.loot;
 
 import com.seedfinding.mccore.version.MCVersion;
-import com.seedfinding.mcfeature.loot.function.BiomeLocationOrFunction;
+import com.seedfinding.mcfeature.loot.condition.LootCondition;
 import com.seedfinding.mcfeature.loot.function.LootFunction;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 
@@ -14,6 +14,10 @@ public abstract class LootGenerator {
 	public Function<MCVersion, LootFunction>[] supplierLootFunctions = null;
 	public LootFunction[] lootFunctions;
 	public LootFunction combinedLootFunction;
+
+	public Function<MCVersion, LootCondition>[] supplierLootConditions = null;
+	public LootCondition[] lootConditions;
+	public LootCondition combinedLootCondition;
 
 	public LootGenerator() {
 		this.apply((Collection<Function<MCVersion, LootFunction>>)null);
@@ -30,6 +34,17 @@ public abstract class LootGenerator {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
+	public LootGenerator when(Collection<Function<MCVersion, LootCondition>> lootConditions) {
+		if(lootFunctions != null) {
+			this.supplierLootConditions = lootConditions.toArray(new Function[0]);
+		} else {
+			this.lootConditions = new LootCondition[0];
+			this.combinedLootCondition = (context) -> true;
+		}
+		return this;
+	}
+
 
 	public LootGenerator apply(MCVersion version) {
 		if(supplierLootFunctions != null) {
@@ -39,6 +54,15 @@ public abstract class LootGenerator {
 				this.lootFunctions[i++] = function.apply(version);
 			}
 			this.combinedLootFunction = LootFunction.combine(this.lootFunctions);
+		}
+
+		if(supplierLootConditions != null) {
+			this.lootConditions = new LootCondition[supplierLootConditions.length];
+			int i = 0;
+			for(Function<MCVersion, LootCondition> function : supplierLootConditions) {
+				this.lootConditions[i++] = function.apply(version);
+			}
+			this.combinedLootCondition = LootCondition.combine(this.lootConditions);
 		}
 		return this;
 	}

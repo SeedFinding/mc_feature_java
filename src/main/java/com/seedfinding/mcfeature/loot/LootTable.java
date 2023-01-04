@@ -1,5 +1,6 @@
 package com.seedfinding.mcfeature.loot;
 
+import com.seedfinding.mcbiome.biome.Biome;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.function.LootFunction;
 import com.seedfinding.mcfeature.loot.item.Item;
@@ -40,7 +41,16 @@ public class LootTable extends LootGenerator {
 
 	public LootTable apply(MCVersion version, int luck) {
 		for(LootPool lootPool : this.lootPools) {
-			lootPool.apply(version).processWeights(luck);
+			lootPool.apply(version).processWeights(luck,null);
+		}
+		this.hasVersionApplied = true;
+		this.luck = luck;
+		return this;
+	}
+
+	public LootTable apply(MCVersion version, int luck, LootContext lootContext) {
+		for(LootPool lootPool : this.lootPools) {
+			lootPool.apply(version).processWeights(luck,lootContext);
 		}
 		this.hasVersionApplied = true;
 		this.luck = luck;
@@ -53,7 +63,7 @@ public class LootTable extends LootGenerator {
 			return this.apply(MCVersion.latest(), luck);
 		}
 		for(LootPool lootPool : this.lootPools) {
-			lootPool.processWeights(luck);
+			lootPool.processWeights(luck,null);
 		}
 		this.luck = luck;
 		return this;

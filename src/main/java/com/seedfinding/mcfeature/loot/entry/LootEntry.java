@@ -3,6 +3,7 @@ package com.seedfinding.mcfeature.loot.entry;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.LootGenerator;
+import com.seedfinding.mcfeature.loot.condition.LootCondition;
 import com.seedfinding.mcfeature.loot.function.LootFunction;
 import com.seedfinding.mcnoise.utils.MathHelper;
 
@@ -48,7 +49,12 @@ public abstract class LootEntry extends LootGenerator {
 	}
 
 	@SafeVarargs public final LootEntry apply(Function<MCVersion, LootFunction>... lootFunctions) {
-		this.apply(Arrays.asList(lootFunctions));
+		super.apply(Arrays.asList(lootFunctions));
+		return this;
+	}
+
+	@SafeVarargs public final LootEntry when(Function<MCVersion, LootCondition>... lootConditions) {
+		super.when(Arrays.asList(lootConditions));
 		return this;
 	}
 

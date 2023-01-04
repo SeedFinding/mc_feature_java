@@ -22,9 +22,15 @@ public class TableEntry extends LootEntry {
 		this.table = table;
 	}
 
+	// Only used in Fishing junk btw
+	public TableEntry(Supplier<LootTable> table, int weight,int quality) {
+		super(weight,quality);
+		this.table = table;
+	}
+
 	// FIXME we don't check for circular references, this could end up in an infinite loop
 	@Override
 	public void generate(LootContext context, Consumer<ItemStack> stackConsumer) {
-		this.table.get().apply(context.getVersion(),context.getLuck()).generate(context, stackConsumer);
+		this.table.get().apply(context.getVersion(),context.getLuck(),context).generate(context, stackConsumer);
 	}
 }

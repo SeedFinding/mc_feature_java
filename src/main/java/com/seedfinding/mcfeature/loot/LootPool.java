@@ -1,5 +1,6 @@
 package com.seedfinding.mcfeature.loot;
 
+import com.seedfinding.mcbiome.biome.Biome;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.entry.LootEntry;
 import com.seedfinding.mcfeature.loot.function.LootFunction;
@@ -44,10 +45,17 @@ public class LootPool extends LootGenerator {
 		return this;
 	}
 
-	public LootPool processWeights(int luck) {
+	public LootPool processWeights(int luck, LootContext context) {
 		this.totalWeight = 0;
 
 		for(LootEntry entry : this.lootEntries) {
+			// skip all the impossible entry with a specific context
+			// Note context is null most of the time, only fishing needs it for now
+			if (entry.combinedLootCondition!=null && context!=null){
+				if (!entry.combinedLootCondition.is_valid(context)){
+					continue;
+				}
+			}
 			this.totalWeight += entry.getEffectiveWeight(luck);
 		}
 
@@ -55,6 +63,13 @@ public class LootPool extends LootGenerator {
 
 		int k = 0;
 		for(LootEntry entry : this.lootEntries) {
+			// skip all the impossible entry with a specific context
+			// Note context is null most of the time, only fishing needs it for now
+			if (entry.combinedLootCondition!=null && context!=null){
+				if (!entry.combinedLootCondition.is_valid(context)){
+					continue;
+				}
+			}
 			int weight = entry.getEffectiveWeight(luck);
 			for(int i = 0; i < weight; i++) {
 				this.precomputedWeights[k + i] = entry;
