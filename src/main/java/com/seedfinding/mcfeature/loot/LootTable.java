@@ -164,7 +164,6 @@ public class LootTable extends LootGenerator {
 
 		return itemCounts.entrySet().stream()
 			.map(e -> new ItemStack(e.getKey(), e.getValue()))
-			.filter(i -> !i.equals(ItemStack.INVALID))
 			.collect(Collectors.toList());
 	}
 
