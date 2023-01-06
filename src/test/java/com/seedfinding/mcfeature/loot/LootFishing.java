@@ -124,4 +124,15 @@ public class LootFishing {
 		assertEquals(items.size(), 1);
 		assertEquals(items.get(0), new ItemStack(Items.LILY_PAD, 1));
 	}
+
+	@Test
+	public void testCorrectChest11() {
+		LootContext lootContext = new LootContext(96550566301014L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
+			.withBiome(Biomes.PLAINS)
+			.withLuck(0)
+			.withOpenWater(true);
+		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
+		assertEquals(items.size(), 1);
+		assertEquals(items.get(0), new ItemStack(Items.POTION, 1));
+	}
 }
