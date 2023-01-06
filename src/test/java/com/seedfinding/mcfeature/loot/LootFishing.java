@@ -105,13 +105,13 @@ public class LootFishing {
 
 	@Test
 	public void testCorrectChest9() {
-		LootContext lootContext = new LootContext(15679979619152L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
+		LootContext lootContext = new LootContext(96550566301014L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
 			.withBiome(Biomes.PLAINS)
 			.withLuck(0)
 			.withOpenWater(false);
 		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
 		assertEquals(items.size(), 1);
-		assertEquals(items.get(0), new ItemStack(Items.LILY_PAD, 1));
+		assertEquals(items.get(0), new ItemStack(Items.COD, 1));
 	}
 
 	@Test

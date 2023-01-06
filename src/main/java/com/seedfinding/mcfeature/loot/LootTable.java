@@ -1,6 +1,5 @@
 package com.seedfinding.mcfeature.loot;
 
-import com.seedfinding.mcbiome.biome.Biome;
 import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.function.LootFunction;
 import com.seedfinding.mcfeature.loot.item.Item;
@@ -41,7 +40,7 @@ public class LootTable extends LootGenerator {
 
 	public LootTable apply(MCVersion version, int luck) {
 		for(LootPool lootPool : this.lootPools) {
-			lootPool.apply(version).processWeights(luck,null);
+			lootPool.apply(version).processWeights(luck, null);
 		}
 		this.hasVersionApplied = true;
 		this.luck = luck;
@@ -50,7 +49,7 @@ public class LootTable extends LootGenerator {
 
 	public LootTable apply(MCVersion version, int luck, LootContext lootContext) {
 		for(LootPool lootPool : this.lootPools) {
-			lootPool.apply(version).processWeights(luck,lootContext);
+			lootPool.apply(version).processWeights(luck, lootContext);
 		}
 		this.hasVersionApplied = true;
 		this.luck = luck;
@@ -63,7 +62,7 @@ public class LootTable extends LootGenerator {
 			return this.apply(MCVersion.latest(), luck);
 		}
 		for(LootPool lootPool : this.lootPools) {
-			lootPool.processWeights(luck,null);
+			lootPool.processWeights(luck, null);
 		}
 		this.luck = luck;
 		return this;
@@ -137,7 +136,7 @@ public class LootTable extends LootGenerator {
 	@Override
 	public void generate(LootContext context, Consumer<ItemStack> stackConsumer) {
 		if(!hasVersionApplied) {
-			this.apply(context.getVersion(), context.getLuck());
+			this.apply(context.getVersion(), context.getLuck(), context);
 		} else if(luck == null || luck != context.getLuck()) {
 			this.apply(context.getLuck());
 		}
