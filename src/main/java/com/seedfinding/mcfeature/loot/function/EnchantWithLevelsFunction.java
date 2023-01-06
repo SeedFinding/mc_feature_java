@@ -78,6 +78,7 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 		enchantments.put("netherite_hoe", 15);
 		enchantments.put("netherite_shovel", 15);
 		enchantments.put("netherite_sword", 15);
+		enchantments.put("bow", 1);
 	}
 
 	public EnchantWithLevelsFunction(Item item, int minLevel, int maxLevel) {
