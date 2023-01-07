@@ -2,13 +2,12 @@ package com.seedfinding.mcfeature.loot.condition;
 
 import com.seedfinding.mcbiome.biome.Biome;
 import com.seedfinding.mcfeature.loot.LootContext;
-import com.seedfinding.mcfeature.loot.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class BiomeCondition implements LootCondition{
+public class BiomeCondition implements LootCondition {
 	public final List<Biome> biomes;
 
 	/**

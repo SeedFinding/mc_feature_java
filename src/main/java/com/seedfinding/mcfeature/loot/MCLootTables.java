@@ -8,7 +8,11 @@ import com.seedfinding.mcfeature.loot.effect.Effects;
 import com.seedfinding.mcfeature.loot.entry.EmptyEntry;
 import com.seedfinding.mcfeature.loot.entry.ItemEntry;
 import com.seedfinding.mcfeature.loot.entry.TableEntry;
-import com.seedfinding.mcfeature.loot.function.*;
+import com.seedfinding.mcfeature.loot.function.ApplyDamageFunction;
+import com.seedfinding.mcfeature.loot.function.EffectFunction;
+import com.seedfinding.mcfeature.loot.function.EnchantRandomlyFunction;
+import com.seedfinding.mcfeature.loot.function.EnchantWithLevelsFunction;
+import com.seedfinding.mcfeature.loot.function.SetCountFunction;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.loot.roll.ConstantRoll;
 import com.seedfinding.mcfeature.loot.roll.UniformRoll;
@@ -770,7 +774,7 @@ public class MCLootTables {
 						return new BiomeCondition(Biomes.JUNGLE, Biomes.BAMBOO_JUNGLE);
 					} else {
 						return new BiomeCondition(Biomes.JUNGLE, Biomes.JUNGLE_HILLS,
-							Biomes.JUNGLE_EDGE,	Biomes.BAMBOO_JUNGLE, Biomes.MODIFIED_JUNGLE,
+							Biomes.JUNGLE_EDGE, Biomes.BAMBOO_JUNGLE, Biomes.MODIFIED_JUNGLE,
 							Biomes.MODIFIED_JUNGLE_EDGE, Biomes.BAMBOO_JUNGLE_HILLS
 						);
 					}
@@ -779,14 +783,14 @@ public class MCLootTables {
 		)
 	);
 
-	public static final Supplier<LootTable> FISHING_TREASURE = ()-> new LootTable(
+	public static final Supplier<LootTable> FISHING_TREASURE = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
 			new ItemEntry(Items.NAME_TAG),
 			new ItemEntry(Items.SADDLE),
 			new ItemEntry(Items.BOW)
-				.apply(version -> new ApplyDamageFunction(),version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true).apply(version)),
+				.apply(version -> new ApplyDamageFunction(), version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true).apply(version)),
 			new ItemEntry(Items.FISHING_ROD)
-				.apply(version -> new ApplyDamageFunction(),version -> new EnchantWithLevelsFunction(Items.FISHING_ROD, 30, 30, true).apply(version)),
+				.apply(version -> new ApplyDamageFunction(), version -> new EnchantWithLevelsFunction(Items.FISHING_ROD, 30, 30, true).apply(version)),
 			new ItemEntry(Items.BOOK)
 				.apply(version -> new EnchantWithLevelsFunction(Items.BOW, 30, 30, true).apply(version)),
 			new ItemEntry(Items.NAUTILUS_SHELL)
@@ -795,10 +799,10 @@ public class MCLootTables {
 
 	public static final Supplier<LootTable> FISHING = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
-			new TableEntry(FISHING_JUNK, 10,-2),
-			new TableEntry(FISHING_TREASURE, 5,2)
-				.when(version->new OpenWaterCondition(true)),
-			new TableEntry(FISHING_FISH, 85,-1)
+			new TableEntry(FISHING_JUNK, 10, -2),
+			new TableEntry(FISHING_TREASURE, 5, 2)
+				.when(version -> new OpenWaterCondition(true)),
+			new TableEntry(FISHING_FISH, 85, -1)
 		)
 	);
 

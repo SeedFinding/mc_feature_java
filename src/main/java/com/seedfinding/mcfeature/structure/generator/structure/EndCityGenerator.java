@@ -407,7 +407,7 @@ public class EndCityGenerator extends Generator {
 		}
 	}
 
-	private static final String[] TYPES = new String[] {
+	private static final String[] TYPES = new String[]{
 		"base_floor",
 		"base_roof",
 		"bridge_end",

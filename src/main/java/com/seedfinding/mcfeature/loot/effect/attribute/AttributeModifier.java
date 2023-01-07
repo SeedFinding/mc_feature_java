@@ -74,7 +74,7 @@ public class AttributeModifier {
 		MULTIPLY_BASE(1),
 		MULTIPLY_TOTAL(2);
 
-		private static final AttributeModifier.Operation[] OPERATIONS = new AttributeModifier.Operation[] {ADDITION, MULTIPLY_BASE, MULTIPLY_TOTAL};
+		private static final AttributeModifier.Operation[] OPERATIONS = new AttributeModifier.Operation[]{ADDITION, MULTIPLY_BASE, MULTIPLY_TOTAL};
 		private final int value;
 
 		Operation(int operation) {

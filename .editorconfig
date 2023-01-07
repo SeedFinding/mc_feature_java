@@ -60,4 +60,8 @@ ij_java_class_count_to_use_import_on_demand = 999
 ij_java_names_count_to_use_import_on_demand = 999
 # Enable JavaDoc formatting, don't put <p> tag on empty lines.
 ij_java_doc_enable_formatting = true
-ij_java_doc_add_p_tag_on_empty_lines = false
+# Allow simple stuff to stay grouped
+ij_java_keep_simple_blocks_in_one_line = true
+ij_java_keep_simple_classes_in_one_line = true
+ij_java_keep_simple_lambdas_in_one_line = true
+ij_java_keep_simple_methods_in_one_line = true

@@ -130,7 +130,7 @@ public class ShipwreckGenerator extends Generator {
 	}
 
 
-	private static final String[] STRUCTURE_LOCATION_BEACHED = new String[] {
+	private static final String[] STRUCTURE_LOCATION_BEACHED = new String[]{
 		"with_mast",
 		"sideways_full",
 		"sideways_fronthalf",
@@ -143,7 +143,7 @@ public class ShipwreckGenerator extends Generator {
 		"rightsideup_fronthalf_degraded",
 		"rightsideup_backhalf_degraded"
 	};
-	private static final String[] STRUCTURE_LOCATION_OCEAN = new String[] {
+	private static final String[] STRUCTURE_LOCATION_OCEAN = new String[]{
 		"with_mast",
 		"upsidedown_full",
 		"upsidedown_fronthalf",
