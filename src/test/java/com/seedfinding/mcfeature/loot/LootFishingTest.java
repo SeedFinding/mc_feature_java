@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertSame;
 
-public class LootFishing {
+public class LootFishingTest {
 
 	@Test
 	public void testCorrectChest1() {
@@ -99,7 +99,7 @@ public class LootFishing {
 		LootContext lootContext = new LootContext(213410720167157L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
 			.withBiome(Biomes.PLAINS)
 			.withLuck(0)
-			.withOpenWater(false);
+			.withOpenWater(true);
 		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
 		assertEquals(items.size(), 1);
 		assertEquals(items.get(0), new ItemStack(Items.LEATHER_BOOTS, 1));
@@ -121,7 +121,7 @@ public class LootFishing {
 		LootContext lootContext = new LootContext(5564698933948L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
 			.withBiome(Biomes.PLAINS)
 			.withLuck(0)
-			.withOpenWater(false);
+			.withOpenWater(true);
 		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
 		assertEquals(items.size(), 1);
 		assertEquals(items.get(0), new ItemStack(Items.LILY_PAD, 1));
