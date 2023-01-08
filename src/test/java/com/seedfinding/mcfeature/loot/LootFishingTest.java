@@ -153,16 +153,18 @@ public class LootFishingTest {
 	}
 
 	@Test
-	public void testCorrectChest13() {
-		LootContext lootContext = new LootContext(236372457958984L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
+	public void testCorrectChest14() {
+		LootContext lootContext = new LootContext(11746224499759L ^ LCG.JAVA.multiplier, MCVersion.v1_19)
 			.withBiome(Biomes.PLAINS)
 			.withLuck(0)
 			.withOpenWater(true);
 		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
 		assertEquals(items.size(), 1);
-		assertSame("fishing_rod", items.get(0).getItem().getName());
-		assertEquals(2, items.get(0).getItem().getEnchantments().size());
-		assertEquals(new Pair<>("luck_of_the_sea", 2), items.get(0).getItem().getEnchantments().get(0));
-		assertEquals(new Pair<>("unbreaking", 3), items.get(0).getItem().getEnchantments().get(1));
-	}
+		assertSame("book", items.get(0).getItem().getName());
+		assertEquals(1, items.get(0).getItem().getEnchantments().size());
+		assertEquals(new Pair<>("frost_walker", 2), items.get(0).getItem().getEnchantments().get(0));
+			}
+
+
+
 }
