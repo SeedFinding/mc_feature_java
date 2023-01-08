@@ -40,6 +40,20 @@ public abstract class LootEntry extends LootGenerator {
 		return this;
 	}
 
+	public boolean existsIn(MCVersion version){
+		// remove the entry if it was not yet introduced (so older and not equal to the introduced version)
+		if(this.introducedVersion != null) {
+			if(version.isOlderThan(this.introducedVersion)) {
+				return false;
+			}
+		}
+		// remove all newer version (or equal) to the deprecation
+		if(this.deprecatedVersion != null) {
+			return !version.isNewerOrEqualTo(this.deprecatedVersion);
+		}
+		return true;
+	}
+
 	public int getWeight(LootContext context) {
 		return this.weight;
 	}

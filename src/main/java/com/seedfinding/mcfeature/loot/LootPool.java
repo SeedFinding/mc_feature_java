@@ -26,24 +26,10 @@ public class LootPool extends LootGenerator {
 
 	public LootPool apply(MCVersion version) {
 		this.lootEntries = Arrays.stream(lootEntries)
-			.filter(lootEntry -> isValidForVersion(lootEntry,version))
+			.filter(lootEntry -> lootEntry.existsIn(version))
 			.peek(lootEntry -> lootEntry.apply(version))
 			.toArray(LootEntry[]::new);
 		return this;
-	}
-
-	private boolean isValidForVersion(LootEntry lootEntry, MCVersion version){
-		// remove the entry if it was not yet introduced (so older and not equal to the introduced version)
-		if(lootEntry.introducedVersion != null) {
-			if(version.isOlderThan(lootEntry.introducedVersion)) {
-				return false;
-			}
-		}
-		// remove all newer version (or equal) to the deprecation
-		if(lootEntry.deprecatedVersion != null) {
-			return !version.isNewerOrEqualTo(lootEntry.deprecatedVersion);
-		}
-		return true;
 	}
 
 	public LootPool processWeights(int luck, LootContext context) {
