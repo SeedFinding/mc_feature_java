@@ -13,10 +13,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public class FortressGenerator extends Generator {
-	// TODO FIXME use the generator
-	private static final Random rand = new Random();
 
 	private static final int NORTH = 0, EAST = 1, SOUTH = 2, WEST = 3;
 
@@ -68,73 +70,77 @@ public class FortressGenerator extends Generator {
 		FortressGenerator::createCorridorTCrossing,
 		FortressGenerator::createCorridorNetherWart
 	};
-	private static final Runnable[] POST_CREATORS = {
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> {},
-		() -> rand.nextInt(3),
-		() -> rand.nextInt(3),
-		() -> {},
-		() -> {},
-		() -> {}
-	};
+	private static final ArrayList<Consumer<ChunkRand>> POST_CREATORS = new ArrayList<Consumer<ChunkRand>>() {{
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> rand.nextInt(3));
+		add(rand -> rand.nextInt(3));
+		add(rand -> {});
+		add(rand -> {});
+		add(rand -> {});
+	}};
 	@SuppressWarnings("unchecked")
-	private static final List<PieceInfo>[] placements = new List[PIECES_COUNT];
-	private static final List<PieceInfo> pieceQueue = new ArrayList<>();
-	private static PieceInfo start;
-	private static int lastPlaced;
-	private static final Extender[] EXTENDERS = {
-		null,
-		FortressGenerator::extendBridgeStraight,
-		FortressGenerator::extendBridgeCrossing,
-		FortressGenerator::extendBridgeFortifiedCrossing,
-		FortressGenerator::extendBridgeStairs,
-		FortressGenerator::extendBridgeSpawner,
-		FortressGenerator::extendBridgeCorridorEntrance,
-		FortressGenerator::extendCorridorStraight,
-		FortressGenerator::extendCorridorCrossing,
-		FortressGenerator::extendCorridorTurnRight,
-		FortressGenerator::extendCorridorTurnLeft,
-		FortressGenerator::extendCorridorStairs,
-		FortressGenerator::extendCorridorTCrossing,
-		FortressGenerator::extendCorridorNetherWart,
-		FortressGenerator::extendEnd
-	};
-
-	static {
-		Arrays.setAll(placements, i -> new ArrayList<>());
-	}
+	private final List<PieceInfo>[] placements = new List[PIECES_COUNT];
+	private final List<PieceInfo> pieceQueue = new ArrayList<>();
+	private PieceInfo start;
+	private int lastPlaced;
+	private final ArrayList<Function<FortressGenerator, Extender>> EXTENDERS = new ArrayList<Function<FortressGenerator, Extender>>() {{
+		add(generator -> null);
+		add(generator -> generator::extendBridgeStraight);
+		add(generator -> generator::extendBridgeCrossing);
+		add(generator -> generator::extendBridgeFortifiedCrossing);
+		add(generator -> generator::extendBridgeStairs);
+		add(generator -> generator::extendBridgeSpawner);
+		add(generator -> generator::extendBridgeCorridorEntrance);
+		add(generator -> generator::extendCorridorStraight);
+		add(generator -> generator::extendCorridorCrossing);
+		add(generator -> generator::extendCorridorTurnRight);
+		add(generator -> generator::extendCorridorTurnLeft);
+		add(generator -> generator::extendCorridorStairs);
+		add(generator -> generator::extendCorridorTCrossing);
+		add(generator -> generator::extendCorridorNetherWart);
+		add(generator -> generator::extendEnd);
+	}};
 
 	public FortressGenerator(MCVersion version) {
 		super(version);
+		Arrays.setAll(placements, i -> new ArrayList<>());
 	}
 
-	private static void genFortress(int chunkX, int chunkZ, MCVersion version) {
+	private void genFortress(int chunkX, int chunkZ, ChunkRand rand) {
 		if(version.isOlderThan(MCVersion.v1_12)) {
 			throw new UnsupportedVersion(version, "fortress generator.");
 		}
-		start = createStart((chunkX << 4) + 2, 64, (chunkZ << 4) + 2);
+		start = createStart((chunkX << 4) + 2, 64, (chunkZ << 4) + 2, rand);
 		placements[START].add(start);
-		extendBridgeCrossing(start);
+		extendBridgeCrossing(start, rand);
 		while(!pieceQueue.isEmpty()) {
 			int i = rand.nextInt(pieceQueue.size());
 
 			PieceInfo piece = pieceQueue.remove(i);
-			assert EXTENDERS[piece.type] != null;
-			EXTENDERS[piece.type].extend(piece);
+			assert EXTENDERS.get(piece.type) != null;
+			EXTENDERS.get(piece.type).apply(this).extend(piece, rand);
 		}
 	}
 
-
+	/**
+	 * Get all the pieces placements of a fortress after generating it
+	 *
+	 * @return
+	 */
+	public List<PieceInfo>[] getPlacements() {
+		return placements;
+	}
 	// ===== CREATORS ===== //
 
-	private static PieceInfo createStart(int x, int y, int z) {
+	private static PieceInfo createStart(int x, int y, int z, ChunkRand rand) {
 		return new PieceInfo(START, 0, x, y, z, x + 19 - 1, 73, z + 19 - 1, rand.nextInt(4));
 	}
 
@@ -238,117 +244,117 @@ public class FortressGenerator extends Generator {
 
 	// ===== EXTENDERS ===== //
 
-	private static void extendBridgeStraight(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 1, 3, false);
+	private void extendBridgeStraight(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 1, 3, false);
 	}
 
-	private static void extendBridgeCrossing(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 8, 3, false);
-		extendLeft(pieceInfo, 8, 3, false);
-		extendRight(pieceInfo, 8, 3, false);
+	private void extendBridgeCrossing(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 8, 3, false);
+		extendLeft(pieceInfo, rand, 8, 3, false);
+		extendRight(pieceInfo, rand, 8, 3, false);
 	}
 
-	private static void extendBridgeFortifiedCrossing(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 2, 0, false);
-		extendLeft(pieceInfo, 2, 0, false);
-		extendRight(pieceInfo, 2, 0, false);
+	private void extendBridgeFortifiedCrossing(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 2, 0, false);
+		extendLeft(pieceInfo, rand, 2, 0, false);
+		extendRight(pieceInfo, rand, 2, 0, false);
 	}
 
-	private static void extendBridgeStairs(PieceInfo pieceInfo) {
-		extendRight(pieceInfo, 2, 6, false);
+	private void extendBridgeStairs(PieceInfo pieceInfo, ChunkRand rand) {
+		extendRight(pieceInfo, rand, 2, 6, false);
 	}
 
-	private static void extendBridgeSpawner(PieceInfo pieceInfo) {
+	private void extendBridgeSpawner(PieceInfo pieceInfo, ChunkRand rand) {
 	}
 
-	private static void extendEnd(PieceInfo pieceInfo) {
+	private void extendEnd(PieceInfo pieceInfo, ChunkRand rand) {
 	}
 
-	private static void extendBridgeCorridorEntrance(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 5, 3, true);
+	private void extendBridgeCorridorEntrance(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 5, 3, true);
 	}
 
-	private static void extendCorridorStraight(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 1, 0, true);
+	private void extendCorridorStraight(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 1, 0, true);
 	}
 
-	private static void extendCorridorCrossing(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 1, 0, true);
-		extendLeft(pieceInfo, 1, 0, true);
-		extendRight(pieceInfo, 1, 0, true);
+	private void extendCorridorCrossing(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 1, 0, true);
+		extendLeft(pieceInfo, rand, 1, 0, true);
+		extendRight(pieceInfo, rand, 1, 0, true);
 	}
 
-	private static void extendCorridorTurnRight(PieceInfo pieceInfo) {
-		extendRight(pieceInfo, 1, 0, true);
+	private void extendCorridorTurnRight(PieceInfo pieceInfo, ChunkRand rand) {
+		extendRight(pieceInfo, rand, 1, 0, true);
 	}
 
-	private static void extendCorridorTurnLeft(PieceInfo pieceInfo) {
-		extendLeft(pieceInfo, 1, 0, true);
+	private void extendCorridorTurnLeft(PieceInfo pieceInfo, ChunkRand rand) {
+		extendLeft(pieceInfo, rand, 1, 0, true);
 	}
 
-	private static void extendCorridorStairs(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 1, 0, true);
+	private void extendCorridorStairs(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 1, 0, true);
 	}
 
-	private static void extendCorridorTCrossing(PieceInfo pieceInfo) {
+	private void extendCorridorTCrossing(PieceInfo pieceInfo, ChunkRand rand) {
 		int horOffset;
 		if(pieceInfo.facing == WEST || pieceInfo.facing == NORTH)
 			horOffset = 5;
 		else
 			horOffset = 1;
-		extendLeft(pieceInfo, horOffset, 0, rand.nextInt(8) > 0);
-		extendRight(pieceInfo, horOffset, 0, rand.nextInt(8) > 0);
+		extendLeft(pieceInfo, rand, horOffset, 0, rand.nextInt(8) > 0);
+		extendRight(pieceInfo, rand, horOffset, 0, rand.nextInt(8) > 0);
 	}
 
-	private static void extendCorridorNetherWart(PieceInfo pieceInfo) {
-		extendForwards(pieceInfo, 5, 3, true);
-		extendForwards(pieceInfo, 5, 11, true);
+	private void extendCorridorNetherWart(PieceInfo pieceInfo, ChunkRand rand) {
+		extendForwards(pieceInfo, rand, 5, 3, true);
+		extendForwards(pieceInfo, rand, 5, 11, true);
 	}
 
-	private static void extendForwards(PieceInfo pieceInfo, int horOffset, int vertOffset, boolean inCorridor) {
+	private void extendForwards(PieceInfo pieceInfo, ChunkRand rand, int horOffset, int vertOffset, boolean inCorridor) {
 		switch(pieceInfo.facing) {
 			case NORTH:
-				extend(pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMin - 1, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMin - 1, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
 				break;
 			case SOUTH:
-				extend(pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMax + 1, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMax + 1, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
 				break;
 			case WEST:
-				extend(pieceInfo.xMin - 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMin - 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
 				break;
 			case EAST:
-				extend(pieceInfo.xMax + 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMax + 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, pieceInfo.facing, pieceInfo.depth + 1, inCorridor);
 				break;
 		}
 	}
 
-	private static void extendLeft(PieceInfo pieceInfo, int horOffset, int vertOffset, boolean inCorridor) {
+	private void extendLeft(PieceInfo pieceInfo, ChunkRand rand, int horOffset, int vertOffset, boolean inCorridor) {
 		switch(pieceInfo.facing) {
 			case NORTH:
 			case SOUTH:
-				extend(pieceInfo.xMin - 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, WEST, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMin - 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, WEST, pieceInfo.depth + 1, inCorridor);
 				break;
 			case WEST:
 			case EAST:
-				extend(pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMin - 1, NORTH, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMin - 1, NORTH, pieceInfo.depth + 1, inCorridor);
 				break;
 		}
 	}
 
-	private static void extendRight(PieceInfo pieceInfo, int horOffset, int vertOffset, boolean inCorridor) {
+	private void extendRight(PieceInfo pieceInfo, ChunkRand rand, int horOffset, int vertOffset, boolean inCorridor) {
 		switch(pieceInfo.facing) {
 			case NORTH:
 			case SOUTH:
-				extend(pieceInfo.xMax + 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, EAST, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMax + 1, pieceInfo.yMin + vertOffset, pieceInfo.zMin + horOffset, EAST, pieceInfo.depth + 1, inCorridor);
 				break;
 			case WEST:
 			case EAST:
-				extend(pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMax + 1, SOUTH, pieceInfo.depth + 1, inCorridor);
+				extend(rand, pieceInfo.xMin + horOffset, pieceInfo.yMin + vertOffset, pieceInfo.zMax + 1, SOUTH, pieceInfo.depth + 1, inCorridor);
 				break;
 		}
 	}
 
-	private static void extend(int x, int y, int z, int facing, int depth, boolean inCorridor) {
+	private void extend(ChunkRand rand, int x, int y, int z, int facing, int depth, boolean inCorridor) {
 		if(Math.abs(x - start.xMin) <= 112 && Math.abs(z - start.zMin) <= 112) {
 			int first;
 			int pieceCount;
@@ -397,10 +403,10 @@ public class FortressGenerator extends Generator {
 							}
 
 							Creator creator = CREATORS[first + i];
-							System.out.println("Creating fortress piece " + (first + i) + " at (" + x + ", " + y + ", " + z + ") facing " + facing + " with depth " + depth + " queue size: " + pieceQueue.size() + " last placed: " + lastPlaced);
+							//System.out.println("Creating fortress piece " + (first + i) + " at (" + x + ", " + y + ", " + z + ") facing " + facing + " with depth " + depth + " queue size: " + pieceQueue.size() + " last placed: " + lastPlaced);
 							PieceInfo pieceInfo = creator.create(x, y, z, depth, facing);
 							if(!intersectsAny(pieceInfo.xMin, pieceInfo.yMin, pieceInfo.zMin, pieceInfo.xMax, pieceInfo.yMax, pieceInfo.zMax)) {
-								POST_CREATORS[first + i].run();
+								POST_CREATORS.get(first + i).accept(rand);
 								lastPlaced = first + i;
 
 								placements[first + i].add(pieceInfo);
@@ -421,7 +427,7 @@ public class FortressGenerator extends Generator {
 		}
 	}
 
-	private static boolean intersectsAny(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
+	private boolean intersectsAny(int xMin, int yMin, int zMin, int xMax, int yMax, int zMax) {
 		for(List<PieceInfo> pieceInfoList : placements) {
 			for(PieceInfo pieceInfo : pieceInfoList) {
 				if(pieceInfo.xMin <= xMax && pieceInfo.xMax >= xMin && pieceInfo.zMin <= zMax && pieceInfo.zMax >= zMin && pieceInfo.yMin <= yMax && pieceInfo.yMax >= yMin)
@@ -431,7 +437,7 @@ public class FortressGenerator extends Generator {
 		return false;
 	}
 
-	private static void setSeed(long worldSeed, int chunkX, int chunkZ) {
+	private void setSeed(ChunkRand rand, long worldSeed, int chunkX, int chunkZ) {
 		rand.setSeed((chunkX >> 4) ^ (chunkZ >> 4 << 4) ^ worldSeed);
 		rand.nextInt();
 		rand.nextInt(3);
@@ -440,13 +446,18 @@ public class FortressGenerator extends Generator {
 	}
 
 	public static void main(String[] args) {
-		setSeed(5896870166552931055L, -21, -5);
+		ChunkRand rand = new ChunkRand();
+		FortressGenerator fortressGenerator = new FortressGenerator(MCVersion.v1_12);
+		fortressGenerator.setSeed(rand, 5896870166552931055L, -21, -5);
 
-		genFortress(-21, -5, MCVersion.v1_12);
+		fortressGenerator.genFortress(-21, -5, rand);
 	}
 
 	@Override
 	public boolean generate(TerrainGenerator generator, int chunkX, int chunkZ, ChunkRand rand) {
+		// TODO: reset state here
+		this.setSeed(rand, generator.getWorldSeed(), chunkX, chunkZ);
+		this.genFortress(chunkX, chunkZ, rand);
 		return true;
 	}
 
@@ -473,7 +484,7 @@ public class FortressGenerator extends Generator {
 
 	@FunctionalInterface
 	private interface Extender {
-		void extend(PieceInfo pieceInfo);
+		void extend(PieceInfo pieceInfo, ChunkRand rand);
 	}
 
 	private static class PieceInfo {
