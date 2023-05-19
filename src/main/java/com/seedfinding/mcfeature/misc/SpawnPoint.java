@@ -22,7 +22,7 @@ import java.util.List;
 
 public class SpawnPoint extends Feature<Feature.Config, SpawnPoint.Data> {
 	public static final List<Biome> SPAWN_BIOMES = Arrays.asList(
-		Biomes.PLAINS, Biomes.SUNFLOWER_PLAINS,
+		Biomes.PLAINS,
 		Biomes.TAIGA, Biomes.TAIGA_HILLS,
 		Biomes.FOREST, Biomes.WOODED_HILLS,
 		Biomes.JUNGLE, Biomes.JUNGLE_HILLS
