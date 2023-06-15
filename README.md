@@ -1,3 +1,5 @@
+[![Build Status](https://jenkins.seedfinding.com/buildStatus/icon?job=mc_java%2Fmc_feature_java)](https://jenkins.seedfinding.com/job/mc_java/job/mc_feature_java/)
+
 # Minecraft Feature
 
 A library to provide Structure, Feature placement as well as their generation and respective loot.
