@@ -9,7 +9,9 @@ import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mccore.util.pos.BPos;
 import com.seedfinding.mccore.util.pos.CPos;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
+import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.structure.RuinedPortal;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.structure.RuinedPortalGenerator;
@@ -176,6 +178,27 @@ public class LootTestRuinedPortal {
 		long hashcode = 0;
 		for(ItemStack stack : loot) hashcode += stack.hashCode();
 		assertEquals(-910440243, hashcode, "Something changed in loot");
+	}
+
+	@Test
+	public void testCorrectChest13() {
+		setup(Dimension.OVERWORLD, 14159, new CPos(1,1), MCVersion.v1_16_5);
+		List<Pair<RuinedPortalGenerator.LootType, BPos>> checks = new ArrayList<Pair<RuinedPortalGenerator.LootType, BPos>>() {{
+			add(new Pair<>(RuinedPortalGenerator.LootType.RUINED_PORTAL, new BPos(13, 66, 18)));
+		}};
+		for(Pair<RuinedPortalGenerator.LootType, BPos> check : checks) {
+			assertTrue(loots.contains(check), String.format("Missing loot %s at pos %s for loots: %s", check.getFirst(), check.getSecond(), Arrays.toString(loots.toArray())));
+		}
+		RuinedPortal ruinedPortal = new RuinedPortal(this.biomeSource.getDimension(), this.biomeSource.getVersion());
+		List<ChestContent> chests = ruinedPortal.getLoot(this.biomeSource.getWorldSeed(), this.structureGenerator, new ChunkRand(), false);
+		assertTrue(chests.stream().anyMatch(chest -> chest.ofType(RuinedPortalGenerator.LootType.RUINED_PORTAL)));
+		assertEquals(1, chests.size());
+		List<ItemStack> loot = chests.get(0).getItems();
+		assertTrue(chests.get(0).contains(Items.GOLDEN_BOOTS));
+		assertTrue(chests.get(0).contains(item -> item.equalsName(Items.GOLDEN_BOOTS) && item.getEnchantments().contains(new Pair<>("thorns",3))));
+		long hashcode = 0;
+		for(ItemStack stack : loot) hashcode += stack.hashCode();
+		assertEquals(-2106360772, hashcode, "Something changed in loot");
 	}
 
 	@Test
