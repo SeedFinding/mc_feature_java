@@ -160,11 +160,8 @@ public class LootFishingTest {
 			.withOpenWater(true);
 		List<ItemStack> items = MCLootTables.FISHING.get().generate(lootContext);
 		assertEquals(items.size(), 1);
-		assertSame("book", items.get(0).getItem().getName());
+		assertSame("enchanted_book", items.get(0).getItem().getName());
 		assertEquals(1, items.get(0).getItem().getEnchantments().size());
 		assertEquals(new Pair<>("frost_walker", 2), items.get(0).getItem().getEnchantments().get(0));
-			}
-
-
-
+	}
 }

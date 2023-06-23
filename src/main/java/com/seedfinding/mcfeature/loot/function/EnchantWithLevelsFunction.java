@@ -7,6 +7,7 @@ import com.seedfinding.mcfeature.loot.enchantment.EnchantmentInstance;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantments;
 import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
+import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcmath.util.Mth;
 
 import java.util.ArrayList;
@@ -124,6 +125,9 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 
 	public ItemStack enchantItem(LootContext random, ItemStack itemStack, int level, boolean isTreasure, boolean isDiscoverable) {
 		List<EnchantmentInstance> list = selectEnchantment(random, itemStack, level, isTreasure, isDiscoverable);
+		if (itemStack.getItem().equalsName(Items.BOOK)){
+			itemStack=new ItemStack(Items.ENCHANTED_BOOK);
+		}
 		for(EnchantmentInstance enchantmentInstance : list) {
 			itemStack.getItem().addEnchantment(new Pair<>(enchantmentInstance.getName(), enchantmentInstance.getLevel()));
 		}

@@ -121,7 +121,7 @@ public class Enchantments {
 		addAll(BOOKS);
 	}};
 	public final static HashSet<String> THORNS = new HashSet<String>() {{
-		addAll(ARMOR);
+		addAll(ARMOR_CHEST);
 		remove("ELYTRA");
 	}};
 	public final static HashSet<String> VANISHABLE = new HashSet<String>() {{

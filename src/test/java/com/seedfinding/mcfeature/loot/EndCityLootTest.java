@@ -18,16 +18,11 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.FAT_TOWER_TOP_CHEST_1;
-import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.FAT_TOWER_TOP_CHEST_2;
-import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.SHIP_CHEST_1;
-import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.SHIP_CHEST_2;
-import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.SHIP_ELYTRA;
-import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.THIRD_FLOOR_CHEST;
+import static com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator.LootType.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class LootTestEndCity {
+public class EndCityLootTest {
 	private List<Pair<Generator.ILootType, BPos>> chestPos;
 	private EndCityGenerator structureGenerator;
 
@@ -91,9 +86,25 @@ public class LootTestEndCity {
 		List<ChestContent> chests = endCity.getLoot(1L, structureGenerator, new ChunkRand(), false);
 		long hash = 0;
 		for(ChestContent chest : chests) {
+			if(chest.ofType(FAT_TOWER_TOP_CHEST_1)) {
+				assertEquals("ChestContent{lootType=FAT_TOWER_TOP_CHEST_1, chestType=SINGLE_CHEST, items=[ItemStack{item=Item{name='gold_ingot', enchantments=[], effects=[]}, count=4}, ItemStack{item=Item{name='beetroot_seeds', enchantments=[], effects=[]}, count=3}, ItemStack{item=Item{name='iron_ingot', enchantments=[], effects=[]}, count=10}, ItemStack{item=Item{name='iron_chestplate', enchantments=[(protection, 4), (mending, 1)], effects=[]}, count=1}], pos=Pos{x=-127270, y=123, z=-30943}, indexed=false}", chest.toString());
+			}
+			if(chest.ofType(FAT_TOWER_TOP_CHEST_2)) {
+				assertEquals("ChestContent{lootType=FAT_TOWER_TOP_CHEST_2, chestType=SINGLE_CHEST, items=[ItemStack{item=Item{name='gold_ingot', enchantments=[], effects=[]}, count=2}, ItemStack{item=Item{name='iron_leggings', enchantments=[(binding_curse, 1)], effects=[]}, count=1}, ItemStack{item=Item{name='iron_helmet', enchantments=[(protection, 2), (unbreaking, 2)], effects=[]}, count=1}, ItemStack{item=Item{name='iron_boots', enchantments=[(protection, 4), (binding_curse, 1)], effects=[]}, count=1}], pos=Pos{x=-127272, y=123, z=-30945}, indexed=false}", chest.toString());
+			}
+			if(chest.ofType(SHIP_CHEST_1)) {
+				assertEquals("ChestContent{lootType=SHIP_CHEST_1, chestType=SINGLE_CHEST, items=[ItemStack{item=Item{name='diamond_sword', enchantments=[(sharpness, 4), (knockback, 2), (unbreaking, 3)], effects=[]}, count=1}, ItemStack{item=Item{name='iron_ingot', enchantments=[], effects=[]}, count=5}, ItemStack{item=Item{name='iron_sword', enchantments=[(knockback, 2), (sharpness, 3)], effects=[]}, count=1}], pos=Pos{x=-127272, y=145, z=-30907}, indexed=false}", chest.toString());
+			}
+			if(chest.ofType(SHIP_CHEST_2)) {
+				assertEquals("ChestContent{lootType=SHIP_CHEST_2, chestType=SINGLE_CHEST, items=[ItemStack{item=Item{name='iron_leggings', enchantments=[(unbreaking, 3), (fire_protection, 2)], effects=[]}, count=1}, ItemStack{item=Item{name='iron_chestplate', enchantments=[(mending, 1), (thorns, 2)], effects=[]}, count=1}], pos=Pos{x=-127274, y=145, z=-30907}, indexed=false}", chest.toString());
+			}
+			if(chest.ofType(THIRD_FLOOR_CHEST)) {
+				assertEquals("ChestContent{lootType=THIRD_FLOOR_CHEST, chestType=SINGLE_CHEST, items=[ItemStack{item=Item{name='iron_shovel', enchantments=[(efficiency, 3)], effects=[]}, count=1}, ItemStack{item=Item{name='gold_ingot', enchantments=[], effects=[]}, count=2}, ItemStack{item=Item{name='iron_shovel', enchantments=[(unbreaking, 3), (efficiency, 4)], effects=[]}, count=1}], pos=Pos{x=-127276, y=127, z=-30989}, indexed=false}", chest.toString());
+			}
 			for(ItemStack stack : chest.getItems()) hash += stack.hashCode();
 		}
-		assertEquals(-1486925666L, hash, "Items changed maybe?");
+
+		assertEquals(-2289062442L, hash, "Items changed maybe?");
 	}
 
 	@Test
@@ -113,7 +124,7 @@ public class LootTestEndCity {
 	}
 
 	public static void main(String[] args) {
-		new ThreadPool(Runtime.getRuntime().availableProcessors()).run(LootTestEndCity::tryFindDiamond);
+		new ThreadPool(Runtime.getRuntime().availableProcessors()).run(EndCityLootTest::tryFindDiamond);
 	}
 
 	public static void tryFindDiamond() {
