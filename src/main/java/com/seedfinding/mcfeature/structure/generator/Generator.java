@@ -71,6 +71,10 @@ public abstract class Generator {
 		LootTable getLootTableUncached(MCVersion version);
 
 		ChestContent.ChestType getChestType();
+
+		default boolean belongSameStructure(ILootType other) {
+			return this == other;
+		}
 	}
 
 	@FunctionalInterface

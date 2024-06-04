@@ -10,6 +10,8 @@ import com.seedfinding.mcfeature.GenerationContext;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcfeature.structure.generator.Generator;
 import com.seedfinding.mcfeature.structure.generator.Generators;
+import com.seedfinding.mcfeature.structure.generator.structure.EndCityGenerator;
+import com.seedfinding.mcmath.util.Mth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +45,7 @@ public interface ILoot {
 	 * @return list of chestContent that can be used to refine the search
 	 */
 	default List<ChestContent> getLoot(long structureSeed, Generator generator, ChunkRand rand, boolean indexed) {
+		rand = rand.asChunkRandDebugger();
 		if(!isCorrectGenerator(generator)) return null;
 		List<Pair<Generator.ILootType, BPos>> lootPositions = generator.getLootPos();
 
@@ -58,10 +61,44 @@ public interface ILoot {
 		for(CPos cPos : posLinkedListHashMap.keySet()) {
 			LinkedList<Pair<Generator.ILootType, BPos>> lootTypes = posLinkedListHashMap.get(cPos);
 			// FIXME index will be wrong I need to use the bpos this is for now a hacky fix
-			int index = 0;
-			for(Pair<Generator.ILootType, BPos> lootType : lootTypes) {
-				chestDataHashMap.computeIfAbsent(lootType.getFirst(), k -> new ArrayList<>()).add(new ChestData(index, cPos, lootType.getSecond(), lootTypes.size()));
-				index += 1;
+			// To determine the correct offset you have to resort to some trickery, here is the gist of it:
+			// For each chunk, you get an extra call which is for setting the nbt data then you get the lootable set
+			// for loottype in ordered(lootInChunk):
+			//    for loot in loottype:
+			//      setNBTDATA(rand)
+			//    for loot in loottype:
+			//      setLootTable(rand)
+			//
+			// This will look like for instance for 2 chests of type A and 1 chest of type B in that chunk as the following:
+			//  chest A
+			//   setNBTDATA(rand)
+			//   setNBTDATA(rand)
+			//   setLootTable(rand)
+			//   setLootTable(rand)
+			//  chest B
+			//   setNBTData(rand)
+			//   setLootTable(rand)
+			//  which means first A chest gets 2 chunk advance and 0 index advance,
+			//              second A chest gets 2 chunk advance and 1 index advance,
+			//              first B chests gets 3 chunk advance and 2 index advance
+			Generator.ILootType lastLoot = null;
+			LinkedList<LinkedList<Pair<Generator.ILootType,BPos>>> loots = new LinkedList<>();
+			for (Pair<Generator.ILootType, BPos> lootType : lootTypes) {
+				if (lastLoot == null || !lootType.getFirst().belongSameStructure(lastLoot)) {
+					lastLoot = lootType.getFirst();
+					loots.addLast(new LinkedList<>());
+				}
+				loots.getLast().addLast(lootType);
+			}
+			int currentIndex = 0;
+			int currentNumberInChunks = 0;
+			for(LinkedList<Pair<Generator.ILootType,BPos>> loot: loots) {
+				currentNumberInChunks += loot.size();
+				for (Pair<Generator.ILootType, BPos> chest : loot) {
+					ChestData chestData = new ChestData(currentIndex, cPos, chest.getSecond(), currentNumberInChunks);
+					chestDataHashMap.computeIfAbsent(chest.getFirst(), k -> new LinkedList<>()).add(chestData);
+					currentIndex += 1;
+				}
 			}
 		}
 		List<ChestContent> result = new ArrayList<>();
@@ -72,9 +109,13 @@ public interface ILoot {
 				rand.setDecoratorSeed(structureSeed, chunkChestPos.getX() * 16, chunkChestPos.getZ() * 16, this.getDecorationSalt(), this.getVersion());
 				SpecificCalls calls = this.getSpecificCalls();
 				if(calls != null) calls.run(generator, rand);
-				if(shouldAdvanceInChunks()) rand.advance(chestData.getNumberInChunk() * 2L);
+				if(shouldAdvanceInChunks()) {
+					long multiplier = 2L;
+					rand.advance(chestData.getNumberInChunk() * multiplier);
+				}
 				rand.advance(chestData.getIndex() * 2L);
-				LootContext context = new LootContext(rand.nextLong(), this.getVersion());
+				long seed = rand.nextLong();
+				LootContext context = new LootContext(seed, this.getVersion());
 				LootTable lootTable = lootType.getLootTable(this.getVersion());
 				List<ItemStack> loot = indexed ? lootTable.generateIndexed(context) : lootTable.generate(context);
 				result.add(new ChestContent(lootType, loot, chestData.getPos(), indexed));

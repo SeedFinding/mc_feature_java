@@ -405,6 +405,17 @@ public class EndCityGenerator extends Generator {
 		public ChestContent.ChestType getChestType() {
 			return chestType;
 		}
+
+		@Override
+		public boolean belongSameStructure(ILootType other) {
+			if (this == SHIP_CHEST_1 || this == SHIP_CHEST_2) {
+				return other == SHIP_CHEST_1 || other == SHIP_CHEST_2;
+			}
+			if (this == FAT_TOWER_TOP_CHEST_1 || this == FAT_TOWER_TOP_CHEST_2) {
+				return other == FAT_TOWER_TOP_CHEST_1 || other == FAT_TOWER_TOP_CHEST_2;
+			}
+			return ILootType.super.belongSameStructure(other);
+		}
 	}
 
 	private static final String[] TYPES = new String[]{

@@ -80,6 +80,20 @@ public class EndCityLootTest {
 	}
 
 	@Test
+	public void testCorrectChest4() {
+		setup(172023L, new BPos(1008 , 0, 384).toChunkPos(), MCVersion.v1_16_1);
+		EndCity endCity = new EndCity(MCVersion.v1_16_1);
+
+		List<ChestContent> chests = endCity.getLoot(172023L, structureGenerator, new ChunkRand(), false);
+
+		long hash = 0;
+		for(ChestContent chest : chests) {
+			for(ItemStack stack : chest.getItems()) hash += stack.hashCode();
+		}
+		assertEquals(4863304372L, hash, "Items changed maybe?");
+	}
+
+	@Test
 	public void testChestLoot() {
 		setup(1L, new BPos(-127280, 0, -30944).toChunkPos(), MCVersion.v1_16_5);
 		EndCity endCity = new EndCity(MCVersion.v1_16_5);

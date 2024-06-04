@@ -80,6 +80,11 @@ public class DesertPyramidGenerator extends Generator {
 		public ChestContent.ChestType getChestType() {
 			return chestType;
 		}
+
+		@Override
+		public boolean belongSameStructure(ILootType other) {
+			return true;
+		}
 	}
 
 }

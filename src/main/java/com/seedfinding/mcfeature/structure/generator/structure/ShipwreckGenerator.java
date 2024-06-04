@@ -127,6 +127,12 @@ public class ShipwreckGenerator extends Generator {
 		public ChestContent.ChestType getChestType() {
 			return chestType;
 		}
+
+		@Override
+		public boolean belongSameStructure(ILootType other) {
+			// TODO: check that this is true, I suspect two structure blocks
+			return true;
+		}
 	}
 
 
