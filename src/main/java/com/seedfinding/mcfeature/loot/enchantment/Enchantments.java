@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -138,7 +139,7 @@ public class Enchantments {
 	public static final ConcurrentHashMap<MCVersion, List<Enchantment>> CACHE_ENCHANTMENT_REGISTRY = new ConcurrentHashMap<>();
 
 	public static boolean canApply(Enchantment enchantment, ItemStack item) {
-		return enchantment.getCategory().contains(item.getItem().getName().toUpperCase());
+		return enchantment.getCategory().contains(item.getItem().getName().toUpperCase(Locale.ROOT));
 	}
 
 	public static List<Enchantment> removeAllNull(List<Enchantment> list) {
@@ -218,7 +219,7 @@ public class Enchantments {
 	public static HashSet<HashSet<String>> getCategories(ItemStack baseStack) {
 		HashSet<HashSet<String>> applicableCategories = new HashSet<>();
 		for(HashSet<String> category : allCategories) {
-			if(category.contains(baseStack.getItem().getName().toUpperCase())) {
+			if(category.contains(baseStack.getItem().getName().toUpperCase(Locale.ROOT))) {
 				applicableCategories.add(category);
 			}
 		}

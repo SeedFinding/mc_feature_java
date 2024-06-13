@@ -11,6 +11,7 @@ import com.seedfinding.mcfeature.loot.item.Items;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 import static com.seedfinding.mcfeature.loot.enchantment.Enchantments.ARMOR;
@@ -69,7 +70,7 @@ public class EnchantRandomlyFunction extends EnchantmentFunction {
 		if(enchantment.getName().equals("thorns")) {
 			// thorns allow either ARMOR_CHEST in the normal type or ARMOR in the override,
 			// since ARMOR_CHEST is a subset this is simplified
-			return ARMOR.contains(item.getName().toUpperCase());
+			return ARMOR.contains(item.getName().toUpperCase(Locale.ROOT));
 		}
 		if (DAMAGE_ENCHANTS.contains(enchantment.getName())){
 			if (item.getName().endsWith("_axe")){
