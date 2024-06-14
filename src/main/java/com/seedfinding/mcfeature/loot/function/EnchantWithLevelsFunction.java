@@ -135,7 +135,7 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 			itemStack=new ItemStack(Items.ENCHANTED_BOOK);
 		}
 		for(EnchantmentInstance enchantmentInstance : list) {
-			itemStack.getItem().addEnchantment(new Pair<>(enchantmentInstance.getName(), enchantmentInstance.getLevel()));
+			itemStack.getItem().addEnchantment(new Pair<>(enchantmentInstance.getEnchantment().getName(), enchantmentInstance.getLevel()));
 		}
 		return itemStack;
 	}

@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
@@ -161,66 +162,66 @@ public class Enchantments {
 		int uncommon = version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? UNCOMMON_1_14 : UNCOMMON;
 		int rare = version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? RARE_1_14 : RARE;
 
-		Supplier<HashSet<String>> protectionIncompatible = () -> version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? null : new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"));
-		enchantments.add(new Enchantment("protection", common, ARMOR, 1, 4, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 11), protectionIncompatible.get()));
-		enchantments.add(new Enchantment("fire_protection", uncommon, ARMOR, 1, 4, (i, n) -> (n < 10 + (i - 1) * 8), (i, n) -> (n > 10 + (i - 1) * 8 + 8), protectionIncompatible.get()));
-		enchantments.add(new Enchantment("feather_falling", uncommon, ARMOR_FEET, 1, 4, (i, n) -> (n < 5 + (i - 1) * 6), (i, n) -> (n > 5 + (i - 1) * 6 + 6), null));
-		enchantments.add(new Enchantment("blast_protection", rare, ARMOR, 1, 4, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 8), protectionIncompatible.get()));
-		enchantments.add(new Enchantment("projectile_protection", uncommon, ARMOR, 1, 4, (i, n) -> (n < 3 + (i - 1) * 6), (i, n) -> (n > 3 + (i - 1) * 6 + 6), protectionIncompatible.get()));
-		enchantments.add(new Enchantment("respiration", rare, ARMOR_HEAD, 1, 3, (i, n) -> (n < 10 * i), (i, n) -> (n > 10 * i + 30), null));
-		enchantments.add(new Enchantment("aqua_affinity", rare, ARMOR_HEAD, 1, 1, (i, n) -> (n < 1), (i, n) -> (n > 41), null));
-		enchantments.add(new Enchantment("thorns", VERY_RARE, THORNS, 1, 3, (i, n) -> (n < 10 + (20 * (i - 1))), (i, n) -> (n > 10 + (20 * (i - 1)) + 50), null));
+		Supplier<Optional<HashSet<String>>> protectionIncompatible = () -> version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? Optional.empty() : Optional.of(new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection")));
+		enchantments.add(Enchantment.builder("protection", common, ARMOR).minMaxLevel(1, 4).isLowerThanMinCost((i, n) -> (n < 1 + (i - 1) * 11)).isHigherThanMaxCost((i, n) -> (n > 1 + (i - 1) * 11 + 11)).incompatible(protectionIncompatible.get()).build());
+		enchantments.add(Enchantment.builder("fire_protection", uncommon, ARMOR).minMaxLevel(1, 4).isLowerThanMinCost((i, n) -> (n < 10 + (i - 1) * 8)).isHigherThanMaxCost((i, n) -> (n > 10 + (i - 1) * 8 + 8)).incompatible(protectionIncompatible.get()).build());
+		enchantments.add(Enchantment.builder("feather_falling", uncommon, ARMOR_FEET).minMaxLevel(1, 4).isLowerThanMinCost((i, n) -> (n < 5 + (i - 1) * 6)).isHigherThanMaxCost((i, n) -> (n > 5 + (i - 1) * 6 + 6)).build());
+		enchantments.add(Enchantment.builder("blast_protection", rare, ARMOR).minMaxLevel(1, 4).isLowerThanMinCost((i, n) -> (n < 5 + (i - 1) * 8)).isHigherThanMaxCost((i, n) -> (n > 5 + (i - 1) * 8 + 8)).incompatible(protectionIncompatible.get()).build());
+		enchantments.add(Enchantment.builder("projectile_protection", uncommon, ARMOR).minMaxLevel(1, 4).isLowerThanMinCost((i, n) -> (n < 3 + (i - 1) * 6)).isHigherThanMaxCost((i, n) -> (n > 3 + (i - 1) * 6 + 6)).incompatible(protectionIncompatible.get()).build());
+		enchantments.add(Enchantment.builder("respiration", rare, ARMOR_HEAD).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 10 * i)).isHigherThanMaxCost((i, n) -> (n > 10 * i + 30)).build());
+		enchantments.add(Enchantment.builder("aqua_affinity", rare, ARMOR_HEAD).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 1)).isHigherThanMaxCost((i, n) -> (n > 41)).build());
+		enchantments.add(Enchantment.builder("thorns", VERY_RARE, THORNS).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 10 + (20 * (i - 1)))).isHigherThanMaxCost((i, n) -> (n > 10 + (20 * (i - 1)) + 50)).build());
 
 		if(version.isNewerOrEqualTo(MCVersion.v1_8))
-			enchantments.add(new Enchantment("depth_strider", rare, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider"))));
+			enchantments.add(Enchantment.builder("depth_strider", rare, ARMOR_FEET).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < i * 10)).isHigherThanMaxCost((i, n) -> (n > i * 10 + 15)).incompatible("frost_walker", "depth_strider").build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_9))
-			enchantments.add(new Enchantment("frost_walker", rare, ARMOR_FEET, 1, 2, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider")), true));
+			enchantments.add(Enchantment.builder("frost_walker", rare, ARMOR_FEET).minMaxLevel(1, 2).isLowerThanMinCost((i, n) -> (n < i * 10)).isHigherThanMaxCost((i, n) -> (n > i * 10 + 15)).incompatible("frost_walker", "depth_strider").treasure().build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_11))
-			enchantments.add(new Enchantment("binding_curse", VERY_RARE, ARMOR, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), null, true));
+			enchantments.add(Enchantment.builder("binding_curse", VERY_RARE, ARMOR).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 25)).isHigherThanMaxCost((i, n) -> (n > 50)).treasure().build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_16))
-			enchantments.add(new Enchantment("soul_speed", VERY_RARE, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), null, true, false));
+			enchantments.add(Enchantment.builder("soul_speed", VERY_RARE, ARMOR_FEET).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < i * 10)).isHigherThanMaxCost((i, n) -> (n > i * 10 + 15)).treasure().nonDiscoverable().build());
 
-		enchantments.add(new Enchantment("sharpness", common, DAMAGE, 1, 5, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
-		enchantments.add(new Enchantment("smite", uncommon, DAMAGE, 1, 5, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
-		enchantments.add(new Enchantment("bane_of_arthropods", uncommon, DAMAGE, 1, 5, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
-		enchantments.add(new Enchantment("knockback", uncommon, WEAPON, 1, 2, (i, n) -> (n < 5 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), null));
-		enchantments.add(new Enchantment("fire_aspect", rare, WEAPON, 1, 2, (i, n) -> (n < 10 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), null));
-		enchantments.add(new Enchantment("looting", rare, WEAPON, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("looting", "silk_touch"))));
+		enchantments.add(Enchantment.builder("sharpness", common, DAMAGE).minMaxLevel(1, 5).isLowerThanMinCost((i, n) -> (n < 1 + (i - 1) * 11)).isHigherThanMaxCost((i, n) -> (n > 1 + (i - 1) * 11 + 20)).incompatible("sharpness", "smite", "bane_of_arthropods").build());
+		enchantments.add(Enchantment.builder("smite", uncommon, DAMAGE).minMaxLevel(1, 5).isLowerThanMinCost((i, n) -> (n < 5 + (i - 1) * 8)).isHigherThanMaxCost((i, n) -> (n > 5 + (i - 1) * 8 + 20)).incompatible("sharpness", "smite", "bane_of_arthropods").build());
+		enchantments.add(Enchantment.builder("bane_of_arthropods", uncommon, DAMAGE).minMaxLevel(1, 5).isLowerThanMinCost((i, n) -> (n < 5 + (i - 1) * 8)).isHigherThanMaxCost((i, n) -> (n > 5 + (i - 1) * 8 + 20)).incompatible("sharpness", "smite", "bane_of_arthropods").build());
+		enchantments.add(Enchantment.builder("knockback", uncommon, WEAPON).minMaxLevel(1, 2).isLowerThanMinCost((i, n) -> (n < 5 + 20 * (i - 1))).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).build());
+		enchantments.add(Enchantment.builder("fire_aspect", rare, WEAPON).minMaxLevel(1, 2).isLowerThanMinCost((i, n) -> (n < 10 + 20 * (i - 1))).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).build());
+		enchantments.add(Enchantment.builder("looting", rare, WEAPON).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 15 + (i - 1) * 9)).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).incompatible("looting", "silk_touch").build());
 
 		if(version.isNewerOrEqualTo(MCVersion.v1_11_1))
-			enchantments.add(new Enchantment("sweeping", rare, WEAPON, 1, 3, (i, n) -> (n < 5 + (i - 1) * 9), (i, n) -> (n > 5 + (i - 1) * 9 + 15), null));
+			enchantments.add(Enchantment.builder("sweeping", rare, WEAPON).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 5 + (i - 1) * 9)).isHigherThanMaxCost((i, n) -> (n > 5 + (i - 1) * 9 + 15)).build());
 
-		enchantments.add(new Enchantment("efficiency", common, DIGGER, 1, 5, (i, n) -> (n < (1 + 10 * (i - 1))), (i, n) -> (n > 1 + (i * 10) + 50), null));
-		enchantments.add(new Enchantment("silk_touch", VERY_RARE, DIGGER, 1, 1, (i, n) -> (n < 15), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("fortune", "silk_touch"))));
-		enchantments.add(new Enchantment("unbreaking", uncommon, BREAKABLE, 1, 3, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 1 + (i * 10) + 50), null));
-		enchantments.add(new Enchantment("fortune", rare, DIGGER, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("fortune", "silk_touch"))));
-		enchantments.add(new Enchantment("power", common, BOW, 1, 5, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 1 + (i - 1) * 10 + 15), null));
-		enchantments.add(new Enchantment("punch", rare, BOW, 1, 2, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 12 + (i - 1) * 20 + 25), null));
-		enchantments.add(new Enchantment("flame", rare, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), null));
-		enchantments.add(new Enchantment("infinity", VERY_RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), version.isNewerOrEqualTo(MCVersion.v1_11_1) ? new HashSet<>(Arrays.asList("mending", "infinity")) : null));
+		enchantments.add(Enchantment.builder("efficiency", common, DIGGER).minMaxLevel(1, 5).isLowerThanMinCost((i, n) -> (n < (1 + 10 * (i - 1)))).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).build());
+		enchantments.add(Enchantment.builder("silk_touch", VERY_RARE, DIGGER).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 15)).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).incompatible("fortune", "silk_touch").build());
+		enchantments.add(Enchantment.builder("unbreaking", uncommon, BREAKABLE).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 5 + (i - 1) * 8)).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).build());
+		enchantments.add(Enchantment.builder("fortune", rare, DIGGER).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 15 + (i - 1) * 9)).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).incompatible("fortune", "silk_touch").build());
+		enchantments.add(Enchantment.builder("power", common, BOW).minMaxLevel(1, 5).isLowerThanMinCost((i, n) -> (n < 1 + (i - 1) * 10)).isHigherThanMaxCost((i, n) -> (n > 1 + (i - 1) * 10 + 15)).build());
+		enchantments.add(Enchantment.builder("punch", rare, BOW).minMaxLevel(1, 2).isLowerThanMinCost((i, n) -> (n < 12 + (i - 1) * 20)).isHigherThanMaxCost((i, n) -> (n > 12 + (i - 1) * 20 + 25)).build());
+		enchantments.add(Enchantment.builder("flame", rare, BOW).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 20)).isHigherThanMaxCost((i, n) -> (n > 50)).build());
+		enchantments.add(Enchantment.builder("infinity", VERY_RARE, BOW).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 20)).isHigherThanMaxCost((i, n) -> (n > 50)).incompatible(version.isNewerOrEqualTo(MCVersion.v1_11_1) ? Optional.of(new HashSet<>(Arrays.asList("mending", "infinity"))) : Optional.empty()).build());
 
 		//The 1.8 is not correct, should be 1.7.2 but we don't have that so good enough (to test)
 		if(version.isNewerOrEqualTo(MCVersion.v1_7_2))
-			enchantments.add(new Enchantment("luck_of_the_sea", rare, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("luck_of_the_sea", "silk_touch"))));
+			enchantments.add(Enchantment.builder("luck_of_the_sea", rare, FISHING_ROD).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 15 + (i - 1) * 9)).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).incompatible("luck_of_the_sea", "silk_touch").build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_7_2))
-			enchantments.add(new Enchantment("lure", rare, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), null));
+			enchantments.add(Enchantment.builder("lure", rare, FISHING_ROD).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 15 + (i - 1) * 9)).isHigherThanMaxCost((i, n) -> (n > 1 + (i * 10) + 50)).build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("loyalty", uncommon, TRIDENT, 1, 3, (i, n) -> (n < 5 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("loyalty", "riptide"))));
+			enchantments.add(Enchantment.builder("loyalty", uncommon, TRIDENT).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 5 + (i * 7))).isHigherThanMaxCost((i, n) -> (n > 50)).incompatible("loyalty", "riptide").build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("impaling", rare, TRIDENT, 1, 5, (i, n) -> (n < 1 + (i - 1) * 8), (i, n) -> (n > 1 + (i - 1) * 8 + 20), null));
+			enchantments.add(Enchantment.builder("impaling", rare, TRIDENT).minMaxLevel(1, 5).isLowerThanMinCost((i, n) -> (n < 1 + (i - 1) * 8)).isHigherThanMaxCost((i, n) -> (n > 1 + (i - 1) * 8 + 20)).build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("riptide", rare, TRIDENT, 1, 3, (i, n) -> (n < 10 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("riptide", "loyalty", "channeling"))));
+			enchantments.add(Enchantment.builder("riptide", rare, TRIDENT).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 10 + (i * 7))).isHigherThanMaxCost((i, n) -> (n > 50)).incompatible("riptide", "loyalty", "channeling").build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("channeling", VERY_RARE, TRIDENT, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("channeling", "riptide"))));
+			enchantments.add(Enchantment.builder("channeling", VERY_RARE, TRIDENT).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 25)).isHigherThanMaxCost((i, n) -> (n > 50)).incompatible("channeling", "riptide").build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_14))
-			enchantments.add(new Enchantment("multishot", rare, CROSSBOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
+			enchantments.add(Enchantment.builder("multishot", rare, CROSSBOW).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 20)).isHigherThanMaxCost((i, n) -> (n > 50)).incompatible("multishot", "piercing").build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_14))
-			enchantments.add(new Enchantment("quick_charge", uncommon, CROSSBOW, 1, 3, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 50), null));
+			enchantments.add(Enchantment.builder("quick_charge", uncommon, CROSSBOW).minMaxLevel(1, 3).isLowerThanMinCost((i, n) -> (n < 12 + (i - 1) * 20)).isHigherThanMaxCost((i, n) -> (n > 50)).build());
 		if(version.isNewerOrEqualTo(MCVersion.v1_14))
-			enchantments.add(new Enchantment("piercing", common, CROSSBOW, 1, 4, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
+			enchantments.add(Enchantment.builder("piercing", common, CROSSBOW).minMaxLevel(1, 4).isLowerThanMinCost((i, n) -> (n < 1 + (i - 1) * 10)).isHigherThanMaxCost((i, n) -> (n > 50)).incompatible("multishot", "piercing").build());
 
-		enchantments.add(new Enchantment("mending", rare, BREAKABLE, 1, 1, (i, n) -> (n < i * 25), (i, n) -> (n > i * 25 + 50), version.isNewerOrEqualTo(MCVersion.v1_11_1) ? new HashSet<>(Arrays.asList("mending", "infinity")) : null, true));
-		enchantments.add(new Enchantment("vanishing_curse", VERY_RARE, VANISHABLE, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), null, true));
+		enchantments.add(Enchantment.builder("mending", rare, BREAKABLE).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < i * 25)).isHigherThanMaxCost((i, n) -> (n > i * 25 + 50)).incompatible(version.isNewerOrEqualTo(MCVersion.v1_11_1) ? Optional.of(new HashSet<>(Arrays.asList("mending", "infinity"))) : Optional.empty()).treasure().build());
+		enchantments.add(Enchantment.builder("vanishing_curse", VERY_RARE, VANISHABLE).minMaxLevel(1, 1).isLowerThanMinCost((i, n) -> (n < 25)).isHigherThanMaxCost((i, n) -> (n > 50)).treasure().build());
 		return enchantments;
 	}
 
@@ -259,7 +260,8 @@ public class Enchantments {
 	}
 
 	public static void filterCompatibleEnchantments(ArrayList<EnchantmentInstance> list, EnchantmentInstance instance) {
-		list.removeIf(e -> e.getIncompatible().contains(instance.getName()) || instance.getIncompatible().contains(e.getName()));
+		list.removeIf(e -> e.getEnchantment().getIncompatible().contains(instance.getEnchantment().getName())
+			|| instance.getEnchantment().getIncompatible().contains(e.getEnchantment().getName()));
 	}
 
 	public Enchantment getEnchantment(List<Enchantment> enchantments, String name) {
