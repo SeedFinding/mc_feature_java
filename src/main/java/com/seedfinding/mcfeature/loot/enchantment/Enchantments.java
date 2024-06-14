@@ -5,12 +5,12 @@ import com.seedfinding.mcfeature.loot.item.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 public class Enchantments {
 	// @formatter:off
@@ -131,10 +131,13 @@ public class Enchantments {
 	public final static HashSet<String> SingleEnchants = new HashSet<>(Arrays.asList("aqua_affinity", "binding_curse", "channeling", "silk_touch", "flame", "infinity", "multishot", "mending", "vanishing_curse"));
 	public final static List<HashSet<String>> allCategories = new ArrayList<>(Arrays.asList(ARMOR, ARMOR_HEAD, ARMOR_CHEST, ARMOR_FEET, BOW, BREAKABLE, CROSSBOW, DIGGER, DAMAGE, FISHING_ROD, TRIDENT, WEAPON, VANISHABLE,THORNS));
 	// @formatter:on
-	private final static Integer COMMON = 10;
-	private final static Integer UNCOMMON = 5;
-	private final static Integer RARE = 2;
-	private final static Integer VERY_RARE = 1;
+	private final static int COMMON = 10;
+	private final static int UNCOMMON = 5;
+	private final static int RARE = 2;
+	private final static int VERY_RARE = 1;
+	private final static int COMMON_1_14 = 30;
+	private final static int UNCOMMON_1_14 = 10;
+	private final static int RARE_1_14 = 3;
 
 	public static final ConcurrentHashMap<MCVersion, List<Enchantment>> CACHE_ENCHANTMENT_REGISTRY = new ConcurrentHashMap<>();
 
@@ -154,65 +157,70 @@ public class Enchantments {
 	public static List<Enchantment> apply(List<Enchantment> enchantments, MCVersion version) {
 		enchantments.clear();
 
-		enchantments.add(new Enchantment("protection", COMMON, ARMOR, 1, 4, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 11), new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"))));
-		enchantments.add(new Enchantment("fire_protection", UNCOMMON, ARMOR, 1, 4, (i, n) -> (n < 10 + (i - 1) * 8), (i, n) -> (n > 10 + (i - 1) * 8 + 8), new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"))));
-		enchantments.add(new Enchantment("feather_falling", UNCOMMON, ARMOR_FEET, 1, 4, (i, n) -> (n < 5 + (i - 1) * 6), (i, n) -> (n > 5 + (i - 1) * 6 + 6), new HashSet<>(Collections.singletonList("feather_falling"))));
-		enchantments.add(new Enchantment("blast_protection", RARE, ARMOR, 1, 4, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 8), new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"))));
-		enchantments.add(new Enchantment("projectile_protection", UNCOMMON, ARMOR, 1, 4, (i, n) -> (n < 3 + (i - 1) * 6), (i, n) -> (n > 3 + (i - 1) * 6 + 6), new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"))));
-		enchantments.add(new Enchantment("respiration", RARE, ARMOR_HEAD, 1, 3, (i, n) -> (n < 10 * i), (i, n) -> (n > 10 * i + 30), new HashSet<>(Collections.singletonList("respiration"))));
-		enchantments.add(new Enchantment("aqua_affinity", RARE, ARMOR_HEAD, 1, 1, (i, n) -> (n < 1), (i, n) -> (n > 41), new HashSet<>(Collections.singletonList("aqua_affinity"))));
-		enchantments.add(new Enchantment("thorns", VERY_RARE, THORNS, 1, 3, (i, n) -> (n < 10 + (20 * (i - 1))), (i, n) -> (n > 10 + (20 * (i - 1)) + 50), new HashSet<>(Collections.singletonList("thorns"))));
+		int common = version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? COMMON_1_14 : COMMON;
+		int uncommon = version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? UNCOMMON_1_14 : UNCOMMON;
+		int rare = version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? RARE_1_14 : RARE;
+
+		Supplier<HashSet<String>> protectionIncompatible = () -> version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2) ? null : new HashSet<>(Arrays.asList("protection", "fire_protection", "projectile_protection", "blast_protection"));
+		enchantments.add(new Enchantment("protection", common, ARMOR, 1, 4, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 11), protectionIncompatible.get()));
+		enchantments.add(new Enchantment("fire_protection", uncommon, ARMOR, 1, 4, (i, n) -> (n < 10 + (i - 1) * 8), (i, n) -> (n > 10 + (i - 1) * 8 + 8), protectionIncompatible.get()));
+		enchantments.add(new Enchantment("feather_falling", uncommon, ARMOR_FEET, 1, 4, (i, n) -> (n < 5 + (i - 1) * 6), (i, n) -> (n > 5 + (i - 1) * 6 + 6), null));
+		enchantments.add(new Enchantment("blast_protection", rare, ARMOR, 1, 4, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 8), protectionIncompatible.get()));
+		enchantments.add(new Enchantment("projectile_protection", uncommon, ARMOR, 1, 4, (i, n) -> (n < 3 + (i - 1) * 6), (i, n) -> (n > 3 + (i - 1) * 6 + 6), protectionIncompatible.get()));
+		enchantments.add(new Enchantment("respiration", rare, ARMOR_HEAD, 1, 3, (i, n) -> (n < 10 * i), (i, n) -> (n > 10 * i + 30), null));
+		enchantments.add(new Enchantment("aqua_affinity", rare, ARMOR_HEAD, 1, 1, (i, n) -> (n < 1), (i, n) -> (n > 41), null));
+		enchantments.add(new Enchantment("thorns", VERY_RARE, THORNS, 1, 3, (i, n) -> (n < 10 + (20 * (i - 1))), (i, n) -> (n > 10 + (20 * (i - 1)) + 50), null));
 
 		if(version.isNewerOrEqualTo(MCVersion.v1_8))
-			enchantments.add(new Enchantment("depth_strider", RARE, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider"))));
+			enchantments.add(new Enchantment("depth_strider", rare, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_9))
-			enchantments.add(new Enchantment("frost_walker", RARE, ARMOR_FEET, 1, 2, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider")), true));
+			enchantments.add(new Enchantment("frost_walker", rare, ARMOR_FEET, 1, 2, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Arrays.asList("frost_walker", "depth_strider")), true));
 		if(version.isNewerOrEqualTo(MCVersion.v1_11))
-			enchantments.add(new Enchantment("binding_curse", VERY_RARE, ARMOR, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("binding_curse")), true));
+			enchantments.add(new Enchantment("binding_curse", VERY_RARE, ARMOR, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), null, true));
 		if(version.isNewerOrEqualTo(MCVersion.v1_16))
-			enchantments.add(new Enchantment("soul_speed", VERY_RARE, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), new HashSet<>(Collections.singletonList("soul_speed")), true, false));
+			enchantments.add(new Enchantment("soul_speed", VERY_RARE, ARMOR_FEET, 1, 3, (i, n) -> (n < i * 10), (i, n) -> (n > i * 10 + 15), null, true, false));
 
-		enchantments.add(new Enchantment("sharpness", COMMON, DAMAGE, 1, 5, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
-		enchantments.add(new Enchantment("smite", UNCOMMON, DAMAGE, 1, 5, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
-		enchantments.add(new Enchantment("bane_of_arthropods", UNCOMMON, DAMAGE, 1, 5, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
-		enchantments.add(new Enchantment("knockback", UNCOMMON, WEAPON, 1, 2, (i, n) -> (n < 5 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("knockback"))));
-		enchantments.add(new Enchantment("fire_aspect", RARE, WEAPON, 1, 2, (i, n) -> (n < 10 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("fire_aspect"))));
-		enchantments.add(new Enchantment("looting", RARE, WEAPON, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("looting", "silk_touch"))));
+		enchantments.add(new Enchantment("sharpness", common, DAMAGE, 1, 5, (i, n) -> (n < 1 + (i - 1) * 11), (i, n) -> (n > 1 + (i - 1) * 11 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
+		enchantments.add(new Enchantment("smite", uncommon, DAMAGE, 1, 5, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
+		enchantments.add(new Enchantment("bane_of_arthropods", uncommon, DAMAGE, 1, 5, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 5 + (i - 1) * 8 + 20), new HashSet<>(Arrays.asList("sharpness", "smite", "bane_of_arthropods"))));
+		enchantments.add(new Enchantment("knockback", uncommon, WEAPON, 1, 2, (i, n) -> (n < 5 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), null));
+		enchantments.add(new Enchantment("fire_aspect", rare, WEAPON, 1, 2, (i, n) -> (n < 10 + 20 * (i - 1)), (i, n) -> (n > 1 + (i * 10) + 50), null));
+		enchantments.add(new Enchantment("looting", rare, WEAPON, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("looting", "silk_touch"))));
 
 		if(version.isNewerOrEqualTo(MCVersion.v1_11_1))
-			enchantments.add(new Enchantment("sweeping", RARE, WEAPON, 1, 3, (i, n) -> (n < 5 + (i - 1) * 9), (i, n) -> (n > 5 + (i - 1) * 9 + 15), new HashSet<>(Collections.singletonList("sweeping"))));
+			enchantments.add(new Enchantment("sweeping", rare, WEAPON, 1, 3, (i, n) -> (n < 5 + (i - 1) * 9), (i, n) -> (n > 5 + (i - 1) * 9 + 15), null));
 
-		enchantments.add(new Enchantment("efficiency", COMMON, DIGGER, 1, 5, (i, n) -> (n < (1 + 10 * (i - 1))), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("efficiency"))));
+		enchantments.add(new Enchantment("efficiency", common, DIGGER, 1, 5, (i, n) -> (n < (1 + 10 * (i - 1))), (i, n) -> (n > 1 + (i * 10) + 50), null));
 		enchantments.add(new Enchantment("silk_touch", VERY_RARE, DIGGER, 1, 1, (i, n) -> (n < 15), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("fortune", "silk_touch"))));
-		enchantments.add(new Enchantment("unbreaking", UNCOMMON, BREAKABLE, 1, 3, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("unbreaking"))));
-		enchantments.add(new Enchantment("fortune", RARE, DIGGER, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("fortune", "silk_touch"))));
-		enchantments.add(new Enchantment("power", COMMON, BOW, 1, 5, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 1 + (i - 1) * 10 + 15), new HashSet<>(Collections.singletonList("power"))));
-		enchantments.add(new Enchantment("punch", RARE, BOW, 1, 2, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 12 + (i - 1) * 20 + 25), new HashSet<>(Collections.singletonList("punch"))));
-		enchantments.add(new Enchantment("flame", RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("flame"))));
-		enchantments.add(new Enchantment("infinity", VERY_RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("mending", "infinity"))));
+		enchantments.add(new Enchantment("unbreaking", uncommon, BREAKABLE, 1, 3, (i, n) -> (n < 5 + (i - 1) * 8), (i, n) -> (n > 1 + (i * 10) + 50), null));
+		enchantments.add(new Enchantment("fortune", rare, DIGGER, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("fortune", "silk_touch"))));
+		enchantments.add(new Enchantment("power", common, BOW, 1, 5, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 1 + (i - 1) * 10 + 15), null));
+		enchantments.add(new Enchantment("punch", rare, BOW, 1, 2, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 12 + (i - 1) * 20 + 25), null));
+		enchantments.add(new Enchantment("flame", rare, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), null));
+		enchantments.add(new Enchantment("infinity", VERY_RARE, BOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), version.isNewerOrEqualTo(MCVersion.v1_11_1) ? new HashSet<>(Arrays.asList("mending", "infinity")) : null));
 
 		//The 1.8 is not correct, should be 1.7.2 but we don't have that so good enough (to test)
 		if(version.isNewerOrEqualTo(MCVersion.v1_7_2))
-			enchantments.add(new Enchantment("luck_of_the_sea", RARE, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("luck_of_the_sea", "silk_touch"))));
+			enchantments.add(new Enchantment("luck_of_the_sea", rare, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Arrays.asList("luck_of_the_sea", "silk_touch"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_7_2))
-			enchantments.add(new Enchantment("lure", RARE, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), new HashSet<>(Collections.singletonList("lure"))));
+			enchantments.add(new Enchantment("lure", rare, FISHING_ROD, 1, 3, (i, n) -> (n < 15 + (i - 1) * 9), (i, n) -> (n > 1 + (i * 10) + 50), null));
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("loyalty", UNCOMMON, TRIDENT, 1, 3, (i, n) -> (n < 5 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("loyalty", "riptide"))));
+			enchantments.add(new Enchantment("loyalty", uncommon, TRIDENT, 1, 3, (i, n) -> (n < 5 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("loyalty", "riptide"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("impaling", RARE, TRIDENT, 1, 5, (i, n) -> (n < 1 + (i - 1) * 8), (i, n) -> (n > 1 + (i - 1) * 8 + 20), new HashSet<>(Collections.singletonList("impaling"))));
+			enchantments.add(new Enchantment("impaling", rare, TRIDENT, 1, 5, (i, n) -> (n < 1 + (i - 1) * 8), (i, n) -> (n > 1 + (i - 1) * 8 + 20), null));
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
-			enchantments.add(new Enchantment("riptide", RARE, TRIDENT, 1, 3, (i, n) -> (n < 10 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("riptide", "loyalty", "channeling"))));
+			enchantments.add(new Enchantment("riptide", rare, TRIDENT, 1, 3, (i, n) -> (n < 10 + (i * 7)), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("riptide", "loyalty", "channeling"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_13))
 			enchantments.add(new Enchantment("channeling", VERY_RARE, TRIDENT, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("channeling", "riptide"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_14))
-			enchantments.add(new Enchantment("multishot", RARE, CROSSBOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
+			enchantments.add(new Enchantment("multishot", rare, CROSSBOW, 1, 1, (i, n) -> (n < 20), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
 		if(version.isNewerOrEqualTo(MCVersion.v1_14))
-			enchantments.add(new Enchantment("quick_charge", UNCOMMON, CROSSBOW, 1, 3, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("quick_charge"))));
+			enchantments.add(new Enchantment("quick_charge", uncommon, CROSSBOW, 1, 3, (i, n) -> (n < 12 + (i - 1) * 20), (i, n) -> (n > 50), null));
 		if(version.isNewerOrEqualTo(MCVersion.v1_14))
-			enchantments.add(new Enchantment("piercing", COMMON, CROSSBOW, 1, 4, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
+			enchantments.add(new Enchantment("piercing", common, CROSSBOW, 1, 4, (i, n) -> (n < 1 + (i - 1) * 10), (i, n) -> (n > 50), new HashSet<>(Arrays.asList("multishot", "piercing"))));
 
-		enchantments.add(new Enchantment("mending", RARE, BREAKABLE, 1, 1, (i, n) -> (n < i * 25), (i, n) -> (n > i * 25 + 50), new HashSet<>(Arrays.asList("mending", "infinity")), true));
-		enchantments.add(new Enchantment("vanishing_curse", VERY_RARE, VANISHABLE, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), new HashSet<>(Collections.singletonList("vanishing_curse")), true));
+		enchantments.add(new Enchantment("mending", rare, BREAKABLE, 1, 1, (i, n) -> (n < i * 25), (i, n) -> (n > i * 25 + 50), version.isNewerOrEqualTo(MCVersion.v1_11_1) ? new HashSet<>(Arrays.asList("mending", "infinity")) : null, true));
+		enchantments.add(new Enchantment("vanishing_curse", VERY_RARE, VANISHABLE, 1, 1, (i, n) -> (n < 25), (i, n) -> (n > 50), null, true));
 		return enchantments;
 	}
 

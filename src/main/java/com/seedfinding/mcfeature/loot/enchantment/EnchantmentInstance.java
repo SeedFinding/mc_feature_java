@@ -1,20 +1,20 @@
 package com.seedfinding.mcfeature.loot.enchantment;
 
 import com.seedfinding.mcfeature.loot.LootContext;
+import com.seedfinding.mcfeature.misc.IntBiPredicate;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.BiPredicate;
 
 public class EnchantmentInstance extends Enchantment {
-	private int level;
+	private final int level;
 
-	public EnchantmentInstance(String name, Integer rarity, HashSet<String> category, Integer minLevel, Integer maxLevel, Integer level, HashSet<String> incompatible) {
+	public EnchantmentInstance(String name, int rarity, HashSet<String> category, int minLevel, int maxLevel, int level, HashSet<String> incompatible) {
 		super(name, rarity, category, minLevel, maxLevel, (n, i) -> (n < 1 + (i * 10)), (n, i) -> (n > (6 + (i * 10))), incompatible);
 		this.level = level;
 	}
 
-	public EnchantmentInstance(String name, Integer rarity, HashSet<String> category, Integer minLevel, Integer maxLevel, BiPredicate<Integer, Integer> minCost, BiPredicate<Integer, Integer> maxCost, int level, HashSet<String> incompatible, boolean isTreasure, boolean isDiscoverable) {
+	public EnchantmentInstance(String name, int rarity, HashSet<String> category, int minLevel, int maxLevel, IntBiPredicate minCost, IntBiPredicate maxCost, int level, HashSet<String> incompatible, boolean isTreasure, boolean isDiscoverable) {
 		super(name, rarity, category, minLevel, maxLevel, minCost, maxCost, incompatible, isTreasure, isDiscoverable);
 		this.level = level;
 	}
@@ -49,10 +49,6 @@ public class EnchantmentInstance extends Enchantment {
 
 	public int getLevel() {
 		return level;
-	}
-
-	public void setLevel(int level) {
-		this.level = level;
 	}
 
 }

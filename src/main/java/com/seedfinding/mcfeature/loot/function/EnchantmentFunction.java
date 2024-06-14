@@ -36,11 +36,11 @@ public abstract class EnchantmentFunction implements LootFunction {
 
 	public EnchantmentFunction apply(MCVersion version) {
 		List<Enchantment> enchantments = Enchantments.getFor(version);
-		return applyEnchantment(enchantments);
+		return applyEnchantment(version, enchantments);
 	}
 
 
-	public abstract EnchantmentFunction applyEnchantment(List<Enchantment> enchantments);
+	public abstract EnchantmentFunction applyEnchantment(MCVersion version, List<Enchantment> enchantments);
 
 
 }

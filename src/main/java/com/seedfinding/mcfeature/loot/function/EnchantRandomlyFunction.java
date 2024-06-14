@@ -1,6 +1,7 @@
 package com.seedfinding.mcfeature.loot.function;
 
 import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantment;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantments;
@@ -32,7 +33,8 @@ public class EnchantRandomlyFunction extends EnchantmentFunction {
 	}
 
 
-	public EnchantmentFunction applyEnchantment(List<Enchantment> enchantments) {
+	@Override
+	public EnchantmentFunction applyEnchantment(MCVersion version, List<Enchantment> enchantments) {
 		this.applicableEnchantments = enchantments.stream()
 			.filter(Enchantment::isDiscoverable)
 			.collect(Collectors.toList());

@@ -1,6 +1,7 @@
 package com.seedfinding.mcfeature.loot.function;
 
 import com.seedfinding.mccore.util.data.Pair;
+import com.seedfinding.mccore.version.MCVersion;
 import com.seedfinding.mcfeature.loot.LootContext;
 import com.seedfinding.mcfeature.loot.enchantment.Enchantment;
 import com.seedfinding.mcfeature.loot.enchantment.EnchantmentInstance;
@@ -18,6 +19,7 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 	private static final HashMap<String, Integer> enchantments;
 	private final int minLevel;
 	private final int maxLevel;
+	private boolean is114Nerf;
 	private final ArrayList<EnchantmentInstance>[] availableEnchantmentResults;
 
 	static {
@@ -99,7 +101,10 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 		this.availableEnchantmentResults = new ArrayList[preprocessMaxLevel];
 	}
 
-	public EnchantmentFunction applyEnchantment(List<Enchantment> enchantments) {
+	@Override
+	public EnchantmentFunction applyEnchantment(MCVersion version, List<Enchantment> enchantments) {
+		this.is114Nerf = version.isBetween(MCVersion.v1_14, MCVersion.v1_14_2);
+
 		for(int level = 0; level < this.availableEnchantmentResults.length; level++) {
 			ArrayList<EnchantmentInstance> res = new ArrayList<>();
 			List<Enchantment> list = Enchantments.getApplicableEnchantments(enchantments, Enchantments.getCategories(new ItemStack(item)), this.isTreasure, this.isDiscoverable);
@@ -119,6 +124,7 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 		return this;
 	}
 
+	@Override
 	public ItemStack process(ItemStack itemStack, LootContext lootContext) {
 		return this.enchantItem(lootContext, itemStack, getRandomValueFromBounds(lootContext), this.isTreasure, this.isDiscoverable);
 	}
@@ -150,7 +156,15 @@ public class EnchantWithLevelsFunction extends EnchantmentFunction {
 		if(!availableEnchantments.isEmpty()) {
 			res.add(EnchantmentInstance.getRandomItem(lootContext, availableEnchantments));
 			while(lootContext.nextInt(50) <= level) {
-				Enchantments.filterCompatibleEnchantments(availableEnchantments, res.get(res.size() - 1));
+				if (is114Nerf) {
+					level = level * 4 / 5 + 1;
+					availableEnchantments = getAvailableEnchantmentResults(level);
+					for (EnchantmentInstance ench : res) {
+						Enchantments.filterCompatibleEnchantments(availableEnchantments, ench);
+					}
+				} else {
+					Enchantments.filterCompatibleEnchantments(availableEnchantments, res.get(res.size() - 1));
+				}
 				if(availableEnchantments.isEmpty()) break;
 				res.add(EnchantmentInstance.getRandomItem(lootContext, availableEnchantments));
 				level /= 2;
