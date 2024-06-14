@@ -1,7 +1,9 @@
 package com.seedfinding.mcfeature.loot;
 
 
+import com.seedfinding.mccore.util.data.Pair;
 import com.seedfinding.mccore.version.MCVersion;
+import com.seedfinding.mcfeature.loot.item.Item;
 import com.seedfinding.mcfeature.loot.item.ItemStack;
 import com.seedfinding.mcfeature.loot.item.Items;
 import org.json.simple.JSONArray;
@@ -52,17 +54,24 @@ public class LootTestStandard {
 					String itemName = (String)loot.get("item");
 					long count = (long)loot.get("count");
 					JSONArray enchantments = (JSONArray)loot.get("enchantments");
-					goldenItems.add(new ItemStack(Items.getItems().values().stream().filter(item -> Objects.equals(item.getName(), itemName)).findFirst().get(), (int)count));
+					Item item = Items.getItems().values().stream().filter(i -> Objects.equals(i.get().getName(), itemName)).findFirst().get().get();
+					for(Object x1 : enchantments) {
+						JSONObject enchantment = (JSONObject)x1;
+						long enchantmentLevel = (long) enchantment.get("lvl");
+						String enchantmenName = (String) enchantment.get("id");
+						item.addEnchantment(new Pair<>(enchantmenName, (int)enchantmentLevel));
+					}
+					goldenItems.add(new ItemStack(item, (int)count));
 				}
 				HashMap<String, List<ItemStack>> goldenItemsMap = new HashMap<>();
 				goldenItems.forEach(itemStack -> goldenItemsMap.computeIfAbsent(itemStack.getItem().getName(), v -> new ArrayList<>()).add(itemStack));
 				List<ItemStack> items = lootTable.get().apply(MCVersion.v1_14).generate(new LootContext(seed));
 				goldenItemsMap.forEach((itemName, itemStacks) -> {
-					List<ItemStack> match = items.stream().filter(x -> x.getItem().equalsName(itemName)).collect(Collectors.toList());
+					List<ItemStack> match = items.stream().filter(x -> Objects.equals(x.getItem().getName(), itemName)).collect(Collectors.toList());
 					int goldenCount = itemStacks.stream().mapToInt(ItemStack::getCount).sum();
 					int matchCount = match.stream().mapToInt(ItemStack::getCount).sum();
 					boolean goldenEnchanted = !itemStacks.stream().allMatch(x -> x.getItem().getEnchantments().isEmpty());
-					if(goldenCount == matchCount) {
+					if(goldenCount != matchCount) {
 						fail(
 							"Missing item: " + itemName + " ,count: " + goldenCount + " with enchants:" + goldenEnchanted
 								+ " in loot table: " + name + " generated for seed: " + seed +

@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class MCLootTables {
 
-	public static final Supplier<LootTable> NULL = () -> new LootTable();
+	public static final Supplier<LootTable> NULL = LootTable::new;
 
 	public static final Supplier<LootTable> ABANDONED_MINESHAFT_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
@@ -339,7 +339,7 @@ public class MCLootTables {
 
 	public static final Supplier<LootTable> SHIPWRECK_MAP_CHEST = () -> new LootTable(
 		new LootPool(new ConstantRoll(1),
-			new ItemEntry(Items.FILLED_MAP)),
+			new ItemEntry(Items.FILLED_MAP).introducedVersion(MCVersion.v1_16), new ItemEntry(Items.MAP).introducedVersion(MCVersion.v1_14).deprecatedVersion(MCVersion.v1_16)),
 		new LootPool(new ConstantRoll(3),
 			new ItemEntry(Items.COMPASS),
 			new ItemEntry(Items.MAP),

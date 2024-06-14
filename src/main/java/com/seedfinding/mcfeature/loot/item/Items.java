@@ -1,11 +1,12 @@
 package com.seedfinding.mcfeature.loot.item;
 
 import java.util.LinkedHashMap;
+import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class Items {
 
-	private static final LinkedHashMap<Integer, Item> ITEMS = new LinkedHashMap<>();
+	private static final LinkedHashMap<Integer, Supplier<Item>> ITEMS = new LinkedHashMap<>();
 	private static int counter = 0;
 	public static final Item AIR = register(new Item("air"));
 	public static final Item STONE = register(new Item("stone"));
@@ -1113,7 +1114,7 @@ public class Items {
 	public static final Item YELLOW_CANDLE = register(new Item("yellow_candle"));
 
 
-	public static LinkedHashMap<Integer, Item> getItems() {
+	public static LinkedHashMap<Integer, Supplier<Item>> getItems() {
 		return ITEMS;
 	}
 
@@ -1122,7 +1123,7 @@ public class Items {
 	}
 
 	private static Item register(Item item) {
-		ITEMS.put(counter++, item);
+		ITEMS.put(counter++, () -> new Item(item.getName()));
 		return item;
 	}
 }
