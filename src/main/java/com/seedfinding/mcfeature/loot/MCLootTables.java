@@ -17,6 +17,7 @@ import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.loot.roll.ConstantRoll;
 import com.seedfinding.mcfeature.loot.roll.UniformRoll;
 
+import java.util.HashMap;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
@@ -237,7 +238,7 @@ public class MCLootTables {
 		)
 	);
 
-	public static final Supplier<LootTable> IGLOO_CHEST_CHEST = () -> new LootTable(
+	public static final Supplier<LootTable> IGLOO_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(2.0F, 8.0F),
 			new ItemEntry(Items.APPLE, 15).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
 			new ItemEntry(Items.COAL, 15).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
@@ -806,5 +807,46 @@ public class MCLootTables {
 		)
 	);
 
+	public static final HashMap<String, Supplier<LootTable>> ALL_LOOT_TABLE = new HashMap<String, Supplier<LootTable>>() {{
+		put("gameplay/fishing", FISHING);
+		put("gameplay/fishing/fish", FISHING_FISH);
+		put("gameplay/fishing/junk", FISHING_JUNK);
+		put("gameplay/fishing/treasure", FISHING_TREASURE);
+		put("chests/abandoned_mineshaft", ABANDONED_MINESHAFT_CHEST);
+		put("chests/buried_treasure", BURIED_TREASURE_CHEST);
+		put("chests/desert_pyramid", DESERT_PYRAMID_CHEST);
+		put("chests/end_city_treasure", END_CITY_TREASURE_CHEST);
+		put("chests/igloo_chest", IGLOO_CHEST);
+		put("chests/jungle_temple", JUNGLE_TEMPLE_CHEST);
+		put("chests/jungle_temple_dispenser", JUNGLE_TEMPLE_DISPENSER_CHEST);
+		put("chests/nether_bridge", NETHER_BRIDGE_CHEST);
+		put("chests/pillager_outpost", PILLAGER_OUTPOST_CHEST);
+		put("chests/shipwreck_map", SHIPWRECK_MAP_CHEST);
+		put("chests/shipwreck_supply", SHIPWRECK_SUPPLY_CHEST);
+		put("chests/shipwreck_treasure", SHIPWRECK_TREASURE_CHEST);
+		put("chests/simple_dungeon", SIMPLE_DUNGEON_CHEST);
+		put("chests/spawn_bonus_chest", SPAWN_BONUS_CHEST_CHEST);
+		put("chests/stronghold_corridor", STRONGHOLD_CORRIDOR_CHEST);
+		put("chests/stronghold_crossing", STRONGHOLD_CROSSING_CHEST);
+		put("chests/stronghold_library", STRONGHOLD_LIBRARY_CHEST);
+		put("chests/underwater_ruin_big", UNDERWATER_RUIN_BIG_CHEST);
+		put("chests/underwater_ruin_small", UNDERWATER_RUIN_SMALL_CHEST);
+		put("chests/village/village_weaponsmith", VILLAGE_WEAPONSMITH_CHEST);
+		put("chests/village/village_toolsmith", VILLAGE_TOOLSMITH_CHEST);
+		put("chests/village/village_cartographer", VILLAGE_CARTOGRAPHER_CHEST);
+		put("chests/village/village_mason", VILLAGE_MASON_CHEST);
+		put("chests/village/village_armorer", VILLAGE_ARMORER_CHEST);
+		put("chests/village/village_shepherd", VILLAGE_SHEPHERD_CHEST);
+		put("chests/village/village_butcher", VILLAGE_BUTCHER_CHEST);
+		put("chests/village/village_fletcher", VILLAGE_FLETCHER_CHEST);
+		put("chests/village/village_fisher", VILLAGE_FISHER_CHEST);
+		put("chests/village/village_tannery", VILLAGE_TANNERY_CHEST);
+		put("chests/village/village_temple", VILLAGE_TEMPLE_CHEST);
+		put("chests/village/village_plains_house", VILLAGE_PLAINS_HOUSE_CHEST);
+		put("chests/village/village_taiga_house", VILLAGE_TAIGA_HOUSE_CHEST);
+		put("chests/village/village_savanna_house", VILLAGE_SAVANNA_HOUSE_CHEST);
+		put("chests/village/village_snowy_house", VILLAGE_SNOWY_HOUSE_CHEST);
+		put("chests/village/village_desert_house", VILLAGE_DESERT_HOUSE_CHEST);
+	}};
 
 }
