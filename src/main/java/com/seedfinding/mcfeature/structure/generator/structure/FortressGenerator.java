@@ -438,11 +438,15 @@ public class FortressGenerator extends Generator {
 	}
 
 	private void setSeed(ChunkRand rand, long worldSeed, int chunkX, int chunkZ) {
-		rand.setSeed((chunkX >> 4) ^ (chunkZ >> 4 << 4) ^ worldSeed);
-		rand.nextInt();
-		rand.nextInt(3);
-		rand.nextInt(8);
-		rand.nextInt(8);
+		if (version.isOlderOrEqualTo(MCVersion.v1_15)) {
+			rand.setSeed((chunkX >> 4) ^ (chunkZ >> 4 << 4) ^ worldSeed);
+			rand.nextInt();
+			rand.nextInt(3);
+			rand.nextInt(8);
+			rand.nextInt(8);
+		} else {
+			rand.setCarverSeed(worldSeed, chunkX, chunkZ, version);
+		}
 	}
 
 	public static void main(String[] args) {
@@ -487,12 +491,12 @@ public class FortressGenerator extends Generator {
 		void extend(PieceInfo pieceInfo, ChunkRand rand);
 	}
 
-	private static class PieceInfo {
-		private final int type;
-		private final int depth;
-		private final int xMin, yMin, zMin;
-		private final int xMax, yMax, zMax;
-		private final int facing;
+	public static class PieceInfo {
+		public final int type;
+		public final int depth;
+		public final int xMin, yMin, zMin;
+		public final int xMax, yMax, zMax;
+		public final int facing;
 
 		public PieceInfo(int type, int depth, int xMin, int yMin, int zMin, int xMax, int yMax, int zMax, int facing) {
 			this.type = type;
