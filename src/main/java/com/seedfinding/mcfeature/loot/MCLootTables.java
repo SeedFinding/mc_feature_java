@@ -609,7 +609,7 @@ public class MCLootTables {
 	public static final Supplier<LootTable> VILLAGE_SAVANNA_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
-			new ItemEntry(Items.SHORT_GRASS, 5),
+			new ItemEntry(Items.SHORT_GRASS, 5).introducedVersion(MCVersion.v1_20_3), new ItemEntry(Items.GRASS, 5).deprecatedVersion(MCVersion.v1_20_3),
 			new ItemEntry(Items.TALL_GRASS, 5),
 			new ItemEntry(Items.BREAD, 10).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
 			new ItemEntry(Items.WHEAT_SEEDS, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
