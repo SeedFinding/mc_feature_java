@@ -13,6 +13,7 @@ import com.seedfinding.mcfeature.loot.function.EffectFunction;
 import com.seedfinding.mcfeature.loot.function.EnchantRandomlyFunction;
 import com.seedfinding.mcfeature.loot.function.EnchantWithLevelsFunction;
 import com.seedfinding.mcfeature.loot.function.SetCountFunction;
+import com.seedfinding.mcfeature.loot.function.SetStewEffectFunction;
 import com.seedfinding.mcfeature.loot.item.Items;
 import com.seedfinding.mcfeature.loot.roll.ConstantRoll;
 import com.seedfinding.mcfeature.loot.roll.UniformRoll;
@@ -608,7 +609,7 @@ public class MCLootTables {
 	public static final Supplier<LootTable> VILLAGE_SAVANNA_HOUSE_CHEST = () -> new LootTable(
 		new LootPool(new UniformRoll(3.0F, 8.0F),
 			new ItemEntry(Items.GOLD_NUGGET).apply(version -> SetCountFunction.uniform(1.0F, 3.0F)),
-			new ItemEntry(Items.GRASS, 5),
+			new ItemEntry(Items.SHORT_GRASS, 5).introducedVersion(MCVersion.v1_20_3), new ItemEntry(Items.GRASS, 5).deprecatedVersion(MCVersion.v1_20_3),
 			new ItemEntry(Items.TALL_GRASS, 5),
 			new ItemEntry(Items.BREAD, 10).apply(version -> SetCountFunction.uniform(1.0F, 4.0F)),
 			new ItemEntry(Items.WHEAT_SEEDS, 10).apply(version -> SetCountFunction.uniform(1.0F, 5.0F)),
@@ -807,6 +808,121 @@ public class MCLootTables {
 		)
 	);
 
+	public static final Supplier<LootTable> DESERT_WELL_ARCHAEOLOGY = () -> new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.ARMS_UP_POTTERY_SHERD, 2),
+			new ItemEntry(Items.BREWER_POTTERY_SHERD, 2),
+			new ItemEntry(Items.BRICK),
+			new ItemEntry(Items.EMERALD),
+			new ItemEntry(Items.STICK),
+			new ItemEntry(Items.SUSPICIOUS_STEW)
+				.apply(version -> new SetStewEffectFunction(
+					new SetStewEffectFunction.EffectEntry(Effects.NIGHT_VISION, new UniformRoll(7.0F, 10.0F)),
+					new SetStewEffectFunction.EffectEntry(Effects.JUMP, new UniformRoll(7.0F, 10.0F)),
+					new SetStewEffectFunction.EffectEntry(Effects.WEAKNESS, new UniformRoll(6.0F, 8.0F)),
+					new SetStewEffectFunction.EffectEntry(Effects.BLINDNESS, new UniformRoll(5.0F, 7.0F)),
+					new SetStewEffectFunction.EffectEntry(Effects.POISON, new UniformRoll(10.0F, 20.0F)),
+					new SetStewEffectFunction.EffectEntry(Effects.SATURATION, new UniformRoll(7.0F, 10.0F))
+				))
+		)
+	);
+
+	public static final Supplier<LootTable> DESERT_PYRAMID_ARCHAEOLOGY = () -> new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.ARCHER_POTTERY_SHERD),
+			new ItemEntry(Items.MINER_POTTERY_SHERD),
+			new ItemEntry(Items.PRIZE_POTTERY_SHERD),
+			new ItemEntry(Items.SKULL_POTTERY_SHERD),
+			new ItemEntry(Items.DIAMOND),
+			new ItemEntry(Items.TNT),
+			new ItemEntry(Items.GUNPOWDER),
+			new ItemEntry(Items.EMERALD)
+		)
+	);
+
+	public static final Supplier<LootTable> TRAIL_RUINS_ARCHAEOLOGY_COMMON = () -> new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.EMERALD, 2),
+			new ItemEntry(Items.WHEAT, 2),
+			new ItemEntry(Items.WOODEN_HOE, 2),
+			new ItemEntry(Items.CLAY, 2),
+			new ItemEntry(Items.BRICK, 2),
+			new ItemEntry(Items.YELLOW_DYE, 2),
+			new ItemEntry(Items.BLUE_DYE, 2),
+			new ItemEntry(Items.LIGHT_BLUE_DYE, 2),
+			new ItemEntry(Items.WHITE_DYE, 2),
+			new ItemEntry(Items.ORANGE_DYE, 2),
+			new ItemEntry(Items.RED_CANDLE, 2),
+			new ItemEntry(Items.GREEN_CANDLE, 2),
+			new ItemEntry(Items.PURPLE_CANDLE, 2),
+			new ItemEntry(Items.BROWN_CANDLE, 2),
+			new ItemEntry(Items.MAGENTA_STAINED_GLASS_PANE),
+			new ItemEntry(Items.PINK_STAINED_GLASS_PANE),
+			new ItemEntry(Items.BLUE_STAINED_GLASS_PANE),
+			new ItemEntry(Items.LIGHT_BLUE_STAINED_GLASS_PANE),
+			new ItemEntry(Items.RED_STAINED_GLASS_PANE),
+			new ItemEntry(Items.YELLOW_STAINED_GLASS_PANE),
+			new ItemEntry(Items.PURPLE_STAINED_GLASS_PANE),
+			new ItemEntry(Items.SPRUCE_HANGING_SIGN),
+			new ItemEntry(Items.OAK_HANGING_SIGN),
+			new ItemEntry(Items.GOLD_NUGGET),
+			new ItemEntry(Items.COAL),
+			new ItemEntry(Items.WHEAT_SEEDS),
+			new ItemEntry(Items.BEETROOT_SEEDS),
+			new ItemEntry(Items.DEAD_BUSH),
+			new ItemEntry(Items.FLOWER_POT),
+			new ItemEntry(Items.STRING),
+			new ItemEntry(Items.LEAD)
+		)
+	);
+
+	public static final Supplier<LootTable> TRAIL_RUINS_ARCHAEOLOGY_RARE = () -> new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.BURN_POTTERY_SHERD),
+			new ItemEntry(Items.DANGER_POTTERY_SHERD),
+			new ItemEntry(Items.FRIEND_POTTERY_SHERD),
+			new ItemEntry(Items.HEART_POTTERY_SHERD),
+			new ItemEntry(Items.HEARTBREAK_POTTERY_SHERD),
+			new ItemEntry(Items.HOWL_POTTERY_SHERD),
+			new ItemEntry(Items.SHEAF_POTTERY_SHERD),
+			new ItemEntry(Items.WAYFINDER_ARMOR_TRIM_SMITHING_TEMPLATE),
+			new ItemEntry(Items.RAISER_ARMOR_TRIM_SMITHING_TEMPLATE),
+			new ItemEntry(Items.SHAPER_ARMOR_TRIM_SMITHING_TEMPLATE),
+			new ItemEntry(Items.HOST_ARMOR_TRIM_SMITHING_TEMPLATE),
+			new ItemEntry(Items.MUSIC_DISC_RELIC)
+		)
+	);
+
+	public static final Supplier<LootTable> OCEAN_RUIN_WARM_ARCHAEOLOGY = () -> new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.ANGLER_POTTERY_SHERD),
+			new ItemEntry(Items.SHELTER_POTTERY_SHERD),
+			new ItemEntry(Items.SNORT_POTTERY_SHERD),
+			new ItemEntry(Items.SNIFFER_EGG),
+			new ItemEntry(Items.IRON_AXE),
+			new ItemEntry(Items.EMERALD, 2),
+			new ItemEntry(Items.WHEAT, 2),
+			new ItemEntry(Items.WOODEN_HOE, 2),
+			new ItemEntry(Items.COAL, 2),
+			new ItemEntry(Items.GOLD_NUGGET, 2)
+		)
+	);
+
+	public static final Supplier<LootTable> OCEAN_RUIN_COLD_ARCHAEOLOGY = () -> new LootTable(
+		new LootPool(new ConstantRoll(1),
+			new ItemEntry(Items.BLADE_POTTERY_SHERD),
+			new ItemEntry(Items.EXPLORER_POTTERY_SHERD),
+			new ItemEntry(Items.MOURNER_POTTERY_SHERD),
+			new ItemEntry(Items.PLENTY_POTTERY_SHERD),
+			new ItemEntry(Items.IRON_AXE),
+			new ItemEntry(Items.EMERALD, 2),
+			new ItemEntry(Items.WHEAT, 2),
+			new ItemEntry(Items.WOODEN_HOE, 2),
+			new ItemEntry(Items.COAL, 2),
+			new ItemEntry(Items.GOLD_NUGGET, 2)
+		)
+	);
+
 	public static final HashMap<String, Supplier<LootTable>> ALL_LOOT_TABLE = new HashMap<String, Supplier<LootTable>>() {{
 		put("gameplay/fishing", FISHING);
 		put("gameplay/fishing/fish", FISHING_FISH);
@@ -847,6 +963,12 @@ public class MCLootTables {
 		put("chests/village/village_savanna_house", VILLAGE_SAVANNA_HOUSE_CHEST);
 		put("chests/village/village_snowy_house", VILLAGE_SNOWY_HOUSE_CHEST);
 		put("chests/village/village_desert_house", VILLAGE_DESERT_HOUSE_CHEST);
+		put("archaeology/desert_well", DESERT_WELL_ARCHAEOLOGY);
+		put("archaeology/desert_pyramid", DESERT_PYRAMID_ARCHAEOLOGY);
+		put("archaeology/trail_ruins_common", TRAIL_RUINS_ARCHAEOLOGY_COMMON);
+		put("archaeology/trail_ruins_rare", TRAIL_RUINS_ARCHAEOLOGY_RARE);
+		put("archaeology/ocean_ruin_warm", OCEAN_RUIN_WARM_ARCHAEOLOGY);
+		put("archaeology/ocean_ruin_cold", OCEAN_RUIN_COLD_ARCHAEOLOGY);
 	}};
 
 }
